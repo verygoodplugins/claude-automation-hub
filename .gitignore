@@ -1,0 +1,44 @@
+# .gitignore for Claude Automation Hub
+
+# Sensitive configuration
+*.env
+.env.local
+config/secrets.json
+*api-key*
+*API_KEY*
+
+# Customer data
+customer-data/
+exports/
+*.csv
+*.xlsx
+
+# Personal information  
+/personal/
+/private/
+
+# System files
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependencies (if we add any)
+node_modules/
+venv/
+__pycache__/
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Temporary workflow tests
+/scratch/
+/tmp/
+test-*.md
