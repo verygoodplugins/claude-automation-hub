@@ -1,0 +1,89 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "~/Projects/OpenAI/mcp-servers/mcp-sequential-thinking/mcp_sequential_thinking",
+        "run",
+        "server.py"
+      ],
+      "autostart": true
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost/your_database_name"
+      ],
+      "autostart": false
+    },
+    "Sentry": {
+      "url": "https://mcp.sentry.dev/sse"
+    },
+    "freescout": {
+      "command": "npx @verygoodplugins/mcp-freescout@latest",
+      "env": {
+        "FREESCOUT_URL": "https://your-freescout-instance.com",
+        "FREESCOUT_API_KEY": "your_api_key_here",
+        "FREESCOUT_DEFAULT_USER_ID": "1",
+        "WORKING_DIRECTORY": "${workspaceFolder}"
+      }
+    },
+    "playwright": {
+      "command": "npx @playwright/mcp@latest",
+      "env": {}
+    },
+    "wordpress": {
+      "command": "node",
+      "args": [
+        "/path/to/your/mcp-wp/build/server.js"
+      ],
+      "env": {
+        "WORDPRESS_API_URL": "https://your-wordpress-site.com",
+        "WORDPRESS_USERNAME": "your_username",
+        "WORDPRESS_PASSWORD": "your_app_password"
+      },
+      "autostart": false
+    },
+    "openmemory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "openmemory"
+      ],
+      "env": {
+        "OPENMEMORY_API_KEY": "your_openmemory_api_key",
+        "CLIENT_NAME": "cursor"
+      }
+    },
+    "context7": {
+      "command": "npx -y @upstash/context7-mcp",
+      "env": {},
+      "args": []
+    },
+    "browser-tools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@agentdeskai/browser-tools-mcp@1.2.0"
+      ],
+      "autostart": false
+    },
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "slack-mcp-server@latest",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "SLACK_MCP_XOXC_TOKEN": "xoxc-your-cookie-token-here",
+        "SLACK_MCP_XOXD_TOKEN": "xoxd-your-d-token-here",
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "true"
+      }
+    }
+  }
+}

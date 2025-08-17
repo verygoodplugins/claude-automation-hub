@@ -3,18 +3,20 @@
 ## Command
 ```
 Perform my morning support triage:
-1. Use FreeScout to list all active/pending tickets from the last 24 hours
-2. For each ticket, check if the customer email exists in Stripe and get their subscription tier
-3. Prioritize by: Agency ($388/yr) > Professional ($188/yr) > Plus ($147/yr) > Personal ($127/yr) > Lite > Non-customer
-4. Flag any customers with failed payments in the last 7 days
-5. Identify tickets mentioning specific CRMs: HighLevel, ActiveCampaign, HubSpot, Ontraport, Drip, ConvertKit, FluentCRM, Groundhogg
-6. Show Agency and Professional customers first with draft responses
-7. For HighLevel issues, include staging environment disclaimer
+1. Use FreeScout to search for all active/pending tickets from the last 24 hours
+2. For high-priority tickets, use freescout_analyze_ticket to determine root cause
+3. Check my Gmail for any urgent support emails not in FreeScout
+4. Create draft replies using freescout_create_draft_reply for complex issues
+5. Add internal notes using freescout_add_note for team visibility
+6. For recurring issues, check OpenMemory for previous solutions
+7. Update Apple Reminders with follow-up tasks for unresolved tickets
 ```
 
 ## Prerequisites
 - FreeScout MCP (configured and working)
-- Stripe MCP (for customer data)
+- Gmail MCP (for email backup check)
+- Apple Reminders MCP (for task management)
+- OpenMemory MCP (for solution history)
 
 ## Frequency
 Daily at 8:30 AM Berlin time (before deep work block)

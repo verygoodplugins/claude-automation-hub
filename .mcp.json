@@ -1,0 +1,11 @@
+{
+  "name": "claude-automation-hub",
+  "description": "Dynamic MCP tools for Claude automation workflows",
+  "version": "1.0.0",
+  "toolsDirectory": "./tools",
+  "hotReload": true,
+  "watchPatterns": [
+    "tools/**/*.js",
+    "config/**/*.json"
+  ]
+}
