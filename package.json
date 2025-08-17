@@ -1,0 +1,28 @@
+{
+  "name": "claude-automation-hub",
+  "version": "1.0.0",
+  "description": "Personal command center for Claude Desktop + MCP automations with dynamic tool creation",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "mcp-server": "npx mcp-reloader",
+    "dev": "npx mcp-reloader",
+    "test-tools": "node test-tools.js"
+  },
+  "dependencies": {
+    "mcp-reloader": "github:mizchi/mcp-reloader"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "automation",
+    "tools",
+    "hot-reload"
+  ],
+  "author": "jgarturo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jgarturo/claude-automation-hub.git"
+  }
+}

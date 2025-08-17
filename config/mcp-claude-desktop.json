@@ -1,0 +1,66 @@
+{
+  "mcpServers": {
+    "flyctl": {
+      "command": "/opt/homebrew/bin/fly",
+      "args": [
+        "mcp",
+        "server"
+      ]
+    },
+    "freescout": {
+      "command": "/Users/your-username/.nvm/versions/node/v22.15.1/bin/npx",
+      "args": [
+        "@verygoodplugins/mcp-freescout@latest"
+      ],
+      "env": {
+        "FREESCOUT_URL": "https://your-freescout-instance.com",
+        "FREESCOUT_API_KEY": "your_api_key_here",
+        "FREESCOUT_DEFAULT_USER_ID": "1"
+      }
+    },
+    "openmemory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "openmemory"
+      ],
+      "env": {
+        "OPENMEMORY_API_KEY": "your_openmemory_api_key",
+        "CLIENT_NAME": "claude"
+      }
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "whatsapp": {
+      "command": "/opt/homebrew/bin/uv",
+      "args": [
+        "--directory",
+        "/path/to/your/whatsapp-mcp-server",
+        "run",
+        "main.py"
+      ]
+    },
+    "apple-reminders": {
+      "command": "mcp-server-apple-reminders"
+    },
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "slack-mcp-server@latest",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "SLACK_MCP_XOXC_TOKEN": "xoxc-your-cookie-token-here",
+        "SLACK_MCP_XOXD_TOKEN": "xoxd-your-d-token-here",
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "true"
+      }
+    }
+  }
+}

@@ -1,0 +1,116 @@
+// MCP tool for sending push notifications via ntfy.sh
+export default {
+  name: "send_notification",
+  description: "Send push notifications to mobile devices via ntfy.sh for workflow completion alerts",
+  inputSchema: {
+    type: "object",
+    properties: {
+      message: {
+        type: "string",
+        description: "The notification message to send",
+        maxLength: 4096
+      },
+      title: {
+        type: "string", 
+        description: "Optional notification title",
+        default: "Claude Automation Hub"
+      },
+      priority: {
+        type: "string",
+        enum: ["min", "low", "default", "high", "urgent"],
+        description: "Notification priority level",
+        default: "default"
+      },
+      tags: {
+        type: "array",
+        items: { type: "string" },
+        description: "Optional tags for categorization (e.g., ['workflow', 'complete'])",
+        default: []
+      },
+      topic: {
+        type: "string",
+        description: "Override default ntfy topic if needed",
+        default: ""
+      }
+    },
+    required: ["message"]
+  },
+  handler: async ({ message, title = "Claude Automation Hub", priority = "default", tags = [], topic = "" }) => {
+    try {
+      // Use environment variable or default topic
+      const ntfyTopic = topic || process.env.NTFY_TOPIC || "claude-automation-alerts-x7y9z";
+      
+      if (!ntfyTopic) {
+        return {
+          success: false,
+          error: "NTFY_TOPIC environment variable not set and no topic provided"
+        };
+      }
+
+      // Build ntfy URL
+      const ntfyUrl = `https://ntfy.sh/${ntfyTopic}`;
+      
+      // Prepare headers for advanced features
+      const headers = {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Title': title,
+        'Priority': priority
+      };
+
+      // Add tags if provided
+      if (tags.length > 0) {
+        headers['Tags'] = tags.join(',');
+      }
+
+      // Add icons based on tags or default
+      if (tags.includes('complete')) {
+        headers['Tags'] = (headers['Tags'] || '') + ',white_check_mark';
+      } else if (tags.includes('error')) {
+        headers['Tags'] = (headers['Tags'] || '') + ',warning';
+      } else {
+        headers['Tags'] = (headers['Tags'] || '') + ',robot';
+      }
+
+      // Use fetch to send notification
+      const response = await fetch(ntfyUrl, {
+        method: 'POST',
+        headers: headers,
+        body: message
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const timestamp = new Date().toLocaleString('en-US', { 
+        timeZone: 'Europe/Berlin',
+        dateStyle: 'short',
+        timeStyle: 'short'
+      });
+
+      return {
+        success: true,
+        message: "Notification sent successfully",
+        details: {
+          topic: ntfyTopic,
+          title: title,
+          priority: priority,
+          tags: tags,
+          timestamp: timestamp,
+          messageLength: message.length
+        }
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        error: `Failed to send notification: ${error.message}`,
+        troubleshooting: {
+          checkNetwork: "Ensure internet connectivity",
+          checkTopic: "Verify NTFY_TOPIC environment variable is set",
+          checkService: "Test manual notification with: curl -d 'test' ntfy.sh/your-topic"
+        }
+      };
+    }
+  }
+};
