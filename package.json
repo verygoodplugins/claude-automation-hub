@@ -7,10 +7,12 @@
   "scripts": {
     "mcp-server": "npx mcp-reloader",
     "dev": "npx mcp-reloader",
-    "test-tools": "node test-tools.js"
+    "test-tools": "node test-tools.js",
+    "test-mobile": "node test-mobile.js"
   },
   "dependencies": {
-    "mcp-reloader": "github:mizchi/mcp-reloader"
+    "mcp-reloader": "github:mizchi/mcp-reloader",
+    "node-fetch": "^3.3.2"
   },
   "keywords": [
     "mcp",
