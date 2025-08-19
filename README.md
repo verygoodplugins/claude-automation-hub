@@ -35,6 +35,63 @@ Copy any command from the `workflows/` directory and paste into Claude to run.
 - ✅ **[ntfy.sh Integration](tools/ntfy-notifications.js)** - Push notifications to mobile when workflows complete
 - ✅ **[Workflow Notifications](tools/workflow-notifications.js)** - Quick notification helpers for any automation
 
+## How NTFY Mobile Notifications Work 📱
+
+NTFY is a simple, open-source push notification service that lets your automation hub send real-time alerts to your mobile device. Here's exactly how it works:
+
+### The Technical Flow
+1. **Your workflow runs** → Claude executes automation steps
+2. **Notification triggered** → Workflow calls `send_notification()` MCP tool
+3. **HTTP request sent** → Tool posts to `https://ntfy.sh/your-topic`
+4. **ntfy.sh relays** → Service pushes to all subscribed devices
+5. **Mobile receives** → Your phone gets instant notification
+
+### What Triggers Notifications
+Notifications are **explicitly triggered** by your workflows when they call the `send_notification` tool:
+
+```javascript
+// In any workflow - this sends notification
+await send_notification({
+  message: "Morning routine complete! 8 tasks done, calendar updated.",
+  title: "Claude Automation Hub",
+  priority: "default",
+  tags: ["morning", "complete"]
+});
+```
+
+**Key Point**: Notifications only happen when workflows explicitly request them - they're not automatic.
+
+### Current Triggers in Your Workflows
+- **End-of-Day Shutdown**: Start + completion notifications with summary
+- **Morning Routine**: Completion notification with daily overview
+- **Long-running workflows**: Progress updates and final results
+- **Error conditions**: Immediate alerts when automations fail
+
+### Setup Requirements
+1. **Install ntfy app**: [iOS](https://apps.apple.com/app/ntfy/id1625396347) | [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy)
+2. **Subscribe to your topic**: Open app → Subscribe → Enter your topic name
+3. **Set environment variable**: `export NTFY_TOPIC="your-unique-topic-name"`
+4. **Test it works**: Run any workflow with notifications enabled
+
+### Topic Security
+- Your topic name acts as your "channel" - keep it unique and private
+- Anyone who knows your topic can send you notifications
+- Use format like: `claude-hub-yourname-randomstring`
+- Example: `claude-automation-alerts-x7y9z`
+
+### Notification Features
+- **Rich formatting**: Title, message, priority levels, tags
+- **Action buttons**: Tap to open URLs or trigger responses  
+- **Priority levels**: `min`, `low`, `default`, `high`, `urgent`
+- **Emoji support**: Full Unicode including 🤖 ✅ 🚨 emojis
+- **Offline queuing**: Notifications delivered when device comes online
+
+### Cost & Reliability
+- **Free**: ntfy.sh public service is completely free
+- **No registration**: Just pick a topic name and start using
+- **High uptime**: Simple, reliable service with good track record
+- **Self-hostable**: Can run your own ntfy server if needed
+
 ### Configuration Examples
 📁 **[MCP Config Examples](config/)** - Ready-to-use configurations for Cursor IDE and Claude Desktop with setup instructions
 
@@ -119,6 +176,139 @@ Tool is immediately available - no restart needed!
 - Check documentation and past solutions
 - Create isolated development environment
 - Document solution for knowledge base
+
+## Incorporating NTFY into Your Workflows 🔧
+
+### Quick Integration Patterns
+
+**1. Start + Completion Pattern** (Recommended for long workflows)
+```
+At workflow start:
+→ "🔄 Starting [Workflow Name]... estimated 5 minutes"
+
+At workflow end:  
+→ "✅ [Workflow Name] Complete! [Summary of results]"
+```
+
+**2. Progress Updates Pattern** (For complex multi-step workflows)
+```
+Step milestones:
+→ "📊 Step 3/8: Calendar updated, 12 meetings processed"
+→ "📧 Step 6/8: Email triage complete, 3 urgent flagged"
+```
+
+**3. Error Handling Pattern** (Critical for reliability)
+```
+On failure:
+→ "⚠️ [Workflow] failed at step X: [error]. Manual intervention needed."
+```
+
+### Adding Notifications to Existing Workflows
+
+**For Morning Routine:**
+```markdown
+Add these steps to your morning workflow:
+
+1. NOTIFY START: "🌅 Starting morning routine..."
+
+[... existing steps ...]
+
+10. NOTIFY COMPLETE: "✅ Morning setup complete! 
+    • Calendar reviewed: 4 meetings today
+    • Email triaged: 12 messages, 2 urgent
+    • Tasks created: 8 priorities set
+    • Focus blocks: 3 hours deep work scheduled"
+```
+
+**For Weekly Review:**
+```markdown
+Perfect for notifications since it's a long workflow:
+
+1. NOTIFY START: "📊 Starting weekly review... estimated 15 minutes"
+
+[... data gathering steps ...]
+
+8. NOTIFY PROGRESS: "📈 Data collected, now analyzing patterns..."
+
+[... analysis steps ...]
+
+15. NOTIFY COMPLETE: "✅ Weekly review complete!
+    • Achievements: [count] major wins
+    • Next week focus: [top 3 priorities]  
+    • Time saved this week: [X] hours"
+```
+
+**For Focus Mode:**
+```markdown
+Quick notification for environment setup:
+
+[... setup steps ...]
+
+6. NOTIFY COMPLETE: "🎯 Focus mode activated!
+    • Distractions blocked: [apps/sites]
+    • Deep work session: [duration] 
+    • Next break: [time]"
+```
+
+### Notification Best Practices
+
+**Message Structure:**
+- **Title**: Keep under 50 chars (shows fully on lock screen)
+- **Message**: Lead with key info, details after
+- **Emojis**: Use sparingly but effectively (🔄 start, ✅ complete, ⚠️ error)
+
+**Priority Levels:**
+- `urgent`: Only for critical errors or time-sensitive items
+- `high`: Important completions, meeting changes
+- `default`: Most workflow completions
+- `low`: Progress updates, minor completions
+
+**Tags for Organization:**
+- `complete`: Workflow finished successfully
+- `error`: Something went wrong
+- `progress`: Intermediate updates
+- `morning`, `evening`: Time-based workflows
+- `urgent`: Requires immediate attention
+
+### Advanced Integration Examples
+
+**Smart Priority Detection:**
+```javascript
+// Automatically set priority based on workflow type
+const priority = workflowName.includes('urgent') ? 'urgent' : 
+                workflowName.includes('morning') ? 'high' : 'default';
+
+await send_notification({
+  message: summary,
+  priority: priority,
+  tags: [workflowType, 'complete']
+});
+```
+
+**Context-Rich Notifications:**
+```javascript
+// Include actionable information
+await send_notification({
+  message: `Meeting prep complete!
+    • 3 agenda items prepared
+    • Background research: 4 key points
+    • Next: Review slides (5 min before meeting)`,
+  title: "Meeting: Q4 Planning Ready",
+  priority: "high",
+  tags: ["meeting", "complete"]
+});
+```
+
+**Conditional Notifications:**
+```javascript
+// Only notify if significant results
+if (urgentEmails > 0 || meetingsChanged || criticalTasks > 2) {
+  await send_notification({
+    message: `Morning triage: ${urgentEmails} urgent emails, ${meetingsChanged} schedule changes`,
+    priority: urgentEmails > 2 ? "urgent" : "high"
+  });
+}
+```
 
 ## Advanced Workflow Combinations
 
@@ -233,7 +423,106 @@ Ask Claude: *"Update the changelog with my recent workflow changes and time savi
 - Test workflows in safe environment first
 - Keep customer-specific workflows private
 
-## Troubleshooting Common Issues
+## NTFY Troubleshooting & Best Practices 🔧
+
+### Common Issues & Solutions
+
+| Issue | Solution |
+|-------|----------|
+| **No notifications received** | • Check ntfy app installed & topic subscribed<br>• Verify `NTFY_TOPIC` env var: `echo $NTFY_TOPIC`<br>• Test manually: `curl -d "test" ntfy.sh/$NTFY_TOPIC` |
+| **Delayed notifications** | • Check internet connectivity<br>• Try different ntfy server region<br>• Restart ntfy app |
+| **Topic not working** | • Ensure exact topic name match<br>• Use unique topic (avoid common names)<br>• Check for typos in environment variable |
+| **Notifications too verbose** | • Use conditional logic for important events only<br>• Batch multiple updates into single notification<br>• Use `low` priority for progress updates |
+
+### Security & Privacy Best Practices
+
+**Topic Naming:**
+- ✅ `claude-hub-yourname-x7y9z` (unique + random)
+- ✅ `automation-alerts-$(whoami)-$(date +%s)` (dynamic)
+- ❌ `claude-notifications` (too generic)
+- ❌ `my-alerts` (easily guessable)
+
+**Content Guidelines:**
+- ✅ "Customer issue resolved, ticket #1234 closed"
+- ✅ "Morning routine complete, 8 tasks processed"
+- ❌ "Customer John Smith's payment issue fixed" (PII)
+- ❌ "API key rotated: abc123xyz789" (sensitive data)
+
+**Environment Setup:**
+```bash
+# Add to ~/.zshrc or ~/.bashrc for persistence
+export NTFY_TOPIC="claude-automation-$(whoami)-$(openssl rand -hex 4)"
+
+# Test your setup
+echo "Topic: $NTFY_TOPIC"
+curl -d "Setup test from $(hostname)" "ntfy.sh/$NTFY_TOPIC"
+```
+
+### Performance Optimization
+
+**Notification Frequency:**
+- **High-value workflows**: Always notify (end-of-day, morning routine)
+- **Medium workflows**: Notify on completion only
+- **Quick tasks**: Skip notifications or batch them
+- **Errors**: Always notify immediately
+
+**Message Optimization:**
+```javascript
+// Good: Concise but informative
+"✅ Weekly review complete! 12 achievements, 3 priorities set for next week"
+
+// Bad: Too verbose
+"The weekly review workflow has been completed successfully. During this review, we identified 12 major achievements from this week and have established 3 key priorities for the upcoming week based on..."
+
+// Good: Actionable
+"⚠️ Gmail sync failed - manual email check needed before meeting at 3pm"
+
+// Bad: Vague  
+"An error occurred during the morning routine workflow"
+```
+
+**Batching Strategy:**
+```javascript
+// Instead of 5 separate notifications, batch into summary
+const updates = [];
+if (emailsProcessed > 0) updates.push(`${emailsProcessed} emails triaged`);
+if (tasksCreated > 0) updates.push(`${tasksCreated} tasks created`);
+if (meetingsUpdated > 0) updates.push(`${meetingsUpdated} meetings updated`);
+
+if (updates.length > 0) {
+  await send_notification({
+    message: `Morning routine complete!\n• ${updates.join('\n• ')}`,
+    title: "Claude Hub",
+    priority: "default"
+  });
+}
+```
+
+### Advanced Features
+
+**Action Buttons (ntfy Pro feature):**
+```javascript
+await send_notification({
+  message: "Meeting cancelled - 1 hour freed up",
+  title: "Schedule Change",
+  priority: "high",
+  // Add action buttons for quick responses
+  actions: [
+    { action: "view", label: "Open Calendar", url: "https://calendar.google.com" },
+    { action: "http", label: "Extend Current Task", url: "webhook-url" }
+  ]
+});
+```
+
+**Custom Icons & Formatting:**
+```javascript
+// Use tags for visual categorization
+tags: ["calendar", "urgent"]     // 📅🚨
+tags: ["complete", "automation"] // ✅🤖  
+tags: ["error", "email"]         // ❌📧
+```
+
+## General Troubleshooting
 
 | Issue | Solution |
 |-------|----------|

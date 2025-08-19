@@ -67,13 +67,28 @@ export class NotificationManager {
       // Create readable notification text with full title (including emojis)
       const notificationText = title === message ? message : `${title}\n\n${message}`;
 
+      // Build headers
+      const headers = {
+        'Title': cleanTitle,
+        'Priority': priority,
+        'Tags': (payload.tags || []).join(',')
+      };
+      
+      // Add action buttons if present
+      if (payload.actions && payload.actions.length > 0) {
+        const actionStrings = payload.actions.map(action => {
+          if (action.action === 'view' && action.url) {
+            return `view, ${action.label}, ${action.url}`;
+          }
+          return `${action.action}, ${action.label}`;
+        });
+        headers['Actions'] = actionStrings.join('; ');
+        console.log(`🔘 Adding ${payload.actions.length} action buttons:`, actionStrings);
+      }
+
       const response = await fetch(`${this.ntfyBaseUrl}/${this.ntfyTopic}`, {
         method: 'POST',
-        headers: {
-          'Title': cleanTitle,
-          'Priority': priority,
-          'Tags': (payload.tags || []).join(',')
-        },
+        headers,
         body: notificationText
       });
 

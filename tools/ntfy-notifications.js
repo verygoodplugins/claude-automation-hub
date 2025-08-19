@@ -31,11 +31,42 @@ export default {
         type: "string",
         description: "Override default ntfy topic if needed",
         default: ""
+      },
+      actions: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            action: {
+              type: "string",
+              enum: ["view", "http", "broadcast"],
+              description: "Action type: view (open URL), http (send request), broadcast (Android intent)"
+            },
+            label: {
+              type: "string",
+              description: "Button label text",
+              maxLength: 30
+            },
+            url: {
+              type: "string",
+              description: "URL to open (for view action) or endpoint (for http action)"
+            },
+            method: {
+              type: "string",
+              enum: ["GET", "POST", "PUT"],
+              description: "HTTP method (for http action only)",
+              default: "GET"
+            }
+          },
+          required: ["action", "label"]
+        },
+        description: "Optional action buttons for the notification",
+        default: []
       }
     },
     required: ["message"]
   },
-  handler: async ({ message, title = "Claude Automation Hub", priority = "default", tags = [], topic = "" }) => {
+  handler: async ({ message, title = "Claude Automation Hub", priority = "default", tags = [], topic = "", actions = [] }) => {
     try {
       // Use environment variable or default topic
       const ntfyTopic = topic || process.env.NTFY_TOPIC || "claude-automation-alerts-x7y9z";
@@ -71,6 +102,22 @@ export default {
         headers['Tags'] = (headers['Tags'] || '') + ',robot';
       }
 
+      // Add action buttons if provided
+      if (actions.length > 0) {
+        const actionStrings = actions.map(action => {
+          if (action.action === 'view') {
+            return `view, ${action.label}, ${action.url || ''}`;
+          } else if (action.action === 'http') {
+            const method = action.method || 'GET';
+            return `http, ${action.label}, ${action.url || ''}, method=${method}`;
+          } else if (action.action === 'broadcast') {
+            return `broadcast, ${action.label}, ${action.url || ''}`;
+          }
+          return `${action.action}, ${action.label}`;
+        });
+        headers['Actions'] = actionStrings.join('; ');
+      }
+
       // Use fetch to send notification
       const response = await fetch(ntfyUrl, {
         method: 'POST',
@@ -96,6 +143,7 @@ export default {
           title: title,
           priority: priority,
           tags: tags,
+          actions: actions,
           timestamp: timestamp,
           messageLength: message.length
         }
