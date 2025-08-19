@@ -8,7 +8,10 @@
     "mcp-server": "npx mcp-reloader",
     "dev": "npx mcp-reloader",
     "test-tools": "node test-tools.js",
-    "test-mobile": "node test-mobile.js"
+    "test-mobile": "node test-mobile.js",
+    "test-bundled": "node test-bundled.js",
+    "test-scheduler": "node test-scheduler.js",
+    "morning-now": "node trigger-morning.js"
   },
   "dependencies": {
     "mcp-reloader": "github:mizchi/mcp-reloader",

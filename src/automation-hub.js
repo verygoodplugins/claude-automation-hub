@@ -5,6 +5,8 @@
 
 import { NotificationManager } from './notifications/notification-manager.js';
 import { ContextBridge } from './context/context-bridge.js';
+import { NotificationBundler } from './notifications/notification-bundler.js';
+import { WorkflowScheduler } from './scheduler/workflow-scheduler.js';
 
 export class AutomationHub {
   constructor(options = {}) {
@@ -23,17 +25,29 @@ export class AutomationHub {
       notificationManager: this.notificationManager
     });
     
-    console.log('🚀 Claude Automation Hub initialized with mobile-ready architecture');
+    // Initialize smart notification bundler
+    this.notificationBundler = new NotificationBundler(this.notificationManager, {
+      bundleWindow: options.bundleWindow || 30 * 60 * 1000, // 30 minutes
+      maxBundleSize: options.maxBundleSize || 4,
+      minBundleDelay: options.minBundleDelay || 2 * 60 * 1000 // 2 minutes
+    });
+    
+    // Initialize workflow scheduler
+    this.scheduler = new WorkflowScheduler(this, {
+      timezone: options.timezone || 'Europe/Berlin'
+    });
+    
+    console.log('🚀 Claude Automation Hub initialized with mobile-ready architecture + smart bundling + auto-scheduling');
   }
 
   /**
-   * End of day workflow with mobile notifications
+   * End of day workflow with bundled notifications
    */
   async endOfDayShutdown(data = {}) {
-    console.log('🌅 Starting end-of-day shutdown with mobile handoff...');
+    console.log('🌅 Starting end-of-day shutdown with smart bundling...');
     
     const endOfDayData = {
-      title: 'End of Day Report Ready',
+      title: '🌅 End of Day Report Ready',
       summary: `${data.achievements?.length || 0} achievements completed`,
       achievements: data.achievements || [],
       tomorrowFocus: data.tomorrowFocus || '',
@@ -41,28 +55,27 @@ export class AutomationHub {
       timeSaved: data.timeSaved || '63+ hours monthly',
       nextPriorities: data.nextPriorities || [],
       relatedWorkflows: ['end-of-day', 'morning-prep'],
+      priority: 'default',
       ...data
     };
 
-    // Create mobile handoff
-    const result = await this.contextBridge.createMobileHandoff('end-of-day', endOfDayData);
+    // Add to bundle instead of sending immediately
+    await this.notificationBundler.addToBundle('end-of-day', endOfDayData);
     
-    if (result.success) {
-      console.log(`✅ Mobile handoff created: ${result.handoffId}`);
-      console.log('📱 Notification sent - you can now grab coffee while staying informed!');
-    }
+    console.log('📦 End-of-day added to notification bundle');
+    console.log('📱 Will be included in next bundled notification');
     
-    return result;
+    return { success: true, bundled: true, type: 'end-of-day' };
   }
 
   /**
-   * Meeting change notification with context
+   * Meeting change notification with bundled context
    */
   async notifyMeetingChange(meetingDetails, changeType = 'cancelled') {
     console.log(`📅 Processing meeting ${changeType}: ${meetingDetails.title}`);
     
     const meetingData = {
-      title: `Meeting ${changeType}: ${meetingDetails.title}`,
+      title: `📅 Meeting ${changeType}: ${meetingDetails.title}`,
       summary: `${meetingDetails.duration || '30min'} freed up at ${meetingDetails.time}`,
       meeting: meetingDetails,
       changeType,
@@ -70,21 +83,167 @@ export class AutomationHub {
       timeframe: 'Immediate',
       availableTime: meetingDetails.duration,
       currentPriorities: meetingDetails.currentPriorities || [],
-      relatedWorkflows: ['calendar-management', 'task-scheduling']
+      relatedWorkflows: ['calendar-management', 'task-scheduling'],
+      priority: 'high' // Meeting changes are high priority
     };
 
-    return await this.contextBridge.createMobileHandoff('meeting-cancelled', meetingData);
+    // Add to bundle
+    await this.notificationBundler.addToBundle('meeting-cancelled', meetingData);
+    
+    console.log('📦 Meeting change added to notification bundle');
+    return { success: true, bundled: true, type: 'meeting-cancelled' };
   }
 
   /**
-   * Quick notification methods
+   * Quick notification methods (now bundled)
    */
   async notifyWorkflowComplete(workflowName, results = {}) {
-    return await this.notificationManager.notifyWorkflowComplete(workflowName, results);
+    const workflowData = {
+      title: `✅ ${workflowName} Complete`,
+      summary: `Workflow finished with ${Object.keys(results).length} outputs`,
+      workflow: workflowName,
+      results,
+      priority: 'default'
+    };
+    
+    await this.notificationBundler.addToBundle('workflow-complete', workflowData);
+    return { success: true, bundled: true, type: 'workflow-complete' };
   }
 
   async notifyUrgentTask(taskDetails) {
-    return await this.notificationManager.notifyUrgentTask(taskDetails);
+    const urgentData = {
+      title: '🚨 Urgent Task Detected',
+      summary: taskDetails.summary,
+      task: taskDetails,
+      priority: 'max' // Urgent tasks trigger immediate bundle send
+    };
+    
+    await this.notificationBundler.addToBundle('urgent-task', urgentData);
+    return { success: true, bundled: true, type: 'urgent-task' };
+  }
+
+  /**
+   * Test the bundled notification system with multiple events
+   */
+  async testBundledNotifications() {
+    console.log('🧪 Testing bundled notification system...');
+    
+    // Simulate multiple automation events happening close together
+    console.log('1. Simulating end-of-day workflow...');
+    await this.endOfDayShutdown({
+      achievements: ['Built notification bundler', 'Reduced notification overload', 'Added smart actions'],
+      tomorrowFocus: 'Test mobile MCP integration'
+    });
+    
+    // Wait a moment
+    await new Promise(r => setTimeout(r, 1000));
+    
+    console.log('2. Simulating meeting cancellation...');
+    await this.notifyMeetingChange({
+      title: 'Team standup',
+      time: '10:00 AM',
+      duration: '30min',
+      currentPriorities: ['Test bundled notifications', 'Prepare mobile MCP integration']
+    }, 'cancelled');
+    
+    // Wait a moment
+    await new Promise(r => setTimeout(r, 1000));
+    
+    console.log('3. Simulating workflow completion...');
+    await this.notifyWorkflowComplete('Morning Email Triage', {
+      emailsProcessed: 12,
+      urgentFlagged: 2,
+      timeSaved: '15 minutes'
+    });
+    
+    // Check bundle status
+    const status = this.notificationBundler.getBundleStatus();
+    console.log('📈 Bundle Status:', {
+      notifications: status.size,
+      priority: status.priority,
+      timeRemaining: Math.round(status.timeRemaining / 1000) + 's'
+    });
+    
+    console.log('🗺 Bundle will send automatically when:');
+    console.log('  - 4 notifications accumulated, OR');
+    console.log('  - Max priority notification added, OR');
+    console.log('  - 30 minutes elapsed');
+    console.log('');
+    console.log('🚀 Try: hub.flushBundle() to send immediately');
+    
+    return { 
+      success: true, 
+      bundleStatus: status,
+      message: 'Bundled notifications queued - will send automatically based on thresholds'
+    };
+  }
+
+  /**
+   * Manually flush the current bundle (for testing or immediate send)
+   */
+  async flushBundle() {
+    console.log('🚀 Manually flushing notification bundle...');
+    await this.notificationBundler.flushBundle();
+    return { success: true, message: 'Bundle flushed and sent' };
+  }
+
+  /**
+   * Get current bundle status
+   */
+  getBundleStatus() {
+    return this.notificationBundler.getBundleStatus();
+  }
+
+  /**
+   * Scheduler Control Methods
+   */
+  
+  /**
+   * Start automated workflow scheduling
+   */
+  startScheduler() {
+    console.log('🚀 Starting automated workflow scheduler...');
+    this.scheduler.start();
+    return { success: true, message: 'Scheduler started' };
+  }
+
+  /**
+   * Stop automated scheduling
+   */
+  stopScheduler() {
+    console.log('🛱 Stopping scheduler...');
+    this.scheduler.stop();
+    return { success: true, message: 'Scheduler stopped' };
+  }
+
+  /**
+   * Get scheduler status and list of active schedules
+   */
+  getSchedulerStatus() {
+    return this.scheduler.getStatus();
+  }
+
+  /**
+   * List all active scheduled workflows
+   */
+  listSchedules() {
+    this.scheduler.listSchedules();
+  }
+
+  /**
+   * Add a custom scheduled workflow
+   */
+  addSchedule(name, time, days, workflowFunction) {
+    this.scheduler.scheduleDaily(name, time, days, workflowFunction);
+    return { success: true, message: `Schedule "${name}" added` };
+  }
+
+  /**
+   * Remove a scheduled workflow
+   */
+  removeSchedule(name) {
+    this.scheduler.removeSchedule(name);
+    return { success: true, message: `Schedule "${name}" removed` };
   }
 
   /**
