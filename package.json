@@ -11,11 +11,12 @@
     "proxy:dev": "node --watch cursor-web-proxy.js",
     "proxy:start": "npm run proxy",
     "setup:links": "node setup-clickable-links.js",
-    "test-tools": "node test-tools.js",
-    "test-mobile": "node test-mobile.js",
-    "test-bundled": "node test-bundled.js",
-    "test-scheduler": "node test-scheduler.js",
-    "morning-now": "node trigger-morning.js"
+    "test-tools": "node test/test-tools.js",
+    "test-mobile": "node test/test-mobile.js",
+    "test-bundled": "node test/test-bundled.js",
+    "test-scheduler": "node test/test-scheduler.js",
+    "test-cursor": "node test/test-cursor-integration.js",
+    "morning-now": "node test/trigger-morning.js"
   },
   "dependencies": {
     "mcp-reloader": "github:mizchi/mcp-reloader",

@@ -122,25 +122,13 @@ app.get('/cursor/:id', async (req, res) => {
       `);
     }
     
-    // Build cursor command
-    let targetPath = task.projectPath;
-    if (task.file) {
-      targetPath = path.isAbsolute(task.file) 
-        ? task.file 
-        : path.join(task.projectPath, task.file);
-    }
-    
-    // Add line number if specified
-    if (task.lineNumber) {
-      targetPath += `:${task.lineNumber}:${task.columnNumber || 1}`;
-    }
+    // Build cursor command with proper --goto syntax
+    const basePath = task.file 
+      ? (path.isAbsolute(task.file) ? task.file : path.join(task.projectPath, task.file))
+      : task.projectPath;
     
     // Validate path exists before opening
-    const basePath = task.file 
-      ? path.join(task.projectPath, task.file)
-      : task.projectPath;
-      
-    if (!existsSync(basePath.split(':')[0])) {
+    if (!existsSync(basePath)) {
       return res.status(400).send(`
         <!DOCTYPE html>
         <html>
@@ -155,20 +143,53 @@ app.get('/cursor/:id', async (req, res) => {
         <body>
           <h1 class="error">📁 Path Not Found</h1>
           <p>The file or project path no longer exists:</p>
-          <code>${basePath.split(':')[0]}</code>
+          <code>${basePath}</code>
         </body>
         </html>
       `);
     }
     
-    // Execute cursor command
-    const command = `cursor "${targetPath}"`;
-    console.log(`[${new Date().toISOString()}] Opening: ${command}`);
+    // Build commands - file opening + prompt injection
+    const fileCommand = task.lineNumber 
+      ? `cursor --goto "${basePath}:${task.lineNumber}:${task.columnNumber || 1}"`
+      : `cursor "${basePath}"`;
+    
+    const agentCommand = task.prompt 
+      ? `cursor-agent -p "${task.prompt}" --background`
+      : null;
+    
+    console.log(`[${new Date().toISOString()}] Opening: ${fileCommand}`);
+    if (agentCommand) {
+      console.log(`[${new Date().toISOString()}] Agent: ${agentCommand}`);
+    }
+    
+    let promptInjected = false;
+    let authError = false;
     
     try {
-      await execAsync(command);
+      // Step 1: Open file at specific line
+      await execAsync(fileCommand);
       
-      // Success page with prompt
+      // Step 2: Try to inject prompt via cursor-agent
+      if (agentCommand) {
+        // Small delay to ensure Cursor is ready
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        try {
+          await execAsync(agentCommand, { timeout: 10000 });
+          promptInjected = true;
+          console.log(`[${new Date().toISOString()}] Prompt injected successfully`);
+        } catch (agentError) {
+          if (agentError.message.includes('Not logged in') || agentError.message.includes('authentication')) {
+            authError = true;
+            console.log(`[${new Date().toISOString()}] Agent not authenticated, will use clipboard fallback`);
+          } else {
+            console.log(`[${new Date().toISOString()}] Agent failed: ${agentError.message}`);
+          }
+        }
+      }
+      
+      // Enhanced success page with smart instructions
       res.send(`
         <!DOCTYPE html>
         <html>
@@ -190,6 +211,13 @@ app.get('/cursor/:id', async (req, res) => {
               box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             }
             .success { color: #4ade80; font-size: 1.5em; margin-bottom: 20px; }
+            .status-box {
+              background: ${promptInjected ? 'rgba(74, 222, 128, 0.2)' : 'rgba(251, 191, 36, 0.2)'};
+              padding: 15px;
+              border-radius: 8px;
+              margin: 15px 0;
+              border: 1px solid ${promptInjected ? 'rgba(74, 222, 128, 0.3)' : 'rgba(251, 191, 36, 0.3)'};
+            }
             .prompt-box { 
               background: rgba(0,0,0,0.2); 
               padding: 20px; 
@@ -225,11 +253,10 @@ app.get('/cursor/:id', async (req, res) => {
               font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
               line-height: 1.5;
             }
-            .fade-out {
-              animation: fadeOut 0.5s ease-in-out 4.5s forwards;
-            }
-            @keyframes fadeOut {
-              to { opacity: 0; }
+            .instructions {
+              opacity: 0.9;
+              font-size: 0.95em;
+              margin-top: 15px;
             }
           </style>
         </head>
@@ -243,17 +270,33 @@ app.get('/cursor/:id', async (req, res) => {
               ${task.lineNumber ? `<strong>📍 Line:</strong> ${task.lineNumber}<br>` : ''}
             </div>
             
-            <div class="prompt-box">
-              <h3>🤖 AI Prompt for Cursor:</h3>
-              <pre id="prompt">${task.prompt}</pre>
+            ${task.prompt ? `
+              <div class="status-box">
+                ${promptInjected 
+                  ? '<strong>🎯 Prompt Sent!</strong> The AI prompt has been automatically sent to Cursor and should appear in the composer.'
+                  : authError 
+                    ? '<strong>📋 Prompt Ready!</strong> cursor-agent needs authentication. The prompt has been copied to your clipboard.'
+                    : '<strong>📋 Manual Mode!</strong> The prompt is ready for you to copy and paste.'
+                }
+              </div>
               
-              <button onclick="copyPrompt()">📋 Copy Prompt</button>
-              <button onclick="window.close()">✅ Done</button>
-            </div>
-            
-            <p style="opacity: 0.7; font-size: 0.9em;">
-              💡 <strong>Tip:</strong> Paste the prompt into Cursor's AI chat to get started!
-            </p>
+              <div class="prompt-box">
+                <h3>🤖 AI Prompt:</h3>
+                <pre id="prompt">${task.prompt}</pre>
+                
+                <button onclick="copyPrompt()">📋 Copy Prompt</button>
+                ${authError ? '<button onclick="showLoginInstructions()">🔑 Setup Agent</button>' : ''}
+              </div>
+              
+              <div class="instructions">
+                ${promptInjected 
+                  ? '💡 <strong>Next:</strong> Check Cursor - the prompt should be ready in the composer!'
+                  : authError
+                    ? '💡 <strong>Next:</strong> Run <code>cursor-agent login</code> for automatic prompts, or press <strong>Cmd+K</strong> in Cursor and paste.'
+                    : '💡 <strong>Next:</strong> Press <strong>Cmd+K</strong> in Cursor and paste the prompt to get started.'
+                }
+              </div>
+            ` : ''}
           </div>
           
           <script>
@@ -271,11 +314,16 @@ app.get('/cursor/:id', async (req, res) => {
               });
             }
             
-            // Auto-close after 30 seconds
-            setTimeout(() => {
-              document.body.classList.add('fade-out');
-              setTimeout(() => window.close(), 500);
-            }, 30000);
+            function showLoginInstructions() {
+              alert('To enable automatic prompts:\\n\\n1. Open Terminal\\n2. Run: cursor-agent login\\n3. Follow authentication steps\\n\\nThen clickable links will automatically inject prompts!');
+            }
+            
+            // Auto-copy prompt to clipboard if agent failed
+            ${!promptInjected && task.prompt ? `
+              setTimeout(() => {
+                navigator.clipboard.writeText(document.getElementById('prompt').textContent);
+              }, 1000);
+            ` : ''}
           </script>
         </body>
         </html>
