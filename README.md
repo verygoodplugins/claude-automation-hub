@@ -6,6 +6,32 @@ Your personal command center for Claude Desktop + MCP automations. Version-contr
 
 Copy any command from the `workflows/` directory and paste into Claude to run.
 
+## 🔥 Hot-Reload Development
+
+This hub uses `mcp-reloader` for **instant tool development** - create and modify MCP tools in `tools/` without restarting Claude Desktop.
+
+**Setup**: Configure Claude Desktop with:
+```json
+"automation-hub": {
+  "command": "node",
+  "args": ["/path/to/claude-automation-hub/node_modules/mcp-reloader/dist/server.js"],
+  "cwd": "/path/to/claude-automation-hub"
+}
+```
+
+**Example**: Create `tools/my-tool.js` → instantly available in Claude → modify and test in real-time.
+
+## 🎯 Power User Example
+
+**Daily AI Dashboard**: "Generate my daily summary with Cursor deeplinks for all code tasks"
+
+Combines multiple MCP tools:
+- **Apple Reminders MCP** → Pull tasks from iOS Reminders
+- **Cursor CLI Integration** → Generate "Open in Cursor with Fix Instructions" buttons  
+- **AI Analysis** → Prioritize by impact, categorize by type, estimate time
+
+Result: Interactive dashboard with direct IDE deeplinks for every development task.
+
 ## Available MCP Integrations
 
 ### 🧠 AI & Reasoning
@@ -19,7 +45,7 @@ Copy any command from the `workflows/` directory and paste into Claude to run.
 - ✅ **[PostgreSQL](https://github.com/modelcontextprotocol/servers/tree/main/src/postgres)** - Database queries, schema analysis, and data management
 - ✅ **[Fly.io](https://fly.io/docs/mcp/)** - Application deployment and infrastructure management
 - ✅ **[Sentry](https://mcp.sentry.dev/)** - Error tracking, performance monitoring, and debugging
-- ✅ **[Cursor CLI Integration](tools/)** - Open files in Cursor IDE at specific lines, run headless AI agent commands
+- ✅ **[Cursor CLI Integration](tools/)** - Open files at specific lines, generate "Fix in Cursor" buttons, run headless cursor-agent commands
 
 ### 💬 Communication & Support
 - ✅ **[FreeScout](https://github.com/verygoodplugins/mcp-freescout)** - Complete support ticket lifecycle management and customer analytics
