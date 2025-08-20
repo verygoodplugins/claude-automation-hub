@@ -19,6 +19,7 @@ Copy any command from the `workflows/` directory and paste into Claude to run.
 - ✅ **[PostgreSQL](https://github.com/modelcontextprotocol/servers/tree/main/src/postgres)** - Database queries, schema analysis, and data management
 - ✅ **[Fly.io](https://fly.io/docs/mcp/)** - Application deployment and infrastructure management
 - ✅ **[Sentry](https://mcp.sentry.dev/)** - Error tracking, performance monitoring, and debugging
+- ✅ **[Cursor CLI Integration](tools/)** - Open files in Cursor IDE at specific lines, run headless AI agent commands
 
 ### 💬 Communication & Support
 - ✅ **[FreeScout](https://github.com/verygoodplugins/mcp-freescout)** - Complete support ticket lifecycle management and customer analytics
