@@ -18,6 +18,17 @@
         "FREESCOUT_DEFAULT_USER_ID": "1"
       }
     },
+    "wordpress": {
+      "command": "node",
+      "args": [
+        "/path/to/your/mcp-wp/build/server.js"
+      ],
+      "env": {
+        "WORDPRESS_API_URL": "https://your-wordpress-site.com",
+        "WORDPRESS_USERNAME": "your_username",
+        "WORDPRESS_PASSWORD": "your_app_password"
+      }
+    },
     "openmemory": {
       "command": "npx",
       "args": [

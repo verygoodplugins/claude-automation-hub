@@ -6,7 +6,7 @@
 config/secrets.json
 *api-key*
 *API_KEY*
-
+.mcp.json
 # Customer data
 customer-data/
 exports/
