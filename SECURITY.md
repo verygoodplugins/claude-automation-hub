@@ -117,12 +117,21 @@ NTFY_TOPIC="claude-automation-alerts"
 - Respects `CURSOR_DEFAULT_PROJECT` environment variable
 - No hardcoded file paths in the tools
 
+**Web Proxy Security:**
+- **Localhost-only**: Only accepts connections from localhost/127.0.0.1
+- **Task expiration**: All tasks expire after 24 hours automatically
+- **Input validation**: All file paths and prompts are validated
+- **Rate limiting**: Maximum 1000 concurrent tasks
+- **Path traversal protection**: Prevents `../` and other malicious paths
+- **No persistence**: Tasks stored in memory only, cleared on restart
+
 **Setup command output includes env variables:**
 ```bash
 # When setting up Cursor CLI tools, commands should output:
 echo "Add to your .env file:"
 echo "CURSOR_DEFAULT_MODEL=claude-3-5-sonnet-20241022"
 echo "CURSOR_DEFAULT_PROJECT=/path/to/your/main/project"
+echo "CURSOR_PROXY_PORT=8765"
 ```
 
 ### Custom Tool Development

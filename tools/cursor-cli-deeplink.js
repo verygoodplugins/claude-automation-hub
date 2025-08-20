@@ -13,8 +13,8 @@ export default {
     properties: {
       action: {
         type: "string",
-        enum: ["open", "agent", "status"],
-        description: "Action to perform: 'open' (open file/project), 'agent' (run headless agent), 'status' (check CLI status)"
+        enum: ["open", "agent", "status", "generate_link"],
+        description: "Action to perform: 'open' (open file/project), 'agent' (run headless agent), 'status' (check CLI status), 'generate_link' (create clickable link)"
       },
       projectPath: {
         type: "string",
@@ -50,6 +50,10 @@ export default {
         type: "boolean",
         description: "Print agent responses to console (for headless mode)",
         default: true
+      },
+      title: {
+        type: "string",
+        description: "Title for the clickable link (for generate_link action)"
       }
     },
     required: ["action"]
@@ -63,7 +67,8 @@ export default {
     prompt, 
     model, 
     background = false, 
-    print = true 
+    print = true,
+    title
   }) => {
     try {
       // Check if cursor CLI is available
@@ -85,6 +90,72 @@ export default {
         case "status":
           command = "cursor-agent status";
           break;
+
+        case "generate_link":
+          // Create a clickable link via the web proxy
+          if (!prompt) {
+            return {
+              success: false,
+              error: "Prompt is required for generate_link action"
+            };
+          }
+
+          try {
+            // Check if web proxy is running
+            const proxyPort = process.env.CURSOR_PROXY_PORT || 8765;
+            const proxyUrl = `http://localhost:${proxyPort}`;
+            
+            // Prepare task data
+            const taskData = {
+              projectPath: projectPath || workingDir,
+              file: filePath,
+              lineNumber,
+              columnNumber,
+              prompt,
+              title: title || `Fix: ${filePath || 'Project'}`
+            };
+
+            // Register task with web proxy
+            const fetch = (await import('node-fetch')).default;
+            const response = await fetch(`${proxyUrl}/register`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(taskData)
+            });
+
+            if (!response.ok) {
+              const error = await response.text();
+              return {
+                success: false,
+                error: `Web proxy error: ${error}`,
+                help: `Make sure the web proxy is running: npm run proxy`
+              };
+            }
+
+            const result = await response.json();
+            
+            return {
+              success: true,
+              url: result.url,
+              title: result.title,
+              clickable: true,
+              taskId: result.id,
+              expiresAt: result.expiresAt,
+              instructions: "Click the URL to open in Cursor with the AI prompt ready to paste"
+            };
+
+          } catch (error) {
+            return {
+              success: false,
+              error: error.message,
+              help: "Make sure the web proxy is running: npm run proxy",
+              details: {
+                projectPath: projectPath || workingDir,
+                filePath,
+                prompt: prompt ? `${prompt.substring(0, 100)}...` : undefined
+              }
+            };
+          }
 
         case "open":
           if (!projectPath && !filePath) {

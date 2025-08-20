@@ -34,10 +34,40 @@ Replace `/path/to/claude-automation-hub` with your actual project path. See [SEC
 
 Combines multiple MCP tools:
 - **Apple Reminders MCP** → Pull tasks from iOS Reminders
-- **Cursor CLI Integration** → Generate "Open in Cursor with Fix Instructions" buttons  
+- **Cursor CLI Integration** → Generate **clickable HTTP links** that open files in Cursor IDE
+- **Web Proxy Server** → Bypass Claude Desktop sandboxing for truly clickable links
 - **AI Analysis** → Prioritize by impact, categorize by type, estimate time
 
-Result: Interactive dashboard with direct IDE deeplinks for every development task.
+Result: Interactive dashboard with **real clickable links** - perfect for emails, team sharing, and automation!
+
+## 🔗 Clickable Links Feature
+
+**Problem**: Claude Desktop's sandboxing prevents direct file links in artifacts.  
+**Solution**: Local web proxy that creates real HTTP links to open files in Cursor IDE.
+
+### Quick Setup
+```bash
+# Interactive setup with colors and emojis!
+npm run setup:links
+
+# Start the web proxy
+npm run proxy
+```
+
+### Usage
+```javascript
+// Generate clickable link
+await cursor_cli_deeplink({
+  action: "generate_link",
+  filePath: "src/bug.js",
+  lineNumber: 42,
+  prompt: "Fix the memory leak in this function",
+  title: "🐛 Fix Memory Leak"
+});
+// → Returns: http://localhost:8765/cursor/abc123
+```
+
+**Perfect for**: Daily dashboards, email automation, team collaboration, any workflow needing **real clickable links** that bypass sandboxing.
 
 ## Available MCP Integrations
 
@@ -52,7 +82,7 @@ Result: Interactive dashboard with direct IDE deeplinks for every development ta
 - ✅ **[PostgreSQL](https://github.com/modelcontextprotocol/servers/tree/main/src/postgres)** - Database queries, schema analysis, and data management
 - ✅ **[Fly.io](https://fly.io/docs/mcp/)** - Application deployment and infrastructure management
 - ✅ **[Sentry](https://mcp.sentry.dev/)** - Error tracking, performance monitoring, and debugging
-- ✅ **[Cursor CLI Integration](tools/)** - Open files at specific lines, generate "Fix in Cursor" buttons, run headless cursor-agent commands
+- ✅ **[Cursor CLI Integration](tools/)** - Open files at specific lines, **generate clickable links**, run headless cursor-agent commands
 
 ### 💬 Communication & Support
 - ✅ **[FreeScout](https://github.com/verygoodplugins/mcp-freescout)** - Complete support ticket lifecycle management and customer analytics
