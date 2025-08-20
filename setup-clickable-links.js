@@ -286,7 +286,7 @@ async function testSetup() {
     const testResult = await testResponse.json();
     
     console.log(`${c('green', '✅')} Link generation working!`);
-    console.log(`\n${c('bgGreen', '  🎉 SUCCESS! Here's your first clickable link:  ')}`);
+    console.log(`\n${c('bgGreen', '  ✅ SUCCESS! Here is your first clickable link:  ')}`);
     console.log(`\n  ${c('cyan', '🔗 Test Link:')} ${c('white', testResult.url)}`);
     console.log(`  ${c('dim', '└─ Try clicking this link to open README.md in Cursor!')}`);
     
