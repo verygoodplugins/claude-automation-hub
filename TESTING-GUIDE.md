@@ -22,8 +22,10 @@ Ask Claude: "List all available MCP tools"
 
 You should see your custom tools from `./tools/` directory:
 - `analyze_hub_stats`
-- `generate_workflow_template`
+- `generate_workflow_template` 
 - `suggest_workflows`
+- `cursor_cli_deeplink`
+- `workflow_cursor_integration`
 
 ### 2. Test Individual Tools
 
@@ -36,13 +38,29 @@ Ask Claude: "Use generate_workflow_template to create a new daily workflow calle
 
 // Test workflow suggester
 Ask Claude: "Use suggest_workflows to recommend 5 productivity workflows"
+
+// Test Cursor CLI deeplink
+Ask Claude: "Use cursor_cli_deeplink to open README.md at line 1"
+
+// Test Cursor workflow integration  
+Ask Claude: "Use workflow_cursor_integration with debug_workflow for src/automation-hub.js line 25"
 ```
 
 ### 3. Test Hot Reload
 
 1. Modify any tool in `./tools/`
-2. Save the file
+2. Save the file  
 3. Immediately test the updated tool (no restart needed!)
+
+**Cursor CLI Hot-Reload Test:**
+```bash
+# 1. Modify tools/cursor-cli-deeplink.js (change description)
+# 2. Save file
+# 3. Test immediately:
+"Use cursor_cli_deeplink to check status"
+
+# Should show updated description without restarting Claude Desktop
+```
 
 ## Testing Workflows
 
@@ -127,6 +145,27 @@ Test workflows that combine multiple MCPs:
 
 # Test Filesystem + Context7 + OpenMemory
 "Scan my project for undocumented functions and save patterns"
+```
+
+### Power User: Daily AI Dashboard Test
+
+Test the advanced multi-MCP integration like the daily summary example:
+
+```bash
+# Test Apple Reminders + Cursor CLI + AI Analysis
+"Generate my daily summary with Cursor deeplinks for all code tasks"
+
+Expected output:
+✓ Tasks pulled from iOS Reminders
+✓ Code tasks identified and categorized
+✓ "Open in Cursor with Fix Instructions" buttons generated
+✓ Tasks prioritized by impact and time estimates
+✓ Interactive dashboard with direct IDE deeplinks
+
+# Test individual components
+"Get all my Reminders and show only the code-related ones"
+"Create Cursor deeplink buttons for fixing specific file issues"
+"Analyze my task list and estimate completion times"
 ```
 
 ### Error Handling Tests
