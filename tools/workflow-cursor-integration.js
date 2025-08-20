@@ -36,7 +36,7 @@ export default {
     required: ["workflow"]
   },
   handler: async ({ workflow, filePath, lineNumber, issue, context }) => {
-    const projectRoot = process.cwd();
+    const projectRoot = process.env.CURSOR_DEFAULT_PROJECT || process.cwd();
     const workflows = {
       debug_workflow: {
         name: "Debug Workflow",

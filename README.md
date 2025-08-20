@@ -4,7 +4,13 @@ Your personal command center for Claude Desktop + MCP automations. Version-contr
 
 ## Quick Start
 
-Copy any command from the `workflows/` directory and paste into Claude to run.
+1. **Security Setup** (Required for production use):
+   ```bash
+   cp .env.example .env
+   # Edit .env with your settings - see SECURITY.md for details
+   ```
+
+2. **Run workflows**: Copy any command from the `workflows/` directory and paste into Claude to run.
 
 ## 🔥 Hot-Reload Development
 
@@ -18,6 +24,7 @@ This hub uses `mcp-reloader` for **instant tool development** - create and modif
   "cwd": "/path/to/claude-automation-hub"
 }
 ```
+Replace `/path/to/claude-automation-hub` with your actual project path. See [SECURITY.md](SECURITY.md) for secure setup.
 
 **Example**: Create `tools/my-tool.js` → instantly available in Claude → modify and test in real-time.
 

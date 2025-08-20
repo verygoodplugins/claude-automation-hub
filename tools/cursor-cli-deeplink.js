@@ -38,7 +38,8 @@ export default {
       },
       model: {
         type: "string",
-        description: "Model to use for agent (e.g., 'claude-3-5-sonnet-20241022')"
+        description: "Model to use for agent (e.g., 'claude-3-5-sonnet-20241022')",
+        default: process.env.CURSOR_DEFAULT_MODEL || "claude-3-5-sonnet-20241022"
       },
       background: {
         type: "boolean",
@@ -77,7 +78,7 @@ export default {
       }
 
       let command = "";
-      let workingDir = process.cwd();
+      let workingDir = process.env.CURSOR_DEFAULT_PROJECT || process.cwd();
 
       try {
         switch (action) {

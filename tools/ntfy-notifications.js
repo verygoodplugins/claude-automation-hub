@@ -74,7 +74,8 @@ export default {
       if (!ntfyTopic) {
         return {
           success: false,
-          error: "NTFY_TOPIC environment variable not set and no topic provided"
+          error: "NTFY_TOPIC environment variable not set and no topic provided",
+          setup: "Generate a unique topic: echo 'NTFY_TOPIC=claude-automation-$(whoami)-$(openssl rand -hex 4)' >> .env"
         };
       }
 
