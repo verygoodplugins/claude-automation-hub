@@ -124,7 +124,7 @@ async function checkDependencies() {
   let allGood = true;
   for (const result of results) {
     if (result.success) {
-      console.log(`  ${c('green', '✅')} ${result.name} ${c('dim', result.version.split('\\n')[0])}`);
+      console.log(`  ${c('green', '✅')} ${result.name} ${c('dim', result.version.split('\n')[0])}`);
     } else {
       console.log(`  ${c('red', '❌')} ${result.name} ${c('red', 'NOT FOUND')}`);
       if (result.required) allGood = false;
@@ -132,8 +132,8 @@ async function checkDependencies() {
   }
   
   if (!allGood) {
-    console.log(`\\n${c('red', '🚨 Missing required dependencies!')}`);
-    console.log(`\\n${bold('Quick fixes:')}`);
+    console.log(`\n${c('red', '🚨 Missing required dependencies!')}`);
+    console.log(`\n${bold('Quick fixes:')}`);
     console.log(`  ${c('cyan', '📦')} Install Cursor CLI: ${c('white', 'brew install --cask cursor')}`);
     console.log(`  ${c('cyan', '🔧')} Or download from: ${c('white', 'https://cursor.sh')}`);
     process.exit(1);
@@ -142,7 +142,7 @@ async function checkDependencies() {
   // Install node-fetch if missing
   const nodeFetchResult = results.find(r => r.name === 'node-fetch');
   if (!nodeFetchResult.success) {
-    console.log(`\\n${c('yellow', '📦 Installing node-fetch...')}`);
+    console.log(`\n${c('yellow', '📦 Installing node-fetch...')}`);
     await showSpinner('Installing dependencies...', 3000);
     try {
       await execAsync('npm install node-fetch');
@@ -158,7 +158,7 @@ async function checkDependencies() {
 
 // Configure environment
 async function configureEnvironment() {
-  console.log(`\\n${bold('⚙️  Environment Configuration')}\\n`);
+  console.log(`\n${bold('⚙️  Environment Configuration')}\n`);
   
   const envPath = '.env';
   let envContent = '';
@@ -176,17 +176,17 @@ async function configureEnvironment() {
   // Configure proxy port
   const currentPort = envContent.match(/CURSOR_PROXY_PORT=(.+)/)?.[1] || '8765';
   
-  console.log(`\\n${c('cyan', '🌐 Web Proxy Configuration:')}`);
+  console.log(`\n${c('cyan', '🌐 Web Proxy Configuration:')}`);
   console.log(`Current port: ${c('white', currentPort)}`);
   
-  const newPort = await question(`\\n🔢 Web proxy port (Enter for ${currentPort}): `);
+  const newPort = await question(`\n🔢 Web proxy port (Enter for ${currentPort}): `);
   const finalPort = newPort.trim() || currentPort;
   
   // Update or add port to env
   if (envContent.includes('CURSOR_PROXY_PORT=')) {
     envContent = envContent.replace(/CURSOR_PROXY_PORT=.+/, `CURSOR_PROXY_PORT=${finalPort}`);
   } else {
-    envContent += `\\n# Cursor Web Proxy\\nCURSOR_PROXY_PORT=${finalPort}\\n`;
+    envContent += `\n# Cursor Web Proxy\nCURSOR_PROXY_PORT=${finalPort}\n`;
   }
   
   writeFileSync(envPath, envContent);
@@ -199,7 +199,7 @@ async function configureEnvironment() {
 
 // Update package.json
 async function updatePackageJson() {
-  console.log(`\\n${bold('📦 Updating package.json scripts...')}`);
+  console.log(`\n${bold('📦 Updating package.json scripts...')}`);
   
   try {
     const packagePath = 'package.json';
@@ -246,10 +246,10 @@ async function updatePackageJson() {
 
 // Test the setup
 async function testSetup() {
-  console.log(`\\n${bold('🧪 Testing the setup...')}`);
+  console.log(`\n${bold('🧪 Testing the setup...')}`);
   
   // Start proxy in background
-  console.log(`\\n${c('cyan', '🚀 Starting web proxy...')}`);
+  console.log(`\n${c('cyan', '🚀 Starting web proxy...')}`);
   
   const { spawn } = await import('child_process');
   const proxy = spawn('node', ['cursor-web-proxy.js'], {
@@ -286,8 +286,8 @@ async function testSetup() {
     const testResult = await testResponse.json();
     
     console.log(`${c('green', '✅')} Link generation working!`);
-    console.log(`\\n${c('bgGreen', '  🎉 SUCCESS! Here\\'s your first clickable link:  ')}`);
-    console.log(`\\n  ${c('cyan', '🔗 Test Link:')} ${c('white', testResult.url)}`);
+    console.log(`\n${c('bgGreen', '  🎉 SUCCESS! Here\\'s your first clickable link:  ')}`);
+    console.log(`\n  ${c('cyan', '🔗 Test Link:')} ${c('white', testResult.url)}`);
     console.log(`  ${c('dim', '└─ Try clicking this link to open README.md in Cursor!')}`);
     
     // Kill proxy
@@ -304,29 +304,29 @@ async function testSetup() {
 
 // Show completion
 async function showCompletion() {
-  console.log(`\\n${c('bgGreen', '                                        ')}`);
+  console.log(`\n${c('bgGreen', '                                        ')}`);
   console.log(`${c('bgGreen', '  🎉 SETUP COMPLETE! 🚀                ')}`);
   console.log(`${c('bgGreen', '                                        ')}`);
   
-  console.log(`\\n${bold('🌟 What you can do now:')}`);
-  console.log(`\\n${c('cyan', '1. Start the web proxy:')}`);
+  console.log(`\n${bold('🌟 What you can do now:')}`);
+  console.log(`\n${c('cyan', '1. Start the web proxy:')}`);
   console.log(`   ${c('white', 'npm run proxy')}`);
   
-  console.log(`\\n${c('cyan', '2. Generate clickable links in Claude:')}`);
+  console.log(`\n${c('cyan', '2. Generate clickable links in Claude:')}`);
   console.log(`   ${c('white', 'Use cursor_cli_deeplink with action: "generate_link"')}`);
   
-  console.log(`\\n${c('cyan', '3. Example daily dashboard:')}`);
+  console.log(`\n${c('cyan', '3. Example daily dashboard:')}`);
   console.log(`   ${c('white', '"Generate my daily summary with Cursor deeplinks for all code tasks"')}`);
   
-  console.log(`\\n${c('yellow', '📚 Quick commands:')}`);
+  console.log(`\n${c('yellow', '📚 Quick commands:')}`);
   console.log(`   ${c('dim', '🚀 Start proxy:')} ${c('white', 'npm run proxy')}`);
   console.log(`   ${c('dim', '🔄 Dev mode:')} ${c('white', 'npm run proxy:dev')}`);
   console.log(`   ${c('dim', '🏥 Health check:')} ${c('white', 'curl http://localhost:8765/health')}`);
   console.log(`   ${c('dim', '🌐 Status page:')} ${c('white', 'open http://localhost:8765')}`);
   
-  console.log(`\\n${c('green', '💡 Pro tip:')} Keep the proxy running in a separate terminal for instant clickable links!`);
+  console.log(`\n${c('green', '💡 Pro tip:')} Keep the proxy running in a separate terminal for instant clickable links!`);
   
-  console.log(`\\n${dim('Happy automating! 🤖✨')}`);
+  console.log(`\n${dim('Happy automating! 🤖✨')}`);
 }
 
 // Main setup flow
@@ -342,13 +342,13 @@ async function main() {
     if (testSuccess) {
       await showCompletion();
     } else {
-      console.log(`\\n${c('yellow', '⚠️  Setup completed but testing failed.')}`);
+      console.log(`\n${c('yellow', '⚠️  Setup completed but testing failed.')}`);
       console.log(`${c('cyan', '💡 Try running:')} ${c('white', 'npm run proxy')} ${c('cyan', 'manually')}`);
     }
     
   } catch (error) {
-    console.log(`\\n${c('red', '❌ Setup failed:')} ${error.message}`);
-    console.log(`\\n${c('cyan', '🆘 Need help? Check:')} ${c('white', 'SECURITY.md')} ${c('cyan', 'or')} ${c('white', 'README.md')}`);
+    console.log(`\n${c('red', '❌ Setup failed:')} ${error.message}`);
+    console.log(`\n${c('cyan', '🆘 Need help? Check:')} ${c('white', 'SECURITY.md')} ${c('cyan', 'or')} ${c('white', 'README.md')}`);
   } finally {
     rl.close();
   }

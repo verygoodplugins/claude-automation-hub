@@ -5,6 +5,40 @@ import path from 'path';
 
 const execAsync = promisify(exec);
 
+// Auto-start web proxy if not running
+async function ensureProxyRunning(port = 8765) {
+  try {
+    // Quick health check
+    const fetch = (await import('node-fetch')).default;
+    await fetch(`http://localhost:${port}/health`, { timeout: 1000 });
+    return true; // Proxy is already running
+  } catch (error) {
+    // Proxy not running, start it
+    console.log(`🚀 Starting web proxy on port ${port}...`);
+    
+    const { spawn } = await import('child_process');
+    const proxy = spawn('node', ['cursor-web-proxy.js'], {
+      stdio: ['ignore', 'ignore', 'ignore'],
+      detached: true
+    });
+    
+    proxy.unref(); // Don't keep process alive
+    
+    // Wait a moment for startup
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Verify it started
+    try {
+      await fetch(`http://localhost:${port}/health`, { timeout: 2000 });
+      console.log(`✅ Web proxy started successfully on port ${port}`);
+      return true;
+    } catch (startupError) {
+      console.log(`❌ Failed to start web proxy: ${startupError.message}`);
+      return false;
+    }
+  }
+}
+
 export default {
   name: "cursor_cli_deeplink",
   description: "Open files in Cursor with optional line numbers and agent prompts. Supports both opening files and running headless agent commands.",
@@ -101,9 +135,12 @@ export default {
           }
 
           try {
-            // Check if web proxy is running
+            // Check if web proxy is running, auto-start if needed
             const proxyPort = process.env.CURSOR_PROXY_PORT || 8765;
             const proxyUrl = `http://localhost:${proxyPort}`;
+            
+            // Auto-start proxy if not running
+            await ensureProxyRunning(proxyPort);
             
             // Prepare task data
             const taskData = {
@@ -128,7 +165,7 @@ export default {
               return {
                 success: false,
                 error: `Web proxy error: ${error}`,
-                help: `Make sure the web proxy is running: npm run proxy`
+                help: `Try manually: npm run proxy`
               };
             }
 
@@ -148,7 +185,8 @@ export default {
             return {
               success: false,
               error: error.message,
-              help: "Make sure the web proxy is running: npm run proxy",
+              help: "Auto-start failed. Try manually: npm run proxy",
+              autoStartAttempted: true,
               details: {
                 projectPath: projectPath || workingDir,
                 filePath,
