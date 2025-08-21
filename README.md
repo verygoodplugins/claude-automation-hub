@@ -69,6 +69,26 @@ await cursor_cli_deeplink({
 
 **Perfect for**: Daily dashboards, email automation, team collaboration, any workflow needing **real clickable links** that bypass sandboxing.
 
+### Advanced: Network Access
+
+For advanced users who want to trigger links from other devices on the local network:
+
+```bash
+# WARNING: Exposes proxy to local network
+CURSOR_PROXY_BIND=0.0.0.0 npm run proxy
+
+# More secure: Bind to specific network interface  
+CURSOR_PROXY_BIND=192.168.1.100 npm run proxy
+```
+
+**Use Cases:**
+- Trigger from phone apps on same WiFi network
+- Access from another computer on local network  
+- Integration with home automation systems
+- Remote development workflows
+
+**Security Notice:** ⚠️ Only use network access on trusted networks. See [SECURITY.md](SECURITY.md) for detailed security considerations and mitigation strategies.
+
 ## Available MCP Integrations
 
 ### 🧠 AI & Reasoning

@@ -21,8 +21,15 @@ const app = express();
 
 // Security configuration
 const PORT = process.env.CURSOR_PROXY_PORT || 8765;
+const BIND_ADDRESS = process.env.CURSOR_PROXY_BIND || 'localhost';
 const TASK_EXPIRY_HOURS = 24;
 const MAX_TASKS = 1000;
+
+// Network exposure detection
+const IS_NETWORK_EXPOSED = BIND_ADDRESS === '0.0.0.0' || 
+                           (BIND_ADDRESS !== 'localhost' && 
+                            !BIND_ADDRESS.startsWith('127.') && 
+                            BIND_ADDRESS !== '::1');
 
 // CORS - only allow localhost for security
 app.use((req, res, next) => {
@@ -36,6 +43,15 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json({ limit: '10mb' }));
+
+// Security warning and IP logging for network mode
+if (IS_NETWORK_EXPOSED) {
+  app.use((req, res, next) => {
+    const clientIp = req.ip || req.connection.remoteAddress || req.socket.remoteAddress;
+    console.log(`[NETWORK] Request from ${clientIp} to ${req.path}`);
+    next();
+  });
+}
 
 // In-memory task storage with automatic cleanup
 const taskStore = new Map();
@@ -469,16 +485,20 @@ app.use((error, req, res, next) => {
 });
 
 // Start server
-const server = app.listen(PORT, 'localhost', () => {
+const server = app.listen(PORT, BIND_ADDRESS, () => {
   console.log(`
 🌐 Cursor Web Proxy Server Started!
 
-🔗 Server: http://localhost:${PORT}
-🔒 Security: Localhost-only access
+🔗 Server: http://${BIND_ADDRESS === '0.0.0.0' ? 'localhost' : BIND_ADDRESS}:${PORT}
+${IS_NETWORK_EXPOSED 
+  ? '⚠️  WARNING: Server exposed to network! Only use on trusted networks.'
+  : '🔒 Security: Localhost-only access'}
 📋 Max Tasks: ${MAX_TASKS}
 ⏱️  Task Expiry: ${TASK_EXPIRY_HOURS} hours
 
-Ready to create clickable Cursor links! 🚀
+${IS_NETWORK_EXPOSED 
+  ? '🚨 Network access enabled - monitor for unauthorized usage'
+  : 'Ready to create clickable Cursor links! 🚀'}
   `);
 });
 

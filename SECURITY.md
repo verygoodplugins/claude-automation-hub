@@ -118,12 +118,83 @@ NTFY_TOPIC="claude-automation-alerts"
 - No hardcoded file paths in the tools
 
 **Web Proxy Security:**
-- **Localhost-only**: Only accepts connections from localhost/127.0.0.1
+- **Localhost-only**: Only accepts connections from localhost/127.0.0.1 by default
 - **Task expiration**: All tasks expire after 24 hours automatically
 - **Input validation**: All file paths and prompts are validated
 - **Rate limiting**: Maximum 1000 concurrent tasks
 - **Path traversal protection**: Prevents `../` and other malicious paths
 - **No persistence**: Tasks stored in memory only, cleared on restart
+
+### Network Binding Configuration
+
+#### Default (Secure)
+```bash
+# Default binding - recommended for most users
+CURSOR_PROXY_BIND=localhost
+# OR omit entirely - localhost is the default
+```
+
+**Security features:**
+- Binds to `localhost` only
+- No network exposure
+- Safe for all environments
+
+#### Network Access (Advanced Users Only)
+
+Set `CURSOR_PROXY_BIND` to enable network access:
+
+```bash
+# WARNING: Exposes proxy to entire network
+CURSOR_PROXY_BIND=0.0.0.0
+
+# More secure: Bind to specific network interface
+CURSOR_PROXY_BIND=192.168.1.100
+```
+
+**⚠️ Security Considerations:**
+
+1. **Only use on trusted networks** (home/office WiFi with WPA3)
+2. **Never use on public WiFi** or untrusted networks
+3. **Monitor access logs** - proxy logs all network requests with IP addresses
+4. **Consider firewall rules** to limit access to specific devices
+5. **Be aware**: This proxy can execute commands on your system
+
+**Risk Assessment:**
+- **High Risk**: Public networks, shared WiFi, coffee shops
+- **Medium Risk**: Corporate networks, shared office spaces  
+- **Low Risk**: Home networks, private office networks
+- **Acceptable**: Isolated VLANs, VPN-only networks
+
+**Mitigation Strategies:**
+```bash
+# Option 1: Use specific IP binding instead of 0.0.0.0
+CURSOR_PROXY_BIND=192.168.1.100
+
+# Option 2: Use firewall to limit access
+sudo ufw allow from 192.168.1.0/24 to any port 8765
+
+# Option 3: Use VPN for remote access instead
+# Connect via VPN, then use localhost binding
+```
+
+**Monitoring Network Access:**
+When network access is enabled, the proxy logs all requests:
+```
+[NETWORK] Request from 192.168.1.50 to /cursor/abc123
+[NETWORK] Request from 10.0.0.25 to /register
+```
+
+Monitor these logs for:
+- Unexpected IP addresses
+- High frequency requests (potential abuse)
+- Requests from outside your expected network range
+
+**Legitimate Use Cases for Network Access:**
+- Mobile apps triggering development tasks
+- Home automation integration (HomeKit, Home Assistant)
+- Remote development from another computer on LAN
+- Team collaboration in trusted office environment
+- Integration with local services (NAS, Raspberry Pi)
 
 **Setup command output includes env variables:**
 ```bash
