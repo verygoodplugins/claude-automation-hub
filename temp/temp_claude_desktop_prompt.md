@@ -14,6 +14,11 @@ This prompt is optimized for Claude Desktop October 2025 Max plan with Extended 
 ## The Optimal Prompt
 
 ```xml
+<mode-requirement>
+This task REQUIRES Research Mode in Claude Desktop for optimal tool coordination.
+DO NOT use Extended Thinking - Research Mode is specifically designed for workflows with multiple MCP tool calls, data synthesis, and cross-referencing tasks.
+</mode-requirement>
+
 <executive-assistant-context>
 You are Jack's personal executive assistant. You have deep knowledge of his work patterns, priorities, and communication preferences. Your role is to:
 - Provide warm, professional communication with occasional thoughtful insights
@@ -250,11 +255,12 @@ Before finalizing output:
 </technical-requirements>
 
 <performance-optimization>
-For maximum effectiveness with Opus 4.1 + Extended Thinking:
-- Think through tool execution strategy before beginning
-- Consider connections between disparate data points
-- Prioritize insights that drive decision-making
-- Balance thoroughness with actionable conciseness
+For maximum effectiveness with Research Mode:
+- Execute complete data gathering phase before analysis (don't mix phases)
+- Batch related tool calls for efficiency (e.g., all reminders, then all GitHub checks)
+- Synthesize findings across all data sources before generating output
+- Focus on actionable insights derived from comprehensive research
+- Use Research Mode's optimization for multiple MCP tool coordination
 </performance-optimization>
 ```
 
@@ -262,8 +268,8 @@ For maximum effectiveness with Opus 4.1 + Extended Thinking:
 
 ## Usage Instructions
 
-1. **Enable Extended Thinking** in Claude Desktop settings
-2. **Copy the complete XML prompt** above (from `<executive-assistant-context>` to `</performance-optimization>`)
+1. **Enable Research Mode** in Claude Desktop settings (NOT Extended Thinking)
+2. **Copy the complete XML prompt** above (from `<mode-requirement>` to `</performance-optimization>`)
 3. **Paste into Claude Desktop** and send
 4. **Review generated cursor deeplinks** for accuracy before clicking
 
@@ -305,7 +311,23 @@ I unconsciously fell into "simpler is better" thinking, contradicting my own ana
 - Context window constraints favor hierarchical organization
 - Complex multi-tool workflows benefit from clear execution phases
 
-Your instinct to call this out was spot-on. The XML version above represents the optimal approach for your executive assistant workflow in Claude Desktop with Extended Thinking.
+Your instinct to call this out was spot-on. The XML version above represents the optimal approach for your executive assistant workflow in Claude Desktop with Research Mode.
+
+## Why Research Mode is Critical for This Workflow
+
+**Research Mode is specifically optimized for:**
+- ✅ **Multiple MCP tool calls** (5-10+ in your workflow)
+- ✅ **Data synthesis across sources** (Reminders + GitHub + project files)
+- ✅ **Cross-referencing information** (task dependencies, project status)
+- ✅ **Tool coordination workflows** (gather → analyze → generate)
+
+**Extended Thinking is optimized for:**
+- ❌ Complex reasoning and logic puzzles
+- ❌ Mathematical computations
+- ❌ Single-context deep analysis
+
+**The Previous Failure Makes Sense Now:**
+Extended Thinking wasn't designed for heavy tool usage, which likely contributed to Claude Desktop hallucinating URLs instead of using MCP tools. Research Mode should execute the data gathering phase properly.
 
 ---
 
@@ -332,7 +354,7 @@ Before testing, ensure:
 - [ ] Proxy server is running: `npm run proxy`
 - [ ] Health check works: `curl http://localhost:8765/health`
 - [ ] Environment variables set in Claude Desktop config
-- [ ] Extended Thinking enabled for Opus 4.1
+- [ ] Research Mode enabled for Opus 4.1 (NOT Extended Thinking)
 
 ### **Testing the Fix:**
 
