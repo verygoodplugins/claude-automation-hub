@@ -1,4 +1,6 @@
 // MCP tool for sending push notifications via ntfy.sh
+import fetch from 'node-fetch';
+
 export default {
   name: "send_notification",
   description: "Send push notifications to mobile devices via ntfy.sh for workflow completion alerts",

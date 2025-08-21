@@ -2,24 +2,44 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import { existsSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PROJECT_ROOT = path.resolve(__dirname, '..');
 
 const execAsync = promisify(exec);
 
-// Auto-start web proxy if not running
-async function ensureProxyRunning(port = 8765) {
+// Detect if running in Claude Desktop's MCP environment (check at runtime)
+function isMcpEnvironment() {
+  return process.env.MCP_SERVER_NAME === 'automation-hub' || 
+         process.env.NODE_ENV === 'production' ||
+         process.argv.some(arg => arg.includes('mcp-reloader'));
+}
+
+// Auto-start web proxy if not running (disabled in MCP environment)
+async function ensureProxyRunning(port = 8765, customUrl = null) {
   try {
     // Quick health check
     const fetch = (await import('node-fetch')).default;
-    await fetch(`http://localhost:${port}/health`, { timeout: 1000 });
+    const healthUrl = customUrl ? `${customUrl}/health` : `http://localhost:${port}/health`;
+    await fetch(healthUrl, { timeout: 1000 });
     return true; // Proxy is already running
   } catch (error) {
-    // Proxy not running, start it
+    // In MCP environment, don't auto-start - return clear error
+    if (isMcpEnvironment()) {
+      throw new Error(`Cursor proxy not running at localhost:${port}. Please start manually: npm run proxy`);
+    }
+    
+    // Standalone mode: start proxy automatically
     console.log(`🚀 Starting web proxy on port ${port}...`);
     
     const { spawn } = await import('child_process');
-    const proxy = spawn('node', ['cursor-web-proxy.js'], {
+    const proxyPath = path.join(PROJECT_ROOT, 'cursor-web-proxy.js');
+    const proxy = spawn('node', [proxyPath], {
       stdio: ['ignore', 'ignore', 'ignore'],
-      detached: true
+      detached: true,
+      cwd: PROJECT_ROOT
     });
     
     proxy.unref(); // Don't keep process alive
@@ -137,10 +157,29 @@ export default {
           try {
             // Check if web proxy is running, auto-start if needed
             const proxyPort = process.env.CURSOR_PROXY_PORT || 8765;
-            const proxyUrl = `http://localhost:${proxyPort}`;
             
-            // Auto-start proxy if not running
-            await ensureProxyRunning(proxyPort);
+            // In MCP environment, try local machine IP if localhost fails
+            let proxyUrl = `http://localhost:${proxyPort}`;
+            if (isMcpEnvironment()) {
+              // Try to get local IP for network-bound proxy
+              try {
+                const { networkInterfaces } = await import('os');
+                const nets = networkInterfaces();
+                const localIp = Object.values(nets)
+                  .flat()
+                  .find(net => net?.family === 'IPv4' && !net?.internal)?.address;
+                
+                if (localIp) {
+                  proxyUrl = `http://${localIp}:${proxyPort}`;
+                  console.log(`Using local IP for MCP: ${proxyUrl}`);
+                }
+              } catch (ipError) {
+                console.log('Could not determine local IP, using localhost');
+              }
+            }
+            
+            // Auto-start proxy if not running (disabled in MCP mode)
+            await ensureProxyRunning(proxyPort, proxyUrl);
             
             // Prepare task data
             const taskData = {
@@ -182,11 +221,19 @@ export default {
             };
 
           } catch (error) {
+            // Check if this is a proxy connection error in MCP environment
+            const mcpEnv = isMcpEnvironment();
+            const isMcpProxyError = mcpEnv && error.message.includes('Cursor proxy not running');
+            
             return {
               success: false,
               error: error.message,
-              help: "Auto-start failed. Try manually: npm run proxy",
-              autoStartAttempted: true,
+              help: isMcpProxyError 
+                ? "Start the proxy server first: npm run proxy (must be running before using Claude Desktop)"
+                : "Auto-start failed. Try manually: npm run proxy",
+              autoStartAttempted: !mcpEnv,
+              mcpEnvironment: mcpEnv,
+              requiresManualProxy: mcpEnv,
               details: {
                 projectPath: projectPath || workingDir,
                 filePath,

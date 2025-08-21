@@ -131,11 +131,32 @@ ${category === 'daily' ? 'Daily at [TIME] Berlin time' :
 - ${new Date().toISOString().split('T')[0]}: Initial version created
 `;
 
-      // Ensure directory exists
-      await mkdir(join('./workflows', category), { recursive: true });
+      // Ensure directory exists with better error handling
+      const dirPath = join('./workflows', category);
+      try {
+        await mkdir(dirPath, { recursive: true });
+        console.log(`✅ Directory ensured: ${dirPath}`);
+      } catch (dirError) {
+        console.error(`❌ Failed to create directory ${dirPath}:`, dirError.message);
+        return {
+          success: false,
+          error: `Failed to create workflows directory: ${dirError.message}`,
+          suggestion: `Try running: mkdir -p ${dirPath}`
+        };
+      }
       
-      // Write the file
-      await writeFile(filepath, template);
+      // Write the file with error handling
+      try {
+        await writeFile(filepath, template);
+        console.log(`✅ Workflow file created: ${filepath}`);
+      } catch (writeError) {
+        console.error(`❌ Failed to write file ${filepath}:`, writeError.message);
+        return {
+          success: false,
+          error: `Failed to write workflow file: ${writeError.message}`,
+          suggestion: `Check permissions and disk space`
+        };
+      }
       
       return {
         success: true,
