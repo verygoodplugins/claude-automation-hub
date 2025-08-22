@@ -18,12 +18,99 @@ import crypto from 'crypto';
 import { existsSync } from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
+import { ClaudeService } from '../services/claude-service.js';
+import { SlackResponseHandler } from '../services/slack-response-handler.js';
 
 // Load environment variables from .env file
 dotenv.config();
 
 const execAsync = promisify(exec);
 const app = express();
+
+// Initialize Claude and Slack services
+const claudeService = new ClaudeService();
+const slackResponseHandler = new SlackResponseHandler();
+
+/**
+ * Handle /auto-jack command with Claude AI
+ */
+async function handleAutoJackCommand(req, res, params) {
+  const { text, user_name, user_id, channel_id, response_url } = params;
+  
+  // Send immediate acknowledgment to Slack (must respond within 3 seconds)
+  res.json({
+    response_type: 'ephemeral',
+    text: '🤖 Claude is thinking...'
+  });
+  
+  console.log(`🎯 Auto-Jack command from ${user_name}: "${text}"`);
+  
+  // Handle special commands
+  if (text === 'help' || text === '') {
+    const helpMessage = `🎯 *Auto-Jack Claude AI Commands*
+    
+Talk to Claude naturally! Just type what you want:
+• \`/auto-jack summarize today's support tickets\`
+• \`/auto-jack check my calendar for tomorrow\`
+• \`/auto-jack create a reminder to review PRs\`
+• \`/auto-jack search for documentation on authentication\`
+• \`/auto-jack send me a notification in 10 minutes\`
+
+Claude can:
+📧 Manage email and calendar
+🎫 Handle support tickets
+📝 Create content and documentation
+🔍 Search web and files
+📱 Send notifications
+🧠 Remember context
+...and much more!`;
+    
+    await slackResponseHandler.sendDelayedResponse(response_url, helpMessage, {
+      responseType: 'ephemeral'
+    });
+    return;
+  }
+  
+  // Process with Claude asynchronously
+  setTimeout(async () => {
+    try {
+      // Get Claude's response
+      const claudeResponse = await claudeService.processSlackMessage(
+        user_name,
+        text,
+        channel_id,
+        response_url
+      );
+      
+      // Send Claude's response back to Slack
+      await slackResponseHandler.sendDelayedResponse(
+        response_url,
+        claudeResponse.text,
+        {
+          responseType: 'in_channel', // Make it visible to everyone
+          toolsUsed: claudeResponse.toolsUsed || []
+        }
+      );
+      
+      // Log token usage if available
+      if (claudeResponse.usage) {
+        console.log(`📊 Tokens used: ${claudeResponse.usage.input_tokens} in, ${claudeResponse.usage.output_tokens} out`);
+      }
+      
+    } catch (error) {
+      console.error('❌ Error processing with Claude:', error);
+      
+      // Send error message to user
+      await slackResponseHandler.sendDelayedResponse(
+        response_url,
+        `❌ Sorry, I encountered an error: ${error.message}`,
+        {
+          responseType: 'ephemeral' // Only visible to user
+        }
+      );
+    }
+  }, 100); // Small delay to ensure Slack gets the immediate response
+}
 
 // Security configuration
 const PORT = process.env.CURSOR_PROXY_PORT || 8765;
@@ -1061,12 +1148,14 @@ app.post('/slack/commands', (req, res) => {
       break;
     
     case '/auto-jack':
-      // Handle the auto-jack command
-      res.json({
-        response_type: 'ephemeral',
-        text: `🎯 Auto-Jack activated!\nCommand: "${text}"\nProcessing your automation request...`
+      // Handle the auto-jack command with Claude AI
+      handleAutoJackCommand(req, res, { 
+        text, 
+        user_name, 
+        user_id, 
+        channel_id, 
+        response_url 
       });
-      console.log('✅ Response sent for /auto-jack command');
       break;
       
     default:
