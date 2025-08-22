@@ -19,6 +19,16 @@ This directory contains configuration examples for Claude clients including MCP 
 - **Location**: Copy to `~/.claude/settings.json` (global) or `.claude/settings.json` (project-specific)
 - **Features**: Permission controls, environment variables, and security settings for Claude Code
 
+### Yabai Window Manager Configuration
+- **Directory**: `yabai/`
+- **Files**: 
+  - `yabairc-example.sh` - Full-featured config with 3-monitor setup and app rules
+  - `yabairc-minimal.sh` - Simple tiling setup for single monitor  
+  - `skhdrc-example.sh` - Complete keyboard shortcuts optimized for development
+  - `CHEATSHEET.md` - Printable reference card for all shortcuts
+- **Features**: Tiling window management optimized for development workflows with personalized app rules and smart screenshot workflows
+- **Background**: Created by Claude after analyzing actual developer workflow patterns and multi-monitor setup
+
 ## Setup Instructions
 
 ### MCP Server Configuration

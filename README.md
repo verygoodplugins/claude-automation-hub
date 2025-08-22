@@ -114,6 +114,56 @@ CURSOR_PROXY_BIND=192.168.1.100 npm run proxy
 
 ### 🍎 macOS Integration
 - ✅ **[Apple Reminders](https://github.com/modelcontextprotocol/mcp-apple-reminders)** - Task and reminder management with Siri integration
+- ✅ **[Yabai Window Manager](https://github.com/koekeishiya/yabai)** - Tiling window management with keyboard shortcuts via skhd - see [config/yabai/](config/yabai/) for examples
+
+## 🖥️ Yabai Window Manager Integration
+
+**Yabai** and **skhd** are incredibly popular among developers because they transform macOS into a productivity powerhouse by enabling:
+
+### Why Developers Love Yabai + skhd
+- **Keyboard-driven workflow**: Never touch the mouse for window management
+- **Tiling window management**: Automatic window sizing and positioning
+- **Multi-monitor mastery**: Seamless workspace organization across displays
+- **Scriptable automation**: Advanced window management through scripting
+- **Zero distraction**: Focus on code, not window arrangement
+
+### The Claude Workflow Creation Story
+
+I had Claude analyze my actual development setup:
+- **3-monitor configuration**: Left (social/notes), Center (dev/web), Right (tools/scratch)
+- **Daily app usage**: Cursor, Claude Desktop, Brave, Warp, Sequel Pro, Reminders
+- **Workflow patterns**: Screenshot workflows, podcast recording, deep work sessions
+
+Claude created a **personalized command center** with:
+- **Smart screenshot mode**: Automatically sizes windows for perfect screenshots
+- **App-specific rules**: Each app goes to its optimal space and layout
+- **Emergency shortcuts**: Quick fixes when things get stuck
+- **Workflow automation**: One-key setups for different work modes
+
+### Available Configurations
+
+📁 **[config/yabai/](config/yabai/)** contains:
+- `yabairc-example.sh` - Full-featured config with 3-monitor setup and app rules
+- `yabairc-minimal.sh` - Simple tiling setup for single monitor
+- `skhdrc-example.sh` - Complete keyboard shortcuts optimized for development
+- `CHEATSHEET.md` - Printable reference card for all shortcuts
+
+### Quick Setup
+```bash
+# Install yabai and skhd
+brew install koekeishiya/formulae/yabai
+brew install koekeishiya/formulae/skhd
+
+# Copy configurations
+cp config/yabai/yabairc-example.sh ~/.yabairc
+cp config/yabai/skhdrc-example.sh ~/.skhdrc
+
+# Start services
+brew services start yabai
+brew services start skhd
+```
+
+**Pro tip**: The configurations are designed to work together as a complete system - yabai handles the window management while skhd provides the keyboard shortcuts.
 
 ### 📱 Mobile Notifications
 - ✅ **[ntfy.sh Integration](tools/ntfy-notifications.js)** - Push notifications to mobile when workflows complete

@@ -240,31 +240,59 @@ Current documented impact:
 - **Meeting Prep**: 30 min × 10/month → ~5 hours/month
 - **Total**: 63+ hours saved monthly
 
-## Recent Updates (from current branch)
+## MCP Server Implementation
 
-### Mobile MCP Foundations
-- Added NTFY mobile notification support
-- Implemented smart notification bundling
-- Created context bridge for future mobile AI
-- Added automated workflow scheduling
-- Prepared for mobile MCP launch
+This project includes its own MCP server (`server.js`) that provides hot-reloadable tools:
 
-### New Documentation
+```bash
+# Start the MCP server directly
+node server.js
+
+# Or use the reloader for development
+npm run dev
+```
+
+The server automatically loads all tools from `./tools/` directory and makes them available to any MCP client.
+
+### Additional Commands
+
+```bash
+# Web proxy for clickable links (bypasses Claude Desktop sandboxing)
+npm run proxy
+npm run proxy:dev     # With file watching
+
+# Setup clickable links with interactive guide
+npm run setup:links
+
+# Testing commands
+npm run test-cursor   # Test Cursor CLI integration
+```
+
+## Recent Updates
+
+### Mobile MCP Foundations (Merged to Main)
+- ✅ NTFY mobile notification support
+- ✅ Smart notification bundling system
+- ✅ Context bridge for mobile AI handoffs
+- ✅ Automated workflow scheduling
+- ✅ Clickable links feature with web proxy
+
+### Documentation Complete
 - `AUTOMATED-SCHEDULING.md`: Scheduler setup and usage
-- `MOBILE-SETUP.md`: Mobile notification configuration
+- `MOBILE-SETUP.md`: Mobile notification configuration  
 - `DASHBOARD.md`: Hub metrics and analytics
-- `docs/mobile-notifications-setup.md`: Detailed NTFY guide
+- `TESTING-GUIDE.md`: Comprehensive testing documentation
+- `TOOLS-GUIDE.md`: Tool development guide
 
 ### Testing Infrastructure
 - `test-mobile.js`: Mobile notification testing
 - `test-bundled.js`: Bundle system validation
 - `test-scheduler.js`: Automated scheduling tests
-- `test-actions.js`: Action button testing
+- `test-cursor-integration.js`: Cursor CLI testing
 
 ## Version Control Notes
 
-- Current branch: `feature/mobile-mcp-foundations`
-- Main branch: `main`
+- Current branch: `main` 
 - Use `CHANGELOG.md` to track workflow evolution
 - Never commit API keys or sensitive data
 - Customer-specific workflows stay private
