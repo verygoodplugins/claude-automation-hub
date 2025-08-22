@@ -7,10 +7,10 @@
   "scripts": {
     "mcp-server": "npx mcp-reloader",
     "dev": "npx mcp-reloader",
-    "proxy": "node cursor-web-proxy.js",
-    "proxy:dev": "node --watch cursor-web-proxy.js",
+    "proxy": "node src/proxy/cursor-web-proxy.js",
+    "proxy:dev": "node --watch src/proxy/cursor-web-proxy.js",
     "proxy:start": "npm run proxy",
-    "setup:links": "node setup-clickable-links.js",
+    "setup:links": "node src/proxy/setup-clickable-links.js",
     "test-tools": "node test/test-tools.js",
     "test-mobile": "node test/test-mobile.js",
     "test-bundled": "node test/test-bundled.js",
@@ -30,10 +30,10 @@
     "tools",
     "hot-reload"
   ],
-  "author": "jgarturo",
+  "author": "Your Name",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jgarturo/claude-automation-hub.git"
+    "url": "git+https://github.com/yourusername/claude-automation-hub.git"
   }
 }

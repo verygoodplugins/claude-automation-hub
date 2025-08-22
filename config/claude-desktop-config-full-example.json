@@ -1,0 +1,135 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "~/Documents"],
+      "description": "Local file system access"
+    },
+    "flyctl": {
+      "command": "/opt/homebrew/bin/fly",
+      "args": ["mcp", "server"],
+      "description": "Fly.io deployment and management"
+    },
+    "freescout": {
+      "command": "npx",
+      "args": ["@verygoodplugins/mcp-freescout@latest"],
+      "env": {
+        "FREESCOUT_URL": "https://your-support-site.com",
+        "FREESCOUT_API_KEY": "your_freescout_api_key_here",
+        "FREESCOUT_DEFAULT_USER_ID": "1"
+      },
+      "description": "Customer support ticket management"
+    },
+    "openmemory": {
+      "command": "npx",
+      "args": ["-y", "openmemory"],
+      "env": {
+        "OPENMEMORY_API_KEY": "om-your-api-key-here",
+        "CLIENT_NAME": "claude"
+      },
+      "description": "Persistent AI memory across sessions"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "description": "Real-time documentation and code context"
+    },
+    "whatsapp": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "~/Projects/whatsapp-mcp-server",
+        "run",
+        "main.py"
+      ],
+      "description": "WhatsApp messaging integration"
+    },
+    "apple-reminders": {
+      "command": "mcp-server-apple-reminders",
+      "description": "macOS Reminders app integration"
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"],
+      "description": "Alternative browser automation tool"
+    },
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "slack-mcp-server@latest",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "SLACK_MCP_XOXC_TOKEN": "xoxc-your-cookie-token-here",
+        "SLACK_MCP_XOXD_TOKEN": "xoxd-your-d-token-here",
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "true",
+        "SLACK_MCP_USERS_CACHE": ".users_cache.json",
+        "SLACK_MCP_CHANNELS_CACHE": ".channels_cache.json"
+      },
+      "description": "Slack workspace integration"
+    },
+    "wordpress": {
+      "command": "node",
+      "args": ["/path/to/mcp-wp/build/server.js"],
+      "env": {
+        "WORDPRESS_API_URL": "https://your-wordpress-site.com",
+        "WORDPRESS_USERNAME": "your_username",
+        "WORDPRESS_PASSWORD": "your_application_password"
+      },
+      "description": "WordPress content management"
+    },
+    "automation-hub": {
+      "command": "node",
+      "args": ["~/Projects/claude-automation-hub/node_modules/mcp-reloader/dist/server.js"],
+      "env": {
+        "NTFY_TOPIC": "claude-automation-${USER}-${RANDOM}",
+        "CURSOR_DEFAULT_MODEL": "claude-3-5-sonnet-20241022",
+        "CURSOR_PROXY_PORT": "8765",
+        "CURSOR_PROXY_BIND": "0.0.0.0",
+        "NODE_ENV": "production"
+      },
+      "description": "Hot-reloadable custom tools for automation workflows"
+    }
+  },
+  "globalShortcut": "Ctrl+Space",
+  "_comment": "Full Claude Desktop configuration with all available MCP servers",
+  "_setup": {
+    "location": {
+      "macOS": "~/Library/Application Support/Claude/claude_desktop_config.json",
+      "Linux": "~/.config/claude-desktop/claude_desktop_config.json",
+      "Windows": "%APPDATA%\\Claude\\claude_desktop_config.json"
+    },
+    "required_installations": {
+      "fly": "brew install flyctl (for Fly.io)",
+      "uv": "pip install uv (for Python MCPs)",
+      "node": "Install Node.js 18+ for npm packages",
+      "apple-reminders": "npm install -g @modelcontextprotocol/server-apple-reminders (macOS only)"
+    },
+    "variables_to_replace": [
+      "your-support-site.com - Your FreeScout URL",
+      "your_freescout_api_key_here - FreeScout API key",
+      "om-your-api-key-here - OpenMemory API key",
+      "xoxc-your-cookie-token-here - Slack cookie token",
+      "xoxd-your-d-token-here - Slack D token",
+      "your-wordpress-site.com - Your WordPress URL",
+      "your_username - WordPress username",
+      "your_application_password - WordPress app password",
+      "~/Projects - Update paths to match your system"
+    ],
+    "starter_pack": [
+      "filesystem - Essential for file operations",
+      "openmemory - Persistent memory across sessions",
+      "automation-hub - Custom workflow tools"
+    ],
+    "developer_pack": [
+      "context7 - Documentation lookup",
+      "freescout - Support ticket management",
+      "wordpress - Content management"
+    ],
+    "power_user_pack": [
+      "All servers listed above"
+    ]
+  }
+}

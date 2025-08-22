@@ -113,6 +113,12 @@ sudo yabai --load-sa
 
 **Note:** This requires disabling System Integrity Protection (SIP) partially. See [yabai documentation](https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection) for details.
 
+## 📄 Quick Reference
+
+**[🖨️ Printable Cheat Sheet](../../docs/yabai-cheatsheet.html)** - One-page reference optimized for printing and desk use
+
+For the complete markdown version, see [CHEATSHEET.md](CHEATSHEET.md).
+
 ## Key Shortcuts (Development Config)
 
 ### Window Navigation

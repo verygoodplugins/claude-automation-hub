@@ -7,6 +7,8 @@ config/secrets.json
 *api-key*
 *API_KEY*
 .mcp.json
+.claude/
+claude_desktop_config.json
 # Customer data
 customer-data/
 exports/
@@ -41,4 +43,8 @@ __pycache__/
 # Temporary workflow tests
 /scratch/
 /tmp/
+/temp/
 test-*.md
+morning-summary*.md
+cursor-dashboard.html
+Users/

@@ -3,17 +3,17 @@
 ## Command
 ```
 Generate my quarterly tax compliance package:
-1. Pull all Stripe revenue for the quarter, separated by country (US vs Germany vs other)
+1. Pull all payment processor revenue for the quarter, separated by country/region
 2. Calculate gross revenue, refunds, net revenue, and processing fees
-3. Search Gmail for all receipts and expense invoices, categorize them:
-   - WordPress conference travel (deductible)
+3. Search email for all receipts and expense invoices, categorize them:
+   - Conference and business travel (deductible)
    - Software subscriptions (deductible)
-   - Cloudflare/hosting costs (COGS)
+   - Infrastructure/hosting costs (COGS)
    - Team/contractor payments
 4. Check calendar for business travel dates and pull related expenses
-5. Generate two reports:
-   - German report: Revenue in EUR, expenses categorized for GewSt
-   - US report: Delaware LLC income, federal/state breakdown
+5. Generate multi-jurisdiction reports:
+   - International report: Revenue and expenses by region
+   - Domestic report: Income and deductions breakdown
 6. List any missing documentation needed
 7. Create reminders for upcoming payment deadlines
 ```
@@ -35,9 +35,9 @@ Generate my quarterly tax compliance package:
 
 ## Variables
 - `QUARTER`: "Q2 2025"
-- `GERMAN_TAX_RATE`: 0.35 (combined)
-- `US_TAX_RATE`: 0.28 (federal + state)
-- `EXCHANGE_RATE`: "EUR/USD current"
+- `PRIMARY_TAX_RATE`: 0.30 (adjust to your jurisdiction)
+- `SECONDARY_TAX_RATE`: 0.25 (adjust to your jurisdiction)
+- `EXCHANGE_RATE`: "current market rate"
 
 ## Success Metrics
 - ✅ All revenue categorized by jurisdiction
@@ -48,82 +48,73 @@ Generate my quarterly tax compliance package:
 
 ## Sample Output
 ```
-📊 Q2 2025 TAX COMPLIANCE PACKAGE
+📊 [QUARTER] [YEAR] TAX COMPLIANCE PACKAGE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 💰 REVENUE SUMMARY
-Total Gross: $51,247
-- US Customers: $31,450 (61%)
-- German Customers: €8,234 ($8,897)
-- Other EU: €4,123 ($4,453)
-- Rest of World: $6,447
+Total Gross: $[TOTAL_GROSS]
+- US Customers: $[US_REVENUE] ([US_PERCENT]%)
+- EU Customers: €[EU_REVENUE] ($[EU_USD])
+- Rest of World: $[ROW_REVENUE]
 
-Refunds: $1,243
-Processing Fees: $1,487
-NET REVENUE: $48,517
+Refunds: $[REFUNDS]
+Processing Fees: $[FEES]
+NET REVENUE: $[NET_REVENUE]
 
-📝 GERMAN TAX REPORT (GewSt)
+📝 EU TAX REPORT
 ━━━━━━━━━━━━━━━━━━━━━━━
-Revenue: €44,812
+Revenue: €[EU_TOTAL]
 Deductible Expenses:
-- Software/Tools: €2,341
-- Marketing: €892
-- Conference (Berlin WordCamp): €445
-- Hosting/Infrastructure: €3,234
-- Contractors: €8,900
+- Software/Tools: €[SOFTWARE]
+- Marketing: €[MARKETING]
+- Conference Travel: €[CONFERENCES]
+- Hosting/Infrastructure: €[HOSTING]
+- Contractors: €[CONTRACTORS]
 
-Net Income: €29,000
-Estimated Tax (35%): €10,150
-Due Date: August 15, 2025
+Net Income: €[NET_INCOME]
+Estimated Tax ([TAX_RATE]%): €[TAX_DUE]
+Due Date: [DUE_DATE]
 
-📝 US TAX REPORT (Delaware LLC)
+📝 US TAX REPORT (LLC)
 ━━━━━━━━━━━━━━━━━━━━━━━━
-Revenue: $31,450
+Revenue: $[US_REVENUE]
 Deductible Expenses:
-- Software/SaaS: $3,234
-- Cloudflare/AWS: $4,456
-- Travel (US conferences): $2,340
-- Marketing/Ads: $1,234
-- Professional Services: $2,100
+- Software/SaaS: $[SOFTWARE_US]
+- Cloud Services: $[CLOUD]
+- Travel (conferences): $[TRAVEL]
+- Marketing/Ads: $[MARKETING_US]
+- Professional Services: $[SERVICES]
 
-Net Income: $18,086
-Estimated Tax (28%): $5,064
-Quarterly Payment Due: June 15, 2025
+Net Income: $[US_NET]
+Estimated Tax ([US_TAX_RATE]%): $[US_TAX]
+Quarterly Payment Due: [US_DUE_DATE]
 
 🗂️ EXPENSE DOCUMENTATION
-Found: 47 receipts
-Categorized: 45
-Missing: 2
-- Cloudflare invoice for May
-- WordPress.com renewal
+Found: [RECEIPTS_FOUND] receipts
+Categorized: [RECEIPTS_CATEGORIZED]
+Missing: [RECEIPTS_MISSING]
+[LIST_OF_MISSING_RECEIPTS]
 
 ✈️ BUSINESS TRAVEL
-- May 3-7: WordCamp Berlin (€445 total)
-- June 12-15: WP Conference NYC ($2,340 total)
-- July 17: Flight to Newark (upcoming)
+[TRAVEL_DETAILS]
 
 ⚠️ ACTION ITEMS
-1. Get missing Cloudflare invoice
-2. Transfer €10,150 to tax account by Aug 10
-3. Make US quarterly payment by June 15
-4. Save 30% of this month's revenue for next quarter
+[ACTION_LIST]
 
 📅 UPCOMING DEADLINES
-- June 15: US quarterly payment ($5,064)
-- August 15: German GewSt payment (€10,150)
-- September 15: Q3 estimates due
+[DEADLINE_LIST]
 
 💡 TAX OPTIMIZATION NOTES
 - Conference travel is fully deductible
 - Consider max retirement contribution
-- EchoDash R&D might qualify for credits
-- Review Delaware franchise tax requirement
+- R&D activities might qualify for credits
+- Review LLC/corporate tax requirements
 ```
 
 ## Document Storage
 Reports are saved to:
-- `/Users/jgarturo/Projects/Taxes/2025/Q2/`
-- Backed up to Cloudflare R2
+- `~/Documents/Taxes/[YEAR]/[QUARTER]/`
+- Backed up to cloud storage
 
 ## Related Workflows
 - [Monthly Revenue Analysis](./revenue-analysis.md)
@@ -132,9 +123,9 @@ Reports are saved to:
 
 ## Important Notes
 - Always verify exchange rates for accurate conversion
-- Keep 35% of revenue aside for taxes
-- German payments due on 15th
-- US quarterly payments required
+- Keep appropriate percentage of revenue aside for taxes (varies by jurisdiction)
+- Check local tax payment deadlines
+- Quarterly estimated payments may be required in many jurisdictions
 
 ## Change Log
 - 2025-08-16: Created comprehensive dual-country version

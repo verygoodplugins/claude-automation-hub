@@ -1,0 +1,129 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "~/Projects/mcp-servers/mcp-sequential-thinking/mcp_sequential_thinking",
+        "run",
+        "server.py"
+      ],
+      "autostart": true,
+      "description": "Enhanced reasoning and step-by-step problem solving"
+    },
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost/your_database_name"
+      ],
+      "autostart": false,
+      "description": "PostgreSQL database queries and management"
+    },
+    "sentry": {
+      "url": "https://mcp.sentry.dev/sse",
+      "description": "Error monitoring and debugging integration"
+    },
+    "freescout": {
+      "command": "npx",
+      "args": ["@verygoodplugins/mcp-freescout@latest"],
+      "env": {
+        "FREESCOUT_URL": "https://your-support-site.com",
+        "FREESCOUT_API_KEY": "your_freescout_api_key_here",
+        "FREESCOUT_DEFAULT_USER_ID": "1",
+        "WORKING_DIRECTORY": "${workspaceFolder}"
+      },
+      "description": "Customer support ticket management"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "env": {},
+      "description": "Browser automation and testing"
+    },
+    "wordpress": {
+      "command": "node",
+      "args": ["/path/to/mcp-wp/build/server.js"],
+      "env": {
+        "WORDPRESS_API_URL": "https://your-wordpress-site.com",
+        "WORDPRESS_USERNAME": "your_username",
+        "WORDPRESS_PASSWORD": "your_application_password"
+      },
+      "autostart": false,
+      "description": "WordPress content management"
+    },
+    "openmemory": {
+      "command": "npx",
+      "args": ["-y", "openmemory"],
+      "env": {
+        "OPENMEMORY_API_KEY": "om-your-api-key-here",
+        "CLIENT_NAME": "cursor"
+      },
+      "description": "Persistent AI memory across sessions"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {},
+      "description": "Real-time documentation and code context"
+    },
+    "browser-tools": {
+      "command": "npx",
+      "args": ["-y", "@agentdeskai/browser-tools-mcp@latest"],
+      "autostart": false,
+      "description": "Advanced browser debugging and analysis"
+    },
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "slack-mcp-server@latest",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "SLACK_MCP_XOXC_TOKEN": "xoxc-your-cookie-token-here",
+        "SLACK_MCP_XOXD_TOKEN": "xoxd-your-d-token-here",
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "true",
+        "SLACK_MCP_USERS_CACHE": ".users_cache.json",
+        "SLACK_MCP_CHANNELS_CACHE": ".channels_cache.json"
+      },
+      "description": "Slack workspace integration"
+    },
+    "automation-hub": {
+      "command": "node",
+      "args": ["./node_modules/mcp-reloader/dist/server.js"],
+      "env": {
+        "NTFY_TOPIC": "claude-automation-${USER}-${RANDOM}",
+        "CURSOR_DEFAULT_MODEL": "claude-3-5-sonnet-20241022",
+        "CURSOR_PROXY_PORT": "8765",
+        "CURSOR_PROXY_BIND": "localhost",
+        "NODE_ENV": "production"
+      },
+      "description": "Hot-reloadable custom tools for automation workflows"
+    }
+  },
+  "_comment": "Cursor-specific MCP configuration for development workflows",
+  "_setup": {
+    "location": "Save as .mcp.json in your project root",
+    "variables_to_replace": [
+      "your_database_name - Your PostgreSQL database",
+      "your-support-site.com - Your FreeScout URL",
+      "your_freescout_api_key_here - FreeScout API key",
+      "your-wordpress-site.com - Your WordPress URL",
+      "your_username - WordPress username",
+      "your_application_password - WordPress app password",
+      "om-your-api-key-here - OpenMemory API key",
+      "xoxc-your-cookie-token-here - Slack cookie token",
+      "xoxd-your-d-token-here - Slack D token",
+      "/path/to/mcp-wp - Path to WordPress MCP server"
+    ],
+    "optional_servers": [
+      "postgres - Remove if not using PostgreSQL",
+      "sentry - Remove if not using error monitoring",
+      "slack - Remove if not using Slack",
+      "wordpress - Remove if not managing WordPress"
+    ]
+  }
+}

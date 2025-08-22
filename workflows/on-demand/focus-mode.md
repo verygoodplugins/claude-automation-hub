@@ -99,7 +99,7 @@ Current Session Tasks:
 □ Commit changes with clear message
 
 📁 FILE MONITORING ACTIVE
-Watching: /Users/jgarturo/Projects/api-refactor/
+Watching: ~/Projects/api-refactor/
 • Will track all changes for session summary
 
 💾 SESSION TRACKING

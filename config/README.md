@@ -1,107 +1,118 @@
-# Claude Configuration Examples
+# Claude Configuration Examples 🎯
 
-This directory contains configuration examples for Claude clients including MCP (Model Context Protocol) server configurations and Claude Code settings.
+This directory contains battle-tested configuration examples for Claude Desktop, Claude Code, Cursor IDE, and window management tools.
 
-## Configuration Files
+## 🚀 Quick Start Matrix
 
-### Cursor IDE Configuration
-- **File**: `mcp-cursor.json`
+| I Want To... | Use This Config | Setup Time | Difficulty |
+|--------------|-----------------|------------|------------|
+| **Just chat with Claude + basic automation** | `claude-desktop-config-full-example.json` | 15 min | ⭐ Easy |
+| **Develop with AI pair programming** | `cursor-mcp-example.json` | 30 min | ⭐⭐ Medium |
+| **Use Claude in terminal/CLI** | `claudecode-settings-example.json` | 20 min | ⭐⭐ Medium |
+| **Optimize window management** | `yabairc-ai-development.sh` | 45 min | ⭐⭐⭐ Advanced |
+| **Everything (Power User)** | All configs | 1-2 hours | ⭐⭐⭐ Advanced |
+
+## 📚 Comprehensive Guides
+
+- **[CONFIGURATION-GUIDE.md](CONFIGURATION-GUIDE.md)** - Complete setup walkthrough
+- **[MCP-SERVERS.md](MCP-SERVERS.md)** - All available MCP servers compared
+
+## 📁 Configuration Files
+
+### Cursor IDE Configurations
+- **File**: `cursor-mcp-example.json` (NEW - Comprehensive with all MCPs)
+- **File**: `mcp-cursor.json` (Original - Basic setup)
 - **Location**: Copy to `.mcp.json` in your project root
 - **Features**: Includes workspace-aware tools and development-focused integrations
 
-### Claude Desktop Configuration  
-- **File**: `claude_desktop_config-example.json`
+### Claude Desktop Configurations
+- **File**: `claude-desktop-config-full-example.json` (NEW - Complete with all MCPs)
+- **File**: `claude_desktop_config-example.json` (Original - Basic setup)
 - **Location**: Copy to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `~/.config/claude-desktop/claude_desktop_config.json` (Linux) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows)
 - **Features**: System-wide tools and productivity integrations
 
-### Claude Code Settings Configuration
-- **File**: `claude-settings-example.json`
+### Claude Code Settings Configurations
+- **File**: `claudecode-settings-example.json` (NEW - Streamlined permissions)
+- **File**: `claudecode-settings-local-example.json` (NEW - Project overrides)
+- **File**: `claude-settings-example.json` (Original - Comprehensive)
 - **Location**: Copy to `~/.claude/settings.json` (global) or `.claude/settings.json` (project-specific)
 - **Features**: Permission controls, environment variables, and security settings for Claude Code
 
-### Yabai Window Manager Configuration
+### Window Manager Configurations (macOS)
 - **Directory**: `yabai/`
-- **Files**: 
-  - `yabairc-example.sh` - Full-featured config with 3-monitor setup and app rules
-  - `yabairc-minimal.sh` - Simple tiling setup for single monitor  
-  - `skhdrc-example.sh` - Complete keyboard shortcuts optimized for development
-  - `CHEATSHEET.md` - Printable reference card for all shortcuts
+- **NEW AI-Focused Configs:**
+  - `yabairc-ai-development.sh` - Optimized for Claude + Cursor workflow
+  - `skhdrc-ai-development.sh` - AI development keyboard shortcuts
+- **Original Configs:**
+  - `yabairc-example.sh` - Personal 3-monitor setup
+  - `yabairc-minimal.sh` - Simple single monitor setup
+  - `skhdrc-example.sh` - Comprehensive shortcuts
+  - `skhdrc-popular.sh` - Community favorites
+  - `CHEATSHEET.md` - Printable reference card
 - **Features**: Tiling window management optimized for development workflows with personalized app rules and smart screenshot workflows
 - **Background**: Created by Claude after analyzing actual developer workflow patterns and multi-monitor setup
 
-## Setup Instructions
+## ⚡ Setup Instructions
 
-### MCP Server Configuration
+### 🎯 Choose Your Path
 
-1. **Choose your MCP configuration** based on your primary Claude client:
-   ```bash
-   # For Cursor IDE
-   cp mcp-cursor.json .mcp.json
-   
-   # For Claude Desktop (macOS)
-   cp claude_desktop_config-example.json ~/Library/Application\ Support/Claude/claude_desktop_config.json
-   ```
+#### Path 1: Non-Technical User (WordPress Business Owner)
+1. Install [Claude Desktop](https://claude.ai/download)
+2. Copy `claude-desktop-config-full-example.json` to config location
+3. Add 2-3 MCPs (filesystem, openmemory, wordpress)
+4. Start automating!
 
-2. **Replace placeholder values**:
+#### Path 2: Developer (Full Stack)
+1. Install [Cursor IDE](https://cursor.com)
+2. Copy `cursor-mcp-example.json` to project root as `.mcp.json`
+3. Configure development MCPs (postgres, playwright, etc.)
+4. Enable AI pair programming!
+
+#### Path 3: Power User (Everything)
+1. Install all tools (Claude Desktop, Claude Code, Cursor)
+2. Copy all configurations
+3. Set up window management (yabai/skhd)
+4. Customize for your workflow
+
+### Detailed Configuration Steps
+
+#### Step 1: Choose Your Configuration
+
+```bash
+# For Claude Desktop (Recommended for beginners)
+cp claude-desktop-config-full-example.json ~/Library/Application\ Support/Claude/claude_desktop_config.json
+
+# For Cursor IDE (Recommended for developers)
+cp cursor-mcp-example.json .mcp.json
+
+# For Claude Code CLI (Advanced users)
+cp claudecode-settings-example.json ~/.claude/settings.json
+```
+
+#### Step 2: Replace Placeholder Values
    - `your_api_key_here` → Your actual API keys
    - `your-username` → Your system username
    - `/path/to/your/` → Actual paths to your MCP servers
    - `your-database-name` → Your database name
    - URLs → Your actual service URLs
 
-3. **Install required MCP servers** (see MCP Server Documentation below)
-4. **Restart your Claude client** to load the new configuration
+#### Step 3: Install Required MCP Servers
 
-### Claude Code Settings Configuration
+```bash
+# Essential MCPs (Start here)
+npm install -g @modelcontextprotocol/server-filesystem
+npm install -g openmemory
 
-1. **Copy the example settings file**:
-   ```bash
-   # For global settings (applies to all projects)
-   cp claude-settings-example.json ~/.claude/settings.json
-   
-   # For project-specific settings
-   mkdir -p .claude
-   cp claude-settings-example.json .claude/settings.json
-   ```
+# Add more as needed (see MCP-SERVERS.md for complete list)
+```
 
-2. **Customize permissions** based on your needs:
-   - **`allow` list includes:**
-     - Core file operations: Edit, Write, MultiEdit, Read
-     - Package managers: composer, npm, yarn, pnpm, bun
-     - Build tools: gulp, webpack, vite, rollup
-     - PHP tools: phpunit, phpcs, phpcbf, phpstan
-     - Version control: git operations
-     - WordPress CLI: wp commands
-     - System utilities: find, grep, ls, cat, etc.
-     - Network tools: curl, wget, ping, dig
-     - Text processing: jq, yq, awk, sed, etc.
-     - GitHub CLI: gh commands
-     - Archive tools: tar, zip, gzip, etc.
-   - **`deny` list blocks:**
-     - Dangerous system operations: sudo, rm -rf, fdisk
-     - System modification: systemctl, mount, crontab
-     - Network security tools: netcat, nmap
-     - Sensitive files: .env, secrets/, SSH keys, credentials
-     - Destructive git operations: reset --hard, clean -fd
-   - **`ask` list requires confirmation for:**
-     - Git push operations and rebases
-     - Package publishing commands
-     - Editing important config files
+#### Step 4: Restart Your Client
+- Claude Desktop: Quit and reopen
+- Cursor: Reload window (Cmd+R)
+- Claude Code: New terminal session
 
-3. **Configure environment variables**:
-   - Adjust timeout values based on your typical command execution times
-   - Enable/disable telemetry and cost warnings as preferred
 
-4. **Settings hierarchy** (highest to lowest precedence):
-   - Enterprise managed policies
-   - Command line arguments
-   - Local project settings (`.claude/settings.local.json`)
-   - Shared project settings (`.claude/settings.json`)
-   - User settings (`~/.claude/settings.json`)
-
-For more detailed configuration options, see the [official Claude Code settings documentation](https://docs.anthropic.com/en/docs/claude-code/settings).
-
-## Security Notes
+## 🔒 Security Notes
 
 ⚠️ **Never commit real API keys to version control!**
 
@@ -118,7 +129,9 @@ For more detailed configuration options, see the [official Claude Code settings 
 - Git operations that could lose data require confirmation
 - Review and customize the `deny` list for your specific environment
 
-## MCP Server Documentation
+## 📖 MCP Server Documentation
+
+**See [MCP-SERVERS.md](MCP-SERVERS.md) for complete comparison and selection guide**
 
 ### Available MCP Servers
 
@@ -146,6 +159,39 @@ Most servers can be installed via npm/npx, but some require specific setup:
 - **WhatsApp**: Requires Python and `uv` package manager
 - **Apple Reminders**: macOS only, requires system permissions
 
-## Tool Documentation
+## 🏆 Recommended Configurations by Role
 
-See the main README.md for detailed information about each MCP tool and their capabilities.
+### WordPress Developer/Agency
+```json
+// Start with these MCPs
+"filesystem", "wordpress", "freescout", "openmemory"
+```
+
+### SaaS Developer
+```json
+// Essential MCPs
+"filesystem", "postgres", "stripe", "sentry", "playwright"
+```
+
+### Content Creator
+```json
+// Productivity MCPs
+"filesystem", "gmail", "wordpress", "openmemory"
+```
+
+### DevOps Engineer
+```json
+// Infrastructure MCPs
+"filesystem", "flyctl", "sentry", "postgres", "slack"
+```
+
+## 📚 Additional Resources
+
+- **[Main README](../README.md)** - Project overview and quick start
+- **[Workflow Library](../workflows/)** - Pre-built automation workflows
+- **[Troubleshooting](../docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Testing Guide](../docs/TESTING-GUIDE.md)** - How to test your setup
+
+---
+
+Built with 🧡 by [Very Good Plugins](https://verygoodplugins.com) for the open source community

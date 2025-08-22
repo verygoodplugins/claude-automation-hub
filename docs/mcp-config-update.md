@@ -8,7 +8,7 @@ Add this to your `~/.cursor/mcp.json` file to enable the MCP Reloader server:
     "claude-automation-hub": {
       "command": "node",
       "args": ["node_modules/mcp-reloader/dist/index.js"],
-      "cwd": "/Users/jgarturo/Projects/OpenAI/claude-automation-hub",
+      "cwd": "~/Projects/claude-automation-hub",
       "autostart": true
     }
   }
@@ -29,7 +29,7 @@ If you want to watch additional files and restart the server when they change:
         "--include", "workflows/**/*.md",
         "--include", "config/**/*.json"
       ],
-      "cwd": "/Users/jgarturo/Projects/OpenAI/claude-automation-hub",
+      "cwd": "~/Projects/claude-automation-hub",
       "autostart": true
     }
   }
@@ -40,7 +40,7 @@ If you want to watch additional files and restart the server when they change:
 
 1. Install mcp-reloader in the project:
    ```bash
-   cd /Users/jgarturo/Projects/OpenAI/claude-automation-hub
+   cd ~/Projects/claude-automation-hub
    npm install
    ```
 

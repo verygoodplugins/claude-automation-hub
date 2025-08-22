@@ -28,7 +28,7 @@ On-demand (before releases or code reviews)
 - **Saved: 3+ hours per project**
 
 ## Variables You Can Customize
-- `PROJECT_PATH`: "/Users/jgarturo/Projects/current-project"
+- `PROJECT_PATH`: "~/Projects/your-project"
 - `LANGUAGES`: ["javascript", "python", "typescript"]
 - `DOCUMENTATION_STYLE`: "JSDoc" | "Google" | "NumPy"
 - `FRAMEWORKS_TO_CHECK`: ["react", "vue", "express", "fastapi"]

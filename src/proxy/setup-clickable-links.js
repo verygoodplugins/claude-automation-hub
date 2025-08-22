@@ -219,10 +219,10 @@ async function updatePackageJson() {
     // Add proxy scripts
     packageJson.scripts = {
       ...packageJson.scripts,
-      'proxy': 'node cursor-web-proxy.js',
-      'proxy:dev': 'node --watch cursor-web-proxy.js',
+      'proxy': 'node src/proxy/cursor-web-proxy.js',
+      'proxy:dev': 'node --watch src/proxy/cursor-web-proxy.js',
       'proxy:start': 'npm run proxy',
-      'setup:links': 'node setup-clickable-links.js'
+      'setup:links': 'node src/proxy/setup-clickable-links.js'
     };
     
     // Add dependencies if not present
@@ -252,7 +252,7 @@ async function testSetup() {
   console.log(`\n${c('cyan', '🚀 Starting web proxy...')}`);
   
   const { spawn } = await import('child_process');
-  const proxy = spawn('node', ['cursor-web-proxy.js'], {
+  const proxy = spawn('node', ['src/proxy/cursor-web-proxy.js'], {
     stdio: ['ignore', 'pipe', 'pipe'],
     detached: false
   });

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yabai Command Center - Desk Reference</title>
+    <style>
+      @media print {
+        body {
+          margin: 0.5in;
+          font-size: 11px;
+        }
+        .no-print {
+          display: none;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+      }
+
+      body {
+        font-family: "SF Mono", "Monaco", "Cascadia Code", "Roboto Mono",
+          monospace;
+        line-height: 1.3;
+        max-width: 8.5in;
+        margin: 0 auto;
+        padding: 20px;
+        background: white;
+        color: #333;
+      }
+
+      .header {
+        text-align: center;
+        border-bottom: 3px solid #007acc;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #007acc;
+        font-weight: bold;
+      }
+
+      .section {
+        margin-bottom: 18px;
+        break-inside: avoid;
+      }
+
+      .section-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #d73a49;
+        margin-bottom: 8px;
+        padding: 4px 8px;
+        background: #f6f8fa;
+        border-left: 4px solid #d73a49;
+      }
+
+      .commands {
+        background: #f8f9fa;
+        border: 1px solid #e1e4e8;
+        border-radius: 4px;
+        padding: 12px;
+        font-family: "SF Mono", "Monaco", monospace;
+        font-size: 10px;
+      }
+
+      .command-line {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        padding: 2px 0;
+      }
+
+      .command-line:last-child {
+        margin-bottom: 0;
+      }
+
+      .shortcut {
+        font-weight: bold;
+        color: #005cc5;
+        min-width: 200px;
+      }
+
+      .description {
+        color: #586069;
+        flex: 1;
+        text-align: right;
+      }
+
+      .workflow {
+        background: #fff5b4;
+        border: 1px solid #d1d5da;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 8px 0;
+        font-size: 10px;
+      }
+
+      .workflow-title {
+        font-weight: bold;
+        color: #b08800;
+        margin-bottom: 6px;
+      }
+
+      .workflow ol {
+        margin: 0;
+        padding-left: 16px;
+      }
+
+      .workflow li {
+        margin-bottom: 2px;
+      }
+
+      .pro-tips {
+        background: #e6ffed;
+        border: 1px solid #34d058;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 10px;
+      }
+
+      .pro-tips ul {
+        margin: 0;
+        padding-left: 16px;
+      }
+
+      .pro-tips li {
+        margin-bottom: 2px;
+      }
+
+      .two-column {
+        display: flex;
+        gap: 20px;
+      }
+
+      .column {
+        flex: 1;
+      }
+
+      .print-note {
+        text-align: center;
+        font-size: 10px;
+        color: #666;
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+      }
+
+      @media print {
+        .print-note {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🎙️ YABAI COMMAND CENTER - DESK REFERENCE</h1>
+    </div>
+
+    <div class="two-column">
+      <div class="column">
+        <div class="section">
+          <div class="section-title">🚨 EMERGENCY (When Stuck)</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">yabai --restart-service</span>
+              <span class="description"
+                >Restart yabai (with scripting addon)</span
+              >
+            </div>
+            <div class="command-line">
+              <span class="shortcut">skhd --restart-service</span>
+              <span class="description"
+                >Restart skhd (proper service restart)</span
+              >
+            </div>
+            <div class="command-line">
+              <span class="shortcut">shift + alt + space</span>
+              <span class="description">Float current window</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">shift + alt + 0</span>
+              <span class="description">Balance all windows</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">alt + space</span>
+              <span class="description">Toggle layout (BSP ↔ Stack)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🎥 PODCAST ESSENTIALS</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">alt + f</span>
+              <span class="description">Fullscreen current app</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">shift + alt + f</span>
+              <span class="description"
+                >Native fullscreen (hides menu bar)</span
+              >
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + 1/2/3/4</span>
+              <span class="description">Switch spaces on center display</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + c</span>
+              <span class="description">Launch Cursor</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + w</span>
+              <span class="description">Launch Warp</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + t</span>
+              <span class="description">Launch Terminal</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + r</span>
+              <span class="description">Launch Reminders</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🧭 BASIC NAVIGATION</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">alt + h/j/k/l</span>
+              <span class="description">Focus window (←↓↑→)</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + 1-6</span>
+              <span class="description">Switch spaces</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">shift + cmd + 1-6</span>
+              <span class="description">Move window to space & follow</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🔧 QUICK FIXES</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">shift + alt + space</span>
+              <span class="description">Float/unfloat window</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + q</span>
+              <span class="description">Claude Desktop toggle</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">alt + r</span>
+              <span class="description">Rotate space 90°</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="section">
+          <div class="section-title">📸 SCREENSHOT MODE (SMART!)</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 1</span>
+              <span class="description">Smart resize: Medium (1667×899)</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 2</span>
+              <span class="description">Resize to small (1250×674)</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 3</span>
+              <span class="description">Resize to large (1750×944)</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 0</span>
+              <span class="description">Smart return: Cleanup spaces</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🎯 WORKFLOWS</div>
+
+          <div class="workflow">
+            <div class="workflow-title">Smart Screenshot Workflow:</div>
+            <ol>
+              <li><code>cmd + shift + alt + 1</code> (smart sizing)</li>
+              <li>Adjust size: <code>cmd + shift + alt + 2/3</code></li>
+              <li>Done? <code>cmd + shift + alt + 0</code> (cleanup)</li>
+            </ol>
+          </div>
+
+          <div class="workflow">
+            <div class="workflow-title">Podcast Workflow:</div>
+            <ol>
+              <li><code>alt + f</code> (fullscreen current app)</li>
+              <li>If stuck: <code>yabai --restart-service</code></li>
+              <li><code>cmd + 1</code> (back to main space)</li>
+            </ol>
+          </div>
+
+          <div class="workflow">
+            <div class="workflow-title">Emergency Reset:</div>
+            <ol>
+              <li><code>yabai --restart-service</code></li>
+              <li><code>skhd --restart-service</code></li>
+              <li><code>shift + alt + 0</code> (balance windows)</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">💡 PRO TIPS</div>
+          <div class="pro-tips">
+            <ul>
+              <li>Space 5 = Everything floats automatically</li>
+              <li>Reminders floats everywhere (no space restriction)</li>
+              <li>
+                Screenshot mode preserves existing spaces, only creates when
+                needed
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="print-note no-print">
+      💡 <strong>Print Tip:</strong> Use your browser's print function (Cmd+P)
+      and select "More settings" → "Paper size: Letter" for best results.
+    </div>
+  </body>
+</html>

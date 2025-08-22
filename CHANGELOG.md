@@ -1,6 +1,8 @@
 # Changelog
 
-All notable changes to the Claude Automation Hub workflows and tools will be documented in this file.
+All notable changes to the Claude Automation Hub will be documented in this file.
+
+> **⚠️ Note:** Claude, Cursor, and MCP configurations evolve rapidly. We'll do our best to keep this updated with the latest patterns and best practices. If you notice something outdated, please open an issue!
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -8,119 +10,135 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- MCP configuration examples for Cursor and Claude Desktop
-- Configuration documentation and setup instructions
-- This changelog to track workflow evolution
+- Comprehensive README with author information and Very Good Plugins branding
+- EchoDash promotional banners and limited beta access
+- UTM tracking for all external links
+- TROUBLESHOOTING.md for common issues
+- LICENSE file (MIT)
 
-## [1.0.0] - 2025-01-XX
+### Changed
+- Reorganized project structure (docs/, scripts/, src/proxy/)
+- Updated all documentation to use orange hearts 🧡 (WP Fusion branding)
+- Copyright year updated to 2025
+- Cleaned up sensitive data and personal paths for public release
+
+## [1.0.0] - 2025-08-22
+
+### 🎉 Initial Public Release
+First public release of the Claude Automation Hub, featuring battle-tested workflows from Very Good Plugins.
 
 ### Added
-- Initial release of Claude Automation Hub
-- Core workflow library with daily, weekly, and on-demand automations
-- Dynamic MCP tool development system with hot-reload capability
-- Comprehensive documentation and best practices
+- **Core Features**
+  - 20+ pre-built workflows saving 60+ hours/month
+  - Hot-reloadable MCP tools with `mcp-reloader`
+  - Automated workflow scheduling system
+  - Quick Start guide (15-minute setup)
 
-### Workflows Added
-#### Daily
-- Morning Routine - Complete morning setup with calendar, email, tasks
-- Morning Support Triage - FreeScout ticket prioritization  
-- End of Day Shutdown - Complete workday closure and tomorrow prep
+- **Workflows**
+  - Daily: Morning routine, End-of-day shutdown, Support triage
+  - Weekly: Review & planning, Mastermind prep
+  - Monthly: Business review, Tax compliance
+  - On-demand: Focus mode, Project initialization, Deep work, Customer research
 
-#### Weekly  
-- Review & Planning Session - Comprehensive weekly analysis and planning
-- Mastermind Prep - Meeting preparation and context gathering
+- **MCP Integrations** (15+ servers)
+  - Productivity: Gmail, Calendar, Apple ecosystem, Filesystem
+  - Communication: Slack, WhatsApp, FreeScout
+  - Development: GitHub, PostgreSQL, Browser automation
+  - Business: Stripe, Google Drive, WordPress
 
-#### Monthly
-- Business Review - Monthly performance and metrics analysis
-- Tax Compliance - Automated tax document preparation
+- **Advanced Features**
+  - Clickable links with Cursor IDE integration
+  - Mobile notifications via NTFY
+  - Smart notification bundling
+  - Dashboard and analytics tracking
 
-#### On-Demand
-- Focus Mode Activation - Deep work environment setup
-- Customer Communication Hub - Multi-channel customer analysis
-- Code Documentation Assistant - Automated project documentation
-- FreeScout Implementation - Ticket to PR workflow
-- Meeting Preparation - Comprehensive meeting prep with context
-- Project Initialization - Complete project setup automation
-- Learning Session Setup - Optimized learning environment
-- Partnership Prep - Partnership meeting preparation
-- Deep Work Mode - Advanced focus and productivity setup
-- EchoDash Intelligence - Business intelligence and analytics
+### Configuration Updates
+- Claude Desktop config examples for all MCPs
+- Cursor IDE integration settings
+- Environment variable templates
+- Security policies and best practices
 
-### MCP Integrations
-- Sequential Thinking - Advanced reasoning and problem-solving
-- PostgreSQL - Database queries and management
-- Sentry - Error tracking and monitoring
-- FreeScout - Support ticket management
-- Playwright - Web automation and testing
-- WordPress - Content management and publishing
-- OpenMemory - Persistent knowledge storage
-- Context7 - Library documentation lookup
-- Browser Tools - Web interaction and debugging
-- Slack - Team communication and notifications
-- Fly.io - Deployment and infrastructure management
-- WhatsApp - Messaging automation
-- Apple Reminders - Task and reminder management
+## [0.9.0] - 2025-08-21
 
-### Tools Added
-- Workflow Generator - Dynamic workflow creation
-- Hub Stats - Usage analytics and metrics
-- Example Workflow Generator - Template creation system
-- Test Tool - MCP integration testing
+### Added
+- **Clickable Links Feature** - Web proxy to bypass Claude Desktop sandboxing
+- **Network Binding Options** - Advanced configuration for proxy access
+- **Executive Assistant Workflows** - Enhanced prompts with Research Mode
+
+### Changed
+- Switched from Extended Thinking to Research Mode for complex workflows
+- Enhanced tool enforcement in executive assistant prompts
+- Improved security documentation
+
+### Fixed
+- Template literal syntax errors in setup scripts
+- Auto-start functionality for proxy server
+
+## [0.8.0] - 2025-08-20
+
+### Added
+- **Cursor CLI Integration** - Deep linking between Claude and code editor
+- **Comprehensive Security Guide** - SECURITY.md with best practices
+- **Environment Variable Support** - .env.example template
+- **Testing Infrastructure** - Complete test suite for all components
+
+### Changed
+- Updated testing guide for Cursor CLI integration
+- Documented hot-reload setup process
+- Enhanced MCP tool capabilities
+
+## [0.7.0] - 2025-08-19
+
+### Added
+- **Mobile MCP Foundations** - NTFY integration for push notifications
+- **Smart Notification Bundling** - Prevents notification overload
+- **Context Bridge** - Preparation for mobile AI assistants
+- **Automated Scheduling** - Time-based workflow triggers
+
+### Changed
+- Merged mobile-mcp-foundations feature branch
+- Updated workflow examples with mobile notifications
+
+## [0.5.0] - 2025-08-18
+
+### Added
+- **NTFY Mobile Notifications** - Push workflow results to phone
+- **Workflow Generator** - Dynamic workflow creation tools
+- **Hub Statistics** - Analytics and ROI tracking
+- **Additional Workflows** - Customer communication, partnership prep
+
+## [0.1.0] - 2025-08-16
+
+### Added
+- **Initial Commit** - Claude Automation Hub foundation
+- **Core Workflows** - 9 high-impact automation workflows
+- **FreeScout Integration** - Support ticket automation
+- **Stripe Integration** - Payment and subscription tracking
+- **Testing Guide** - Comprehensive testing documentation
+- **MCP Reloader** - Hot-reload capability for custom tools
 
 ---
 
-## How to Use This Changelog
+## Configuration Evolution Notes
 
-### For Workflow Changes
-```markdown
-### Added
-- New workflow: [Workflow Name](path/to/workflow.md) - Brief description
+### Latest Configuration Patterns (2025-08-22)
+- **Permissions**: Auto-approved tools in `.claude/settings.json`
+- **MCP Servers**: Example configs in `config/` directory
+- **Environment Variables**: Standardized in `.env.example`
+- **Workspace Settings**: VS Code workspace configuration
 
-### Changed  
-- Updated [Workflow Name] to include [new feature/improvement]
+### How to Stay Updated
+1. Watch this repository for updates
+2. Check the [config/](config/) directory for latest examples
+3. Review recent commits for configuration changes
+4. Join our [weekly AI automation series](https://wpfusion.com/blog/?utm_source=github&utm_medium=changelog&utm_campaign=ai-automation-hub)
 
-### Removed
-- Deprecated [Workflow Name] in favor of [New Workflow Name]
-```
+### Contributing
+Found an outdated configuration? Please:
+1. Open an issue describing the change
+2. Submit a PR with updated examples
+3. Tag it with `config-update` label
 
-### For Tool/MCP Changes
-```markdown
-### Added
-- New MCP integration: [Tool Name] - Brief description and key capabilities
+---
 
-### Changed
-- Updated [Tool Name] configuration for better performance
-- Modified [Tool Name] workflow integration
-
-### Fixed
-- Resolved authentication issues with [Tool Name]
-- Fixed timeout problems in [Workflow Name]
-```
-
-### For Documentation Changes
-```markdown  
-### Documentation
-- Added setup guide for [Tool/Workflow]
-- Updated troubleshooting section
-- Improved workflow examples and templates
-```
-
-## Version Guidelines
-
-- **Major (X.0.0)**: Breaking changes, major workflow restructures
-- **Minor (0.X.0)**: New workflows, new MCP integrations, significant features
-- **Patch (0.0.X)**: Bug fixes, documentation updates, minor improvements
-
-## Contributing to Changelog
-
-When making changes:
-
-1. Add entries under `[Unreleased]` section
-2. Use past tense ("Added", "Changed", "Fixed", "Removed")
-3. Include workflow file paths for new workflows
-4. Mention time savings estimates for new automations
-5. Link to relevant documentation or examples
-
-## Changelog Automation
-
-Ask Claude: "Update the changelog with my recent workflow changes and improvements, including time savings estimates and integration updates."
+*Built with 🧡 by [Very Good Plugins](https://verygoodplugins.com) for the open source community*

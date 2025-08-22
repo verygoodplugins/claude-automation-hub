@@ -37,7 +37,7 @@ On-demand (triggered by support tickets)
 - `AUTO_CREATE_PR`: true
 - `DRAFT_RESPONSE`: true
 - `AUTO_TEST`: true
-- `PROJECT_PATH`: "/Users/jgarturo/Projects/main-project"
+- `PROJECT_PATH`: "~/Projects/main-project"
 
 ## Success Metrics
 - ✅ Issue analyzed and understood

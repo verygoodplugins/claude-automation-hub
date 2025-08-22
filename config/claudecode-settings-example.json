@@ -1,0 +1,100 @@
+{
+  "env": {
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "true",
+    "DISABLE_COST_WARNINGS": "0",
+    "BASH_MAX_OUTPUT_LENGTH": "50000"
+  },
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "MultiEdit",
+      "Read",
+      "Bash(composer:*)",
+      "Bash(npm:*)",
+      "Bash(yarn:*)",
+      "Bash(gulp:*)",
+      "Bash(phpunit:*)",
+      "Bash(phpcs:*)",
+      "Bash(phpcbf:*)",
+      "Bash(phpstan:*)",
+      "Bash(git:*)",
+      "Bash(wp:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(jq:*)",
+      "Bash(echo:*)",
+      "Bash(gh:*)",
+      "Bash(php -l:*)",
+      "Bash(awk:*)",
+      "Bash(sed:*)",
+      "Bash(base64:*)",
+      "Bash(./vendor/bin/*)",
+      "Bash(npx mcp-reloader:*)",
+      "Bash(node:*)",
+      "Bash(ln:*)",
+      "Bash(timeout:*)",
+      "Bash(gtimeout:*)",
+      "Bash(cursor:*)",
+      "Bash(touch:*)",
+      "Bash(scripts/add-workflow.sh:*)",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "deny": [
+      "Bash(sudo:*)",
+      "Bash(su:*)",
+      "Bash(rm -rf /*)",
+      "Bash(format:*)",
+      "Bash(fdisk:*)",
+      "Bash(git push:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "claude-status"
+  },
+  "model": "opus",
+  "_comment": "Claude Code settings for development workflows",
+  "_setup": {
+    "location": {
+      "global": "~/.claude/settings.json",
+      "project": ".claude/settings.json",
+      "local": ".claude/settings.local.json"
+    },
+    "hierarchy": [
+      "Enterprise managed policies (highest precedence)",
+      "Command line arguments",
+      "Local project settings (.claude/settings.local.json)",
+      "Shared project settings (.claude/settings.json)",
+      "User settings (~/.claude/settings.json - lowest precedence)"
+    ],
+    "customization_tips": {
+      "allow_list": "Add tools you use frequently without confirmation",
+      "deny_list": "Block dangerous operations completely",
+      "ask_list": "Require confirmation for sensitive operations",
+      "env": "Configure timeout and output limits for your workflow",
+      "statusLine": "Custom command for status bar information",
+      "model": "Choose between opus, sonnet, or haiku"
+    },
+    "security_notes": [
+      "Never allow sudo or su commands",
+      "Be cautious with rm commands",
+      "Require confirmation for git push operations",
+      "Block access to sensitive files like .env",
+      "Review permissions regularly"
+    ]
+  }
+}

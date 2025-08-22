@@ -59,7 +59,7 @@ On-demand (when starting new projects)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📁 PROJECT STRUCTURE CREATED
-Path: /Users/jgarturo/Projects/customer-portal
+Path: ~/Projects/customer-portal
 
 customer-portal/
 ├── 📄 README.md (generated)
@@ -199,7 +199,7 @@ Tabs opened:
 
 🔨 QUICK START COMMANDS
 ```bash
-cd /Users/jgarturo/Projects/customer-portal
+cd ~/Projects/customer-portal
 npm install
 npm run dev
 # Open http://localhost:3000

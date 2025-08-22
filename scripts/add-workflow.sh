@@ -13,11 +13,14 @@ if [ -z "$CATEGORY" ] || [ -z "$WORKFLOW_NAME" ]; then
     exit 1
 fi
 
+# Get the project root (parent of scripts directory)
+PROJECT_ROOT="$(dirname "$(dirname "$(realpath "$0")")")"
+
 # Create directory if it doesn't exist
-mkdir -p workflows/$CATEGORY
+mkdir -p "$PROJECT_ROOT/workflows/$CATEGORY"
 
 # Create workflow file
-FILENAME="workflows/$CATEGORY/$WORKFLOW_NAME.md"
+FILENAME="$PROJECT_ROOT/workflows/$CATEGORY/$WORKFLOW_NAME.md"
 DATE=$(date +%Y-%m-%d)
 
 cat > $FILENAME << EOF

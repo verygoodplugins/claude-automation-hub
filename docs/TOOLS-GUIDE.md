@@ -7,7 +7,7 @@ Your automation hub now supports **hot-reloadable MCP tools**! No more restartin
 ## Setup Instructions
 
 1. **Install dependencies**: `npm install` (already done)
-2. **Update MCP config**: Add the configuration from `mcp-config-update.md` to your `~/.cursor/mcp.json`
+2. **Update MCP config**: Add the configuration from `docs/mcp-config-update.md` to your `~/.cursor/mcp.json`
 3. **Restart Claude Desktop/Cursor**
 4. **Test**: Use the `test_mcp_reloader` tool to verify everything works
 

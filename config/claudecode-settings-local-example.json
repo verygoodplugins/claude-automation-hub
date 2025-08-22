@@ -1,0 +1,71 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(scripts/add-workflow.sh:*)",
+      "mcp__openmemory__add-memory",
+      "mcp__openmemory__search-memories",
+      "mcp__openmemory__list-memories",
+      "mcp__freescout__freescout_get_ticket",
+      "mcp__freescout__freescout_analyze_ticket",
+      "mcp__freescout__freescout_add_note",
+      "mcp__freescout__freescout_update_ticket",
+      "mcp__freescout__freescout_create_draft_reply",
+      "mcp__freescout__freescout_get_ticket_context",
+      "mcp__wordpress__list_content",
+      "mcp__wordpress__get_content",
+      "mcp__wordpress__create_content",
+      "mcp__wordpress__update_content",
+      "mcp__wordpress__find_content_by_url",
+      "mcp__automation-hub__send_notification",
+      "mcp__automation-hub__workflow_notification",
+      "mcp__automation-hub__cursor_cli_deeplink"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "_comment": "Project-specific Claude Code settings that override global settings",
+  "_setup": {
+    "purpose": "This file contains project-specific overrides for Claude Code settings",
+    "location": ".claude/settings.local.json in your project root",
+    "precedence": "These settings override global and shared project settings",
+    "use_cases": [
+      "Allow project-specific scripts without global permission",
+      "Enable MCP tools specific to this project",
+      "Override model selection for specific projects",
+      "Customize environment variables per project"
+    ],
+    "examples": {
+      "wordpress_project": {
+        "description": "Settings for WordPress development",
+        "additional_allows": [
+          "mcp__wordpress__*",
+          "Bash(wp:*)",
+          "Bash(./vendor/bin/phpcs:*)"
+        ]
+      },
+      "node_project": {
+        "description": "Settings for Node.js development",
+        "additional_allows": [
+          "Bash(npm run:*)",
+          "Bash(npx:*)",
+          "Bash(node:*)"
+        ]
+      },
+      "automation_hub": {
+        "description": "Settings for automation workflows",
+        "additional_allows": [
+          "mcp__automation-hub__*",
+          "mcp__freescout__*",
+          "Bash(scripts/*.sh:*)"
+        ]
+      }
+    },
+    "best_practices": [
+      "Keep project-specific settings minimal",
+      "Document why each permission is needed",
+      "Review and update when project requirements change",
+      "Don't duplicate global permissions unnecessarily",
+      "Use wildcards carefully (e.g., mcp__wordpress__* for all WordPress tools)"
+    ]
+  }
+}
