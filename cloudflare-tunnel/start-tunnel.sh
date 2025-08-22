@@ -9,11 +9,12 @@ echo "  https://automation.verygoodplugins.com"
 echo ""
 echo "Slack webhook endpoints:"
 echo "  https://automation.verygoodplugins.com/slack/events"
+echo "  https://automation.verygoodplugins.com/slack/commands"
 echo "  https://automation.verygoodplugins.com/slack/interactive"
 echo "  https://automation.verygoodplugins.com/slack/workflow"
 echo ""
 echo "Press Ctrl+C to stop the tunnel"
 echo "================================"
 
-# Run the tunnel
-cloudflared tunnel run claude-automation-hub
+# Run the tunnel (will use config from ~/.cloudflared/config.yml)
+cloudflared tunnel run claude-slack-automation

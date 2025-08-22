@@ -54,7 +54,45 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json({ limit: '10mb' }));
+// Capture raw body for Slack signature verification
+// We need to capture the raw body but also allow body parsers to work
+app.use('/slack/*', express.raw({ type: '*/*', limit: '10mb' }), (req, res, next) => {
+  // Store the raw body as a string
+  if (req.body && Buffer.isBuffer(req.body)) {
+    req.rawBody = req.body.toString('utf8');
+    // Parse the body based on content type
+    const contentType = req.get('content-type') || '';
+    
+    try {
+      if (contentType.includes('application/json')) {
+        req.body = JSON.parse(req.rawBody);
+      } else if (contentType.includes('application/x-www-form-urlencoded')) {
+        const params = new URLSearchParams(req.rawBody);
+        req.body = Object.fromEntries(params);
+      }
+    } catch (e) {
+      console.error('Failed to parse body:', e.message);
+    }
+  }
+  next();
+});
+
+// Body parsers for non-Slack routes
+app.use((req, res, next) => {
+  // Skip body parsers for Slack routes (already handled above)
+  if (req.path.startsWith('/slack/')) {
+    return next();
+  }
+  express.json({ limit: '10mb' })(req, res, next);
+});
+
+app.use((req, res, next) => {
+  // Skip body parsers for Slack routes (already handled above)  
+  if (req.path.startsWith('/slack/')) {
+    return next();
+  }
+  express.urlencoded({ extended: true, limit: '10mb' })(req, res, next);
+});
 
 // Security warning and IP logging for network mode
 if (IS_NETWORK_EXPOSED) {
@@ -649,6 +687,9 @@ async function publishHomeView(userId, teamId) {
 function verifySlackRequest(req) {
   if (!SLACK_SIGNING_SECRET) {
     // No signing secret configured, skip verification in development
+    if (DEBUG_MODE) {
+      console.log('⚠️ SLACK_SIGNING_SECRET not configured - skipping verification');
+    }
     return DEBUG_MODE;
   }
   
@@ -656,17 +697,27 @@ function verifySlackRequest(req) {
   const timestamp = req.headers['x-slack-request-timestamp'];
   
   if (!signature || !timestamp) {
+    if (DEBUG_MODE) {
+      console.log('⚠️ Missing signature or timestamp headers');
+    }
     return false;
   }
   
   // Check timestamp to prevent replay attacks (must be within 5 minutes)
   const currentTime = Math.floor(Date.now() / 1000);
   if (Math.abs(currentTime - parseInt(timestamp)) > 300) {
+    if (DEBUG_MODE) {
+      console.log('⚠️ Request timestamp too old (possible replay attack)');
+    }
     return false;
   }
   
-  // Build the signature base string
-  const rawBody = JSON.stringify(req.body);
+  // Use the raw body for signature verification (not parsed body)
+  const rawBody = req.rawBody || '';
+  if (!rawBody && DEBUG_MODE) {
+    console.log('⚠️ No raw body captured for signature verification');
+  }
+  
   const sigBasestring = `v0:${timestamp}:${rawBody}`;
   
   // Calculate expected signature
@@ -675,11 +726,27 @@ function verifySlackRequest(req) {
     .update(sigBasestring)
     .digest('hex');
   
-  // Compare signatures
-  return crypto.timingSafeEqual(
-    Buffer.from(signature),
-    Buffer.from(expectedSignature)
-  );
+  // Compare signatures safely
+  try {
+    const valid = crypto.timingSafeEqual(
+      Buffer.from(signature),
+      Buffer.from(expectedSignature)
+    );
+    
+    if (DEBUG_MODE && !valid) {
+      console.log('❌ Signature mismatch:', {
+        received: signature.substring(0, 20) + '...',
+        expected: expectedSignature.substring(0, 20) + '...'
+      });
+    }
+    
+    return valid;
+  } catch (error) {
+    if (DEBUG_MODE) {
+      console.log('❌ Signature comparison error:', error.message);
+    }
+    return false;
+  }
 }
 
 // Slack Events endpoint - handles challenge, events, and link unfurling
@@ -955,12 +1022,31 @@ app.post('/slack/workflow/execute', (req, res) => {
 
 // Slack Slash Commands endpoint
 app.post('/slack/commands', (req, res) => {
-  const { command, text, user_name, user_id, channel_id } = req.body;
+  const { command, text, user_name, user_id, channel_id, response_url, team_id, team_domain } = req.body;
   
-  if (DEBUG_MODE) {
-    console.log(`/ Slash command: ${command} from @${user_name}`);
-    console.log(`  Text: "${text}"`);
+  // Enhanced debug logging
+  console.log('====== SLACK COMMAND RECEIVED ======');
+  console.log(`Command: ${command}`);
+  console.log(`User: @${user_name} (${user_id})`);
+  console.log(`Channel: ${channel_id}`);
+  console.log(`Team: ${team_domain} (${team_id})`);
+  console.log(`Text: "${text}"`);
+  console.log(`Response URL: ${response_url}`);
+  console.log('Headers:', {
+    signature: req.headers['x-slack-signature']?.substring(0, 20) + '...',
+    timestamp: req.headers['x-slack-request-timestamp']
+  });
+  
+  // Verify the request is from Slack
+  if (!verifySlackRequest(req)) {
+    console.error('❌ Signature verification failed!');
+    return res.status(401).json({ 
+      response_type: 'ephemeral',
+      text: '⚠️ Request signature verification failed. Check server configuration.' 
+    });
   }
+  
+  console.log('✅ Signature verified');
   
   switch (command) {
     case '/claude':
@@ -971,13 +1057,27 @@ app.post('/slack/commands', (req, res) => {
       });
       
       // TODO: Process with Claude asynchronously and update message
+      console.log('✅ Response sent for /claude command');
+      break;
+    
+    case '/auto-jack':
+      // Handle the auto-jack command
+      res.json({
+        response_type: 'ephemeral',
+        text: `🎯 Auto-Jack activated!\nCommand: "${text}"\nProcessing your automation request...`
+      });
+      console.log('✅ Response sent for /auto-jack command');
       break;
       
     default:
+      console.log(`⚠️ Unknown command: ${command}`);
       res.json({
-        text: `Unknown command: ${command}`
+        response_type: 'ephemeral',
+        text: `Unknown command: ${command}\nAvailable commands: /claude, /auto-jack`
       });
   }
+  
+  console.log('====== COMMAND HANDLING COMPLETE ======\n');
 });
 
 // Also handle GET requests for browser testing
