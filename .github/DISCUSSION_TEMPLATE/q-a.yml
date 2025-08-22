@@ -1,0 +1,81 @@
+title: "[Q&A] "
+labels: ["question", "q-a"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Ask the Community! 🙏
+        
+        Have a question about Claude Automation Hub? The community is here to help!
+
+  - type: dropdown
+    id: question_category
+    attributes:
+      label: Question Category
+      description: What's your question about?
+      options:
+        - "Getting Started"
+        - "How to Create Workflows"
+        - "MCP Server Usage"
+        - "Best Practices"
+        - "Integration Questions"
+        - "Performance/Optimization"
+        - "Security/Privacy"
+        - "Cost/ROI Calculations"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: |
+        How do I...?
+        Is it possible to...?
+        What's the best way to...?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Any additional context that might help answer your question
+      placeholder: |
+        I'm trying to build...
+        My use case is...
+        I've already looked at...
+
+  - type: dropdown
+    id: experience_level
+    attributes:
+      label: Experience Level
+      description: How familiar are you with Claude and automation tools?
+      options:
+        - "Complete beginner"
+        - "Some experience with AI tools"
+        - "Comfortable with Claude"
+        - "Advanced user"
+        - "Developer"
+
+  - type: textarea
+    id: research
+    attributes:
+      label: What I've Already Tried/Researched
+      description: Help us avoid suggesting things you've already tried
+      placeholder: |
+        - Checked the wiki for...
+        - Tried the workflow...
+        - Searched discussions for...
+
+  - type: checkboxes
+    id: help_offered
+    attributes:
+      label: How Can You Help Others?
+      description: While you're here, can you help too?
+      options:
+        - label: "I can answer questions about workflows I've built"
+        - label: "I can share my experience with specific MCP servers"
+        - label: "I can help test solutions"

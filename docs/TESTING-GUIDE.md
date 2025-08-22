@@ -20,7 +20,7 @@ grep "claude-automation-hub" ~/.cursor/mcp.json
 Ask Claude: "List all available MCP tools"
 ```
 
-You should see your custom tools from `./tools/` directory:
+You should see your custom tools from `tools/` directory:
 - `analyze_hub_stats`
 - `generate_workflow_template` 
 - `suggest_workflows`
@@ -48,7 +48,7 @@ Ask Claude: "Use workflow_cursor_integration with debug_workflow for src/automat
 
 ### 3. Test Hot Reload
 
-1. Modify any tool in `./tools/`
+1. Modify any tool in `tools/`
 2. Save the file  
 3. Immediately test the updated tool (no restart needed!)
 
@@ -225,7 +225,7 @@ Will show:
 | Issue | Solution | Test Command |
 |-------|----------|--------------|
 | MCP not responding | Restart Claude/Cursor | "Test connection to Gmail MCP" |
-| Tool not found | Check file exists in ./tools/ | "List custom MCP tools" |
+| Tool not found | Check file exists in tools/ | "List custom MCP tools" |
 | Workflow timeout | Break into smaller steps | "Run first 3 steps of morning routine" |
 | Permission denied | Check MCP configuration | "Verify FreeScout permissions" |
 | Rate limiting | Add delays between calls | "Test with 1 second delays" |
@@ -265,7 +265,7 @@ Will show:
 ### Create Test Suite
 
 ```javascript
-// Save as ./tools/test_suite.js
+// Save as tools/test_suite.js
 export default {
   name: "run_test_suite",
   description: "Run automated tests for all workflows",

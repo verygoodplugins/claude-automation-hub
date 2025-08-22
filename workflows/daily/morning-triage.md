@@ -61,9 +61,9 @@ Draft: [Response with code snippet for functions.php]
 ```
 
 ## Related Workflows
-- [Payment Recovery Check](./payment-recovery.md)
-- [VIP Customer Care](../on-demand/customer-research.md)
-- [Weekly Support Analytics](../weekly/support-analytics.md)
+- [Customer Communication Hub](../on-demand/customer-communication-hub.md)
+- [FreeScout Implementation](../on-demand/freescout-implementation.md)
+- [Weekly Review](../weekly/review-planning.md)
 
 ## Troubleshooting
 - If FreeScout connection fails, check MCP is running

@@ -1,0 +1,84 @@
+title: "[Show & Tell] "
+labels: ["show-and-tell", "community"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Share Your Automation Success! 🎉
+        
+        Show the community what you've built with Claude Automation Hub. Whether it's a custom workflow, time-saving automation, or creative use case - we want to see it!
+
+  - type: input
+    id: automation_name
+    attributes:
+      label: What did you build?
+      description: Give your automation/workflow a name
+      placeholder: "e.g., Customer Support Triage System, Daily Business Dashboard"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Tell us about your automation - what problem does it solve?
+      placeholder: |
+        I built this automation to...
+        It helps me by...
+        The main challenge it solves is...
+    validations:
+      required: true
+
+  - type: textarea
+    id: workflow_details
+    attributes:
+      label: Workflow/Implementation Details
+      description: Share the technical details, MCP servers used, or code snippets
+      placeholder: |
+        MCP Servers used:
+        - FreeScout for...
+        - OpenMemory for...
+        
+        Key workflow steps:
+        1. First, it...
+        2. Then it...
+        
+        ```javascript
+        // Custom tool code (optional)
+        ```
+      render: markdown
+
+  - type: dropdown
+    id: time_saved
+    attributes:
+      label: How much time does this save you?
+      description: Estimate the time savings
+      options:
+        - "< 30 minutes per week"
+        - "30-60 minutes per week"
+        - "1-5 hours per week"
+        - "5-10 hours per week"
+        - "10+ hours per week"
+        - "Not sure yet"
+    validations:
+      required: true
+
+  - type: textarea
+    id: tips
+    attributes:
+      label: Tips for Others
+      description: Any advice for someone wanting to build something similar?
+      placeholder: |
+        - Make sure to...
+        - Watch out for...
+        - I learned that...
+
+  - type: checkboxes
+    id: sharing
+    attributes:
+      label: Sharing Preferences
+      description: How can others use your work?
+      options:
+        - label: "I'm happy to share my workflow code/configuration"
+        - label: "I'm willing to help others implement something similar"
+        - label: "This could be added to the workflow library"

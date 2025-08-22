@@ -15,7 +15,7 @@ Your automation hub now supports **hot-reloadable MCP tools**! No more restartin
 
 ### 1. Basic Tool Structure
 
-Create a `.js` file in the `./tools/` directory:
+Create a `.js` file in the `tools/` directory:
 
 ```javascript
 export default {
@@ -154,7 +154,7 @@ handler: async ({ url }) => {
 
 ## Testing Your Tools
 
-1. **Save** your tool file in `./tools/`
+1. **Save** your tool file in `tools/`
 2. **Immediately available** - no restart needed
 3. **Test** by asking Claude to use your tool
 4. **Iterate** - modify the file and test again

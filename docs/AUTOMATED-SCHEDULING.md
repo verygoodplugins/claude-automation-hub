@@ -30,7 +30,7 @@ npm run test-scheduler
 
 ### **1. Start Automated Scheduling**
 ```javascript
-import AutomationHub from './src/automation-hub.js';
+import AutomationHub from '../src/automation-hub.js';
 
 const hub = new AutomationHub({
   ntfyTopic: 'your-topic-name',

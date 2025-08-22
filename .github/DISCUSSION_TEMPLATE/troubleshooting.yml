@@ -1,0 +1,101 @@
+title: "[Help] "
+labels: ["troubleshooting", "help-wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Need Help? We're Here! 🛠️
+        
+        Having trouble with your automation setup? Let's get it sorted out together.
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: What kind of issue are you experiencing?
+      options:
+        - "Installation/Setup"
+        - "MCP Server Connection"
+        - "Workflow Not Working"
+        - "Claude Desktop/Cursor Configuration"
+        - "Custom Tool Development"
+        - "Performance/Speed Issues"
+        - "Error Messages"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_description
+    attributes:
+      label: Describe the Problem
+      description: What's happening? What were you trying to do?
+      placeholder: |
+        I was trying to...
+        But instead...
+        The error message says...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can someone else see the same issue?
+      placeholder: |
+        1. Open Claude Desktop
+        2. Run command...
+        3. See error...
+      render: markdown
+
+  - type: textarea
+    id: error_messages
+    attributes:
+      label: Error Messages/Logs
+      description: Copy any error messages or relevant logs
+      placeholder: |
+        ```
+        Error: Connection refused...
+        ```
+      render: markdown
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: What system are you using?
+      options:
+        - "macOS"
+        - "Windows"
+        - "Linux"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: claude_version
+    attributes:
+      label: Claude Desktop/Cursor Version
+      description: What version are you running?
+      placeholder: "e.g., Claude Desktop 1.0.5, Cursor 0.40.1"
+
+  - type: textarea
+    id: attempted_solutions
+    attributes:
+      label: What Have You Tried?
+      description: List any troubleshooting steps you've already attempted
+      placeholder: |
+        - Restarted Claude Desktop
+        - Checked MCP configuration
+        - ...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-Submission Checklist
+      description: Please confirm the following
+      options:
+        - label: "I've checked the [Troubleshooting Guide](../../wiki/Troubleshooting)"
+          required: true
+        - label: "I've searched existing discussions for similar issues"
+          required: true
+        - label: "I'm using the latest version of the automation hub"

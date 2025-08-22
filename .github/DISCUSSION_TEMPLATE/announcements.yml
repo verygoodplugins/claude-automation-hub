@@ -1,0 +1,77 @@
+title: "[Announcement] "
+labels: ["announcement", "news"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Official Announcement 📣
+        
+        This template is for maintainers to share important updates with the community.
+
+  - type: dropdown
+    id: announcement_type
+    attributes:
+      label: Announcement Type
+      description: What kind of update is this?
+      options:
+        - "New Release"
+        - "Breaking Change"
+        - "New Feature"
+        - "Security Update"
+        - "Community Update"
+        - "Maintenance Notice"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version (if applicable)
+      description: What version does this relate to?
+      placeholder: "e.g., v1.2.0"
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief overview of the announcement
+      placeholder: What's the key message?
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Full announcement details
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: action_required
+    attributes:
+      label: Action Required
+      description: What do users need to do?
+      placeholder: |
+        - Update to the latest version
+        - Review the migration guide
+        - No action needed
+
+  - type: input
+    id: timeline
+    attributes:
+      label: Timeline
+      description: When does this take effect?
+      placeholder: "e.g., Immediately, Starting January 1, 2025"
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Related Resources
+      description: Links to documentation, guides, or discussions
+      placeholder: |
+        - [Documentation](...)
+        - [Migration Guide](...)
+      render: markdown

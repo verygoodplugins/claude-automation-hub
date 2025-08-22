@@ -147,10 +147,10 @@ MCP servers are tools that extend Claude's capabilities beyond text generation. 
 ```json
 {
   "command": "npx",
-  "args": ["-y", "slack-mcp-server@latest"],
+  "args": ["-y", "slack-mcp-server@latest", "--transport", "stdio"],
   "env": {
-    "SLACK_MCP_XOXC_TOKEN": "xoxc-xxx",
-    "SLACK_MCP_XOXD_TOKEN": "xoxd-xxx"
+    "SLACK_MCP_XOXP_TOKEN": "xoxp-your-user-token",
+    "SLACK_MCP_ADD_MESSAGE_TOOL": "true"
   }
 }
 ```
@@ -159,8 +159,9 @@ MCP servers are tools that extend Claude's capabilities beyond text generation. 
 - Channel monitoring
 - User lookup
 - File sharing
+- Search messages (requires search:read scope)
 
-**Pros:** Full Slack access | **Cons:** Token extraction needed
+**Pros:** User OAuth token support, no browser extraction needed | **Cons:** Requires OAuth scopes setup
 
 #### WhatsApp
 **Purpose:** WhatsApp messaging

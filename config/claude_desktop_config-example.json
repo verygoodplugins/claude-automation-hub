@@ -8,7 +8,7 @@
       ]
     },
     "freescout": {
-      "command": "/Users/your-username/.nvm/versions/node/v22.15.1/bin/npx",
+      "command": "npx-for-claude",
       "args": [
         "@verygoodplugins/mcp-freescout@latest"
       ],
@@ -30,7 +30,7 @@
       }
     },
     "openmemory": {
-      "command": "npx",
+      "command": "npx-for-claude",
       "args": [
         "-y",
         "openmemory"
@@ -41,7 +41,7 @@
       }
     },
     "context7": {
-      "command": "npx",
+      "command": "npx-for-claude",
       "args": [
         "-y",
         "@upstash/context7-mcp"
@@ -60,7 +60,7 @@
       "command": "mcp-server-apple-reminders"
     },
     "slack": {
-      "command": "npx",
+      "command": "npx-for-claude",
       "args": [
         "-y",
         "slack-mcp-server@latest",

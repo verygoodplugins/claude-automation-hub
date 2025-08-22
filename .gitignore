@@ -1,28 +1,32 @@
-# .gitignore for Claude Automation Hub
-
-# Sensitive configuration
-*.env
+# Environment variables - NEVER commit these!
+.env
 .env.local
-config/secrets.json
-*api-key*
-*API_KEY*
-.mcp.json
-.claude/
-claude_desktop_config.json
-# Customer data
-customer-data/
-exports/
-*.csv
-*.xlsx
+.env.production
 
-# Personal information  
-/personal/
-/private/
+# Cloudflare credentials - keep these private
+*.pem
+*.json
+cloudflare-tunnel/config.yml
 
-# System files
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+*.log
+logs/
+tunnel.log
+tunnel-error.log
+
+# Cache files
+.users_cache*.json
+.channels_cache*.json
+
+# OS files
 .DS_Store
 Thumbs.db
-*.log
 
 # IDE
 .vscode/
@@ -30,21 +34,10 @@ Thumbs.db
 *.swp
 *.swo
 
-# Dependencies (if we add any)
-node_modules/
-venv/
-__pycache__/
+# Build outputs
+dist/
+build/
 
-# Backup files
-*.backup
-*.bak
-*~
-
-# Temporary workflow tests
-/scratch/
-/tmp/
-/temp/
-test-*.md
-morning-summary*.md
-cursor-dashboard.html
-Users/
+# Temporary files
+tmp/
+temp/

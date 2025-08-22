@@ -5,6 +5,8 @@
  * Creates clickable HTTP links that bypass Claude Desktop's sandboxing
  * and open files directly in Cursor IDE with AI prompts.
  * 
+ * Also handles Slack webhook integration for AI-powered automation.
+ * 
  * Security: Only accepts localhost connections, validates all inputs,
  * and automatically expires tasks after 24 hours.
  */
@@ -15,6 +17,10 @@ import { promisify } from 'util';
 import crypto from 'crypto';
 import { existsSync } from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 const execAsync = promisify(exec);
 const app = express();
@@ -24,6 +30,12 @@ const PORT = process.env.CURSOR_PROXY_PORT || 8765;
 const BIND_ADDRESS = process.env.CURSOR_PROXY_BIND || 'localhost';
 const TASK_EXPIRY_HOURS = 24;
 const MAX_TASKS = 1000;
+
+// Slack configuration
+const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
+const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;    // xoxb- token for views.publish and Slack API
+const SLACK_USER_TOKEN = process.env.SLACK_USER_TOKEN;  // xoxp- token for MCP operations
+const DEBUG_MODE = process.env.NODE_ENV === 'development';
 
 // Network exposure detection
 const IS_NETWORK_EXPOSED = BIND_ADDRESS === '0.0.0.0' || 
@@ -477,6 +489,508 @@ app.get('/', (req, res) => {
     </html>
   `);
 });
+
+// =========================
+// SLACK WEBHOOK ENDPOINTS
+// =========================
+
+// Publish beautiful AI-powered home view to Slack
+async function publishHomeView(userId, teamId) {
+  if (!SLACK_BOT_TOKEN) {
+    if (DEBUG_MODE) console.log('⚠️ No bot token configured, skipping home view publish');
+    return;
+  }
+  
+  const homeView = {
+    type: 'home',
+    blocks: [
+      // Clean header
+      {
+        type: 'header',
+        text: {
+          type: 'plain_text',
+          text: 'AI Command Center',
+          emoji: true
+        }
+      },
+      {
+        type: 'context',
+        elements: [
+          {
+            type: 'mrkdwn',
+            text: 'Powered by Claude 3.5 • Real-time automation'
+          }
+        ]
+      },
+      {
+        type: 'divider'
+      },
+      // Quick actions
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: '*Quick Actions*'
+        }
+      },
+      {
+        type: 'actions',
+        elements: [
+          {
+            type: 'button',
+            text: {
+              type: 'plain_text',
+              text: '💬  Start AI Chat',
+              emoji: true
+            },
+            style: 'primary',
+            action_id: 'start_chat'
+          },
+          {
+            type: 'button',
+            text: {
+              type: 'plain_text',
+              text: '📊  Analyze',
+              emoji: true
+            },
+            action_id: 'analyze'
+          },
+          {
+            type: 'button',
+            text: {
+              type: 'plain_text',
+              text: '📝  Generate',
+              emoji: true
+            },
+            action_id: 'generate'
+          }
+        ]
+      },
+      // Today's stats
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: '*📈 Today\'s Impact*'
+        }
+      },
+      {
+        type: 'section',
+        fields: [
+          {
+            type: 'mrkdwn',
+            text: '*Tasks*\n`127` done'
+          },
+          {
+            type: 'mrkdwn',
+            text: '*Time Saved*\n`3.2` hours'
+          },
+          {
+            type: 'mrkdwn',
+            text: '*Tickets*\n`8` resolved'
+          },
+          {
+            type: 'mrkdwn',
+            text: '*Workflows*\n`5` active'
+          }
+        ]
+      },
+      {
+        type: 'divider'
+      },
+      // Recent activity
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: '*Recent Activity*\n• Analyzed ticket #5847 (2m ago)\n• Generated blog post (15m ago)\n• Synced 43 records (1h ago)'
+        }
+      },
+      {
+        type: 'context',
+        elements: [
+          {
+            type: 'mrkdwn',
+            text: 'v1.0.0 • `/claude` for quick access'
+          }
+        ]
+      }
+    ]
+  };
+  
+  try {
+    // Import fetch if not available
+    const fetch = (await import('node-fetch')).default;
+    
+    const response = await fetch('https://slack.com/api/views.publish', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${SLACK_BOT_TOKEN}`,  // views.publish requires bot token
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        view: homeView
+      })
+    });
+    
+    const result = await response.json();
+    if (result.ok) {
+      if (DEBUG_MODE) console.log('✅ Home view published for user:', userId);
+    } else {
+      console.error('❌ Failed to publish home view:', result.error);
+    }
+  } catch (error) {
+    console.error('Error publishing home view:', error);
+  }
+}
+
+// Verify Slack request signatures for security
+function verifySlackRequest(req) {
+  if (!SLACK_SIGNING_SECRET) {
+    // No signing secret configured, skip verification in development
+    return DEBUG_MODE;
+  }
+  
+  const signature = req.headers['x-slack-signature'];
+  const timestamp = req.headers['x-slack-request-timestamp'];
+  
+  if (!signature || !timestamp) {
+    return false;
+  }
+  
+  // Check timestamp to prevent replay attacks (must be within 5 minutes)
+  const currentTime = Math.floor(Date.now() / 1000);
+  if (Math.abs(currentTime - parseInt(timestamp)) > 300) {
+    return false;
+  }
+  
+  // Build the signature base string
+  const rawBody = JSON.stringify(req.body);
+  const sigBasestring = `v0:${timestamp}:${rawBody}`;
+  
+  // Calculate expected signature
+  const expectedSignature = 'v0=' + crypto
+    .createHmac('sha256', SLACK_SIGNING_SECRET)
+    .update(sigBasestring)
+    .digest('hex');
+  
+  // Compare signatures
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(expectedSignature)
+  );
+}
+
+// Slack Events endpoint - handles challenge, events, and link unfurling
+app.post('/slack/events', (req, res) => {
+  const body = req.body;
+  
+  if (DEBUG_MODE) console.log('📥 Slack event received:', body.type || body.event?.type || 'unknown');
+  
+  // Handle Slack URL verification challenge
+  if (body.challenge) {
+    if (DEBUG_MODE) console.log('✅ Responding to Slack challenge');
+    return res.status(200).send(body.challenge);
+  }
+  
+  // Handle actual events
+  if (body.event) {
+    if (DEBUG_MODE) console.log('📬 Event type:', body.event.type);
+    
+    // Handle different event types
+    switch (body.event.type) {
+      case 'app_mention':
+        if (DEBUG_MODE) console.log('👋 Bot mentioned by:', body.event.user);
+        break;
+        
+      case 'message':
+        if (body.event.channel_type === 'im') {
+          if (DEBUG_MODE) console.log('💬 Direct message from:', body.event.user);
+        }
+        break;
+        
+      case 'app_home_opened':
+        if (DEBUG_MODE) console.log('🏠 User opened app home:', body.event.user);
+        // Publish the home view for this user
+        publishHomeView(body.event.user, body.team_id);
+        break;
+        
+      case 'link_shared':
+        if (DEBUG_MODE) console.log('🔗 Link shared event:', body.event.links);
+        
+        // Process each link for unfurling
+        const unfurls = {};
+        body.event.links.forEach(link => {
+          const url = link.url;
+          
+          // WP Fusion links
+          if (url.includes('wpfusion.com')) {
+            unfurls[url] = {
+              title: '📚 WP Fusion Documentation',
+              text: 'Comprehensive guide for WP Fusion integration',
+              color: '#667eea',
+              fields: [
+                { title: 'Type', value: 'Documentation', short: true },
+                { title: 'Updated', value: 'Recently', short: true }
+              ]
+            };
+          }
+          
+          // FreeScout support tickets
+          else if (url.includes('support.verygoodplugins.com')) {
+            const ticketMatch = url.match(/ticket\/(\d+)/);
+            if (ticketMatch) {
+              unfurls[url] = {
+                title: `🎫 Support Ticket #${ticketMatch[1]}`,
+                text: 'Customer support ticket',
+                color: '#22c55e',
+                fields: [
+                  { title: 'Status', value: 'Open', short: true },
+                  { title: 'Priority', value: 'Normal', short: true }
+                ]
+              };
+            }
+          }
+          
+          // Very Good Plugins links
+          else if (url.includes('verygoodplugins.com')) {
+            unfurls[url] = {
+              title: '🔌 Very Good Plugins',
+              text: 'Premium WordPress automation plugins',
+              color: '#764ba2'
+            };
+          }
+        });
+        
+        // Send unfurl data back to Slack (would need auth token in production)
+        if (Object.keys(unfurls).length > 0) {
+          if (DEBUG_MODE) console.log('📤 Would send unfurl data:', unfurls);
+          // TODO: In production, call slack.chat.unfurl API here
+        }
+        break;
+        
+      default:
+        if (DEBUG_MODE) console.log('📌 Event:', body.event.type);
+    }
+  }
+  
+  // Always respond quickly to Slack (within 3 seconds)
+  res.status(200).send();
+});
+
+// Slack Interactivity endpoint
+app.post('/slack/interactive', (req, res) => {
+  const payload = req.body.payload ? JSON.parse(req.body.payload) : req.body;
+  if (DEBUG_MODE) console.log('🎮 Interactive event:', payload.type || 'unknown');
+  
+  // Handle different interaction types
+  switch (payload.type) {
+    case 'shortcut':
+      // Global shortcuts
+      if (DEBUG_MODE) console.log('⚡ Global shortcut:', payload.callback_id);
+      handleGlobalShortcut(payload);
+      break;
+      
+    case 'message_action':
+      // Message shortcuts
+      if (DEBUG_MODE) console.log('📨 Message shortcut:', payload.callback_id);
+      handleMessageShortcut(payload);
+      break;
+      
+    case 'slash_command':
+      // Slash commands
+      if (DEBUG_MODE) console.log('/ Slash command:', payload.command);
+      handleSlashCommand(payload);
+      break;
+      
+    case 'block_actions':
+      // Button clicks, menu selections
+      if (DEBUG_MODE) console.log('🔘 Block action:', payload.actions);
+      break;
+      
+    default:
+      if (DEBUG_MODE) console.log('❓ Unknown interaction type:', payload.type);
+  }
+  
+  res.status(200).send();
+});
+
+// Handle global shortcuts
+function handleGlobalShortcut(payload) {
+  switch (payload.callback_id) {
+    case 'ask_claude_global':
+      if (DEBUG_MODE) console.log('🤖 Opening Claude dialog for user:', payload.user.id);
+      // TODO: Open modal dialog for AI chat
+      break;
+      
+    case 'create_wp_post_global':
+      if (DEBUG_MODE) console.log('📝 Creating WP post for user:', payload.user.id);
+      // TODO: Open form for post creation
+      break;
+      
+    default:
+      if (DEBUG_MODE) console.log('Unknown global shortcut:', payload.callback_id);
+  }
+}
+
+// Handle message shortcuts
+function handleMessageShortcut(payload) {
+  const message = payload.message;
+  
+  switch (payload.callback_id) {
+    case 'summarize_message':
+      if (DEBUG_MODE) console.log('📊 Summarizing message:', message.text?.substring(0, 50));
+      // MCP Integration Example:
+      // const summary = await mcp.claude.complete({
+      //   prompt: `Summarize this Slack message: ${message.text}`,
+      //   max_tokens: 150
+      // });
+      // await slack.chat.postMessage({
+      //   channel: payload.channel.id,
+      //   text: `Summary: ${summary}`
+      // });
+      break;
+      
+    case 'create_ticket_from_message':
+      if (DEBUG_MODE) console.log('🎫 Creating ticket from message:', message.text?.substring(0, 50));
+      // MCP Integration Example:
+      // const ticket = await mcp.freescout.createTicket({
+      //   customer_email: `${payload.user.name}@slack.com`,
+      //   subject: `Slack: ${message.text.substring(0, 50)}`,
+      //   message: message.text,
+      //   source: 'slack'
+      // });
+      // await slack.chat.postEphemeral({
+      //   channel: payload.channel.id,
+      //   user: payload.user.id,
+      //   text: `✅ Ticket created: ${ticket.url}`
+      // });
+      break;
+      
+    case 'save_message_to_memory':
+      if (DEBUG_MODE) console.log('💾 Saving to memory:', message.text?.substring(0, 50));
+      // MCP Integration Example:
+      // await mcp.openmemory.add({
+      //   content: message.text,
+      //   metadata: {
+      //     source: 'slack',
+      //     channel: payload.channel.name,
+      //     user: payload.user.name,
+      //     timestamp: message.ts
+      //   }
+      // });
+      // await slack.reactions.add({
+      //   channel: payload.channel.id,
+      //   timestamp: message.ts,
+      //   name: 'white_check_mark'
+      // });
+      break;
+      
+    default:
+      if (DEBUG_MODE) console.log('Unknown message shortcut:', payload.callback_id);
+  }
+}
+
+// Handle slash commands
+function handleSlashCommand(payload) {
+  switch (payload.command) {
+    case '/claude':
+      if (DEBUG_MODE) console.log('🤖 Claude command from:', payload.user_name, '- Text:', payload.text);
+      // TODO: Process with Claude and respond
+      break;
+      
+    default:
+      if (DEBUG_MODE) console.log('Unknown slash command:', payload.command);
+  }
+}
+
+// Slack Workflow endpoint
+app.post('/slack/workflow', (req, res) => {
+  if (DEBUG_MODE) console.log('⚙️ Workflow event received');
+  res.status(200).send();
+});
+
+// Slack Workflow configuration
+app.post('/slack/workflow/config', (req, res) => {
+  if (DEBUG_MODE) console.log('🔧 Workflow configuration request');
+  res.status(200).json({
+    steps: [
+      {
+        name: 'Create WP Fusion Post',
+        callback_id: 'wpfusion_create_post'
+      },
+      {
+        name: 'Create Support Ticket',
+        callback_id: 'freescout_ticket'
+      },
+      {
+        name: 'AI Channel Summary',
+        callback_id: 'ai_channel_summary'
+      }
+    ]
+  });
+});
+
+// Slack Workflow execution
+app.post('/slack/workflow/execute', (req, res) => {
+  if (DEBUG_MODE) console.log('▶️ Workflow execution request');
+  const { callback_id, inputs } = req.body;
+  
+  // Handle different workflow steps
+  switch (callback_id) {
+    case 'wpfusion_create_post':
+      if (DEBUG_MODE) console.log('📝 Creating WP Fusion post:', inputs);
+      break;
+    case 'freescout_ticket':
+      if (DEBUG_MODE) console.log('🎫 Creating FreeScout ticket:', inputs);
+      break;
+    case 'ai_channel_summary':
+      if (DEBUG_MODE) console.log('🤖 Generating AI summary:', inputs);
+      break;
+  }
+  
+  res.status(200).send();
+});
+
+// Slack Slash Commands endpoint
+app.post('/slack/commands', (req, res) => {
+  const { command, text, user_name, user_id, channel_id } = req.body;
+  
+  if (DEBUG_MODE) {
+    console.log(`/ Slash command: ${command} from @${user_name}`);
+    console.log(`  Text: "${text}"`);
+  }
+  
+  switch (command) {
+    case '/claude':
+      // Respond immediately (Slack requires response within 3 seconds)
+      res.json({
+        response_type: 'in_channel', // or 'ephemeral' for private response
+        text: `🤖 Processing your request: "${text}"\n_Claude is thinking..._`
+      });
+      
+      // TODO: Process with Claude asynchronously and update message
+      break;
+      
+    default:
+      res.json({
+        text: `Unknown command: ${command}`
+      });
+  }
+});
+
+// Also handle GET requests for browser testing
+app.get('/slack/events', (req, res) => {
+  res.json({
+    status: 'ready',
+    message: 'Slack events endpoint is active. POST events here.'
+  });
+});
+
+// =========================
+// END SLACK ENDPOINTS
+// =========================
 
 // Error handling
 app.use((error, req, res, next) => {

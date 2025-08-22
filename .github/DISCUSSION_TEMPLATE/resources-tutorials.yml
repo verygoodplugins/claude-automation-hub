@@ -1,0 +1,119 @@
+title: "[Resource] "
+labels: ["resources", "tutorial", "documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Share Knowledge with the Community! 📚
+        
+        Have a helpful resource, guide, or tutorial? Share it here to help others succeed!
+
+  - type: dropdown
+    id: resource_type
+    attributes:
+      label: Resource Type
+      description: What kind of resource are you sharing?
+      options:
+        - "Written Tutorial"
+        - "Video Guide"
+        - "Workflow Template"
+        - "Code Snippet/Tool"
+        - "External Article/Blog Post"
+        - "Documentation"
+        - "Tips & Tricks"
+        - "Case Study"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: resource_title
+    attributes:
+      label: Resource Title
+      description: Give your resource a clear, descriptive title
+      placeholder: "e.g., Step-by-Step Guide to Email Automation, 5 Tips for Faster Workflows"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What does this resource cover? Who is it for?
+      placeholder: |
+        This tutorial shows how to...
+        It's perfect for users who want to...
+        You'll learn...
+    validations:
+      required: true
+
+  - type: textarea
+    id: resource_content
+    attributes:
+      label: Resource Content/Link
+      description: Share the resource content or provide a link
+      placeholder: |
+        ## For tutorials, you can write them here:
+        
+        ### Step 1: ...
+        
+        ### Step 2: ...
+        
+        ## Or provide a link:
+        [Link to resource](https://...)
+      render: markdown
+
+  - type: dropdown
+    id: difficulty_level
+    attributes:
+      label: Difficulty Level
+      description: Who is this resource best suited for?
+      options:
+        - "Beginner - No experience needed"
+        - "Intermediate - Some Claude experience helpful"
+        - "Advanced - Comfortable with automation tools"
+        - "Expert - Deep technical knowledge required"
+    validations:
+      required: true
+
+  - type: input
+    id: time_required
+    attributes:
+      label: Time to Complete/Read
+      description: How long does it take to go through this resource?
+      placeholder: "e.g., 10 minutes, 30 minutes, 1 hour"
+
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: What should someone know or have before using this resource?
+      placeholder: |
+        - Claude Desktop installed
+        - Basic understanding of...
+        - Access to...
+
+  - type: checkboxes
+    id: topics_covered
+    attributes:
+      label: Topics Covered
+      description: What areas does this resource address?
+      options:
+        - label: "Installation & Setup"
+        - label: "Workflow Creation"
+        - label: "MCP Server Configuration"
+        - label: "Custom Tool Development"
+        - label: "Time/Cost Optimization"
+        - label: "Troubleshooting"
+        - label: "Best Practices"
+        - label: "Security & Privacy"
+
+  - type: checkboxes
+    id: maintenance
+    attributes:
+      label: Maintenance Commitment
+      description: Will you keep this resource updated?
+      options:
+        - label: "I'll update this resource as needed"
+        - label: "Others can suggest improvements"
+        - label: "This could be added to official documentation"

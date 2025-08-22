@@ -133,7 +133,8 @@ If 20% of Professional/Agency customers adopt:
 ```
 
 ## Related Workflows
-- [Customer Feature Mining](./feature-mining.md)
+- [Customer Communication Hub](./customer-communication-hub.md)
+- [Weekly Review](../weekly/review-planning.md)
 - [Competitor Monitoring](../weekly/competitor-watch.md)
 - [Product-Market Fit Analysis](./pmf-analysis.md)
 

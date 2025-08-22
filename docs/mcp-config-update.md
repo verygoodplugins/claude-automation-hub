@@ -48,4 +48,4 @@ If you want to watch additional files and restart the server when they change:
 
 3. Restart Claude Desktop/Cursor
 
-4. The tools in `./tools/` will be automatically available and hot-reloadable!
+4. The tools in `../tools/` will be automatically available and hot-reloadable!

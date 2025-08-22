@@ -57,7 +57,7 @@ Hey Claude, run my end-of-day shutdown routine with mobile notifications
 
 ### Manual Testing
 ```javascript
-import AutomationHub from './src/automation-hub.js';
+import AutomationHub from '../src/automation-hub.js';
 
 const hub = new AutomationHub();
 

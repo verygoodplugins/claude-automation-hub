@@ -85,9 +85,9 @@ Daily at 7:00 AM Berlin time
 ```
 
 ## Related Workflows
-- [Evening Review](./evening-review.md)
+- [End of Day Shutdown](./end-of-day-shutdown.md)
 - [Focus Mode Setup](../on-demand/focus-mode.md)
-- [Weekly Planning](../weekly/planning-session.md)
+- [Weekly Review](../weekly/review-planning.md)
 
 ## Troubleshooting
 - If Spotify doesn't play, check if app is running

@@ -1,0 +1,106 @@
+title: "[Idea] "
+labels: ["ideas", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Share Your Ideas! 💡
+        
+        Have a suggestion for a new feature, workflow, or improvement? We'd love to hear it!
+
+  - type: input
+    id: idea_title
+    attributes:
+      label: Idea Summary
+      description: Give your idea a brief, descriptive title
+      placeholder: "e.g., Integration with Notion API, Automated invoice processing workflow"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: idea_category
+    attributes:
+      label: Category
+      description: What area does this idea relate to?
+      options:
+        - "New MCP Integration"
+        - "New Workflow Template"
+        - "Tool Enhancement"
+        - "Documentation Improvement"
+        - "Performance/Efficiency"
+        - "User Interface/Experience"
+        - "Community Features"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: Problem or Opportunity
+      description: What problem would this solve or what opportunity would it create?
+      placeholder: |
+        Currently, I have to manually...
+        It would be great if we could...
+        Many users struggle with...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution
+      description: How do you envision this working?
+      placeholder: |
+        The solution could...
+        It might work by...
+        Example workflow:
+        1. User would...
+        2. The system would...
+      render: markdown
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered or tried other approaches?
+      placeholder: |
+        I've tried using...
+        Another option might be...
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Potential Impact
+      description: How many users might benefit from this?
+      options:
+        - "Just me"
+        - "A few power users"
+        - "Many users in specific industries"
+        - "Most users"
+        - "Everyone"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Implementation Complexity
+      description: How complex do you think this would be to implement?
+      options:
+        - "Simple (< 1 hour)"
+        - "Moderate (few hours)"
+        - "Complex (1-2 days)"
+        - "Very Complex (week+)"
+        - "Not sure"
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution Interest
+      description: How might you contribute to this idea?
+      options:
+        - label: "I could help implement this"
+        - label: "I could help test this"
+        - label: "I could write documentation for this"
+        - label: "I could provide example use cases"
