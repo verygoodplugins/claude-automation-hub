@@ -269,7 +269,9 @@ Available commands:
 }
 
 // Run the CLI if this file is executed directly
-const cli = new BrowserProfileCLI();
-cli.run().catch(console.error);
+if (import.meta.url === `file://${process.argv[1]}`) {
+    const cli = new BrowserProfileCLI();
+    cli.run().catch(console.error);
+}
 
 export { BrowserProfileCLI };

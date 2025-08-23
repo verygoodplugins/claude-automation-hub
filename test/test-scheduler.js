@@ -5,7 +5,7 @@
  * Demonstrates how to automatically trigger workflows at scheduled times
  */
 
-import AutomationHub from './src/automation-hub.js';
+import AutomationHub from '../src/automation-hub.js';
 
 async function main() {
   console.log('⏰ Claude Automation Hub - Scheduler Test\n');

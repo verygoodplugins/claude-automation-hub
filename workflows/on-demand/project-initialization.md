@@ -12,7 +12,7 @@ Initialize a new project with complete setup:
 7. Set up project tasks and milestones in Apple Reminders
 8. Store project configuration in OpenMemory
 9. Create calendar blocks for initial development sprints
-10. Send project kickoff notification via WhatsApp
+10. Send project kickoff notification via Slack
 11. Open project in Brave with relevant documentation tabs
 ```
 
@@ -23,7 +23,7 @@ Initialize a new project with complete setup:
 - Apple Reminders MCP (for task management)
 - OpenMemory MCP (for project config)
 - Google Calendar MCP (for sprint planning)
-- WhatsApp MCP (for team notification)
+- Slack MCP (for team notification)
 - Brave Browser MCP (for resources)
 
 ## Frequency

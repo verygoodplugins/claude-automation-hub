@@ -18,7 +18,7 @@ import crypto from 'crypto';
 import { existsSync } from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import { ClaudeService } from '../services/claude-service.js';
+import { ClaudeServiceMCP } from '../services/claude-service-mcp.js';
 import { SlackResponseHandler } from '../services/slack-response-handler.js';
 
 // Load environment variables from .env file
@@ -28,7 +28,7 @@ const execAsync = promisify(exec);
 const app = express();
 
 // Initialize Claude and Slack services
-const claudeService = new ClaudeService();
+const claudeService = new ClaudeServiceMCP();
 const slackResponseHandler = new SlackResponseHandler();
 
 /**
@@ -778,6 +778,12 @@ function verifySlackRequest(req) {
       console.log('⚠️ SLACK_SIGNING_SECRET not configured - skipping verification');
     }
     return DEBUG_MODE;
+  }
+  
+  // For local testing with curl, allow bypass in debug mode
+  if (DEBUG_MODE && req.headers['x-test-mode'] === 'local') {
+    console.log('🧪 Test mode - bypassing signature verification');
+    return true;
   }
   
   const signature = req.headers['x-slack-signature'];

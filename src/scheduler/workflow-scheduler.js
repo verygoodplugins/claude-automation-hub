@@ -25,8 +25,8 @@ export class WorkflowScheduler {
 
     console.log('🚀 Starting automated workflow scheduler...');
     
-    // Morning Routine - 7:00 AM Monday-Friday
-    this.scheduleDaily('morning-routine', '07:00', [1,2,3,4,5], async () => {
+    // Morning Routine - 8:00 AM Monday-Friday
+    this.scheduleDaily('morning-routine', '08:00', [1,2,3,4,5], async () => {
       console.log('🌅 Auto-triggering morning routine...');
       await this.runMorningRoutine();
     });

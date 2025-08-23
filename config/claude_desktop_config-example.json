@@ -29,17 +29,6 @@
         "WORDPRESS_PASSWORD": "your_app_password"
       }
     },
-    "openmemory": {
-      "command": "npx-for-claude",
-      "args": [
-        "-y",
-        "openmemory"
-      ],
-      "env": {
-        "OPENMEMORY_API_KEY": "your_openmemory_api_key",
-        "CLIENT_NAME": "claude"
-      }
-    },
     "context7": {
       "command": "npx-for-claude",
       "args": [

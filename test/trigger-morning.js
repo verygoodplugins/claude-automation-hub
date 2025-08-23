@@ -5,7 +5,7 @@
  * Test your morning routine workflow right now
  */
 
-import AutomationHub from './src/automation-hub.js';
+import AutomationHub from '../src/automation-hub.js';
 
 async function triggerMorningRoutine() {
   console.log('🌅 Manually triggering Morning Routine...\n');

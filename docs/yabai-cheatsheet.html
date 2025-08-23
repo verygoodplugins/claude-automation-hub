@@ -167,20 +167,16 @@
           <div class="section-title">🚨 EMERGENCY (When Stuck)</div>
           <div class="commands">
             <div class="command-line">
-              <span class="shortcut">yabai --restart-service</span>
-              <span class="description"
-                >Restart yabai (with scripting addon)</span
-              >
+              <span class="shortcut">ctrl + alt + cmd + r</span>
+              <span class="description">Restart yabai service</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">skhd --restart-service</span>
-              <span class="description"
-                >Restart skhd (proper service restart)</span
-              >
+              <span class="shortcut">ctrl + alt + cmd + s</span>
+              <span class="description">Restart skhd service</span>
             </div>
             <div class="command-line">
               <span class="shortcut">shift + alt + space</span>
-              <span class="description">Float current window</span>
+              <span class="description">Float/unfloat window</span>
             </div>
             <div class="command-line">
               <span class="shortcut">shift + alt + 0</span>
@@ -194,11 +190,35 @@
         </div>
 
         <div class="section">
-          <div class="section-title">🎥 PODCAST ESSENTIALS</div>
+          <div class="section-title">🚀 APP LAUNCHERS</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + c</span>
+              <span class="description">Launch Cursor</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + w</span>
+              <span class="description">Launch Warp terminal</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + s</span>
+              <span class="description">Launch Sequel Pro</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + q</span>
+              <span class="description"
+                >Claude Desktop toggle (float/sticky)</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🎥 FULLSCREEN & FOCUS</div>
           <div class="commands">
             <div class="command-line">
               <span class="shortcut">alt + f</span>
-              <span class="description">Fullscreen current app</span>
+              <span class="description">Zoom fullscreen (keeps menu bar)</span>
             </div>
             <div class="command-line">
               <span class="shortcut">shift + alt + f</span>
@@ -207,60 +227,58 @@
               >
             </div>
             <div class="command-line">
-              <span class="shortcut">cmd + 1/2/3/4</span>
-              <span class="description">Switch spaces on center display</span>
+              <span class="shortcut">cmd + alt + f</span>
+              <span class="description">Focus mode (stack layout)</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">cmd + alt + c</span>
-              <span class="description">Launch Cursor</span>
-            </div>
-            <div class="command-line">
-              <span class="shortcut">cmd + alt + w</span>
-              <span class="description">Launch Warp</span>
-            </div>
-            <div class="command-line">
-              <span class="shortcut">cmd + alt + t</span>
-              <span class="description">Launch Terminal</span>
-            </div>
-            <div class="command-line">
-              <span class="shortcut">cmd + alt + r</span>
-              <span class="description">Launch Reminders</span>
+              <span class="shortcut">alt + shift + z</span>
+              <span class="description">Zoom parent container</span>
             </div>
           </div>
         </div>
 
         <div class="section">
-          <div class="section-title">🧭 BASIC NAVIGATION</div>
+          <div class="section-title">🧭 WINDOW NAVIGATION</div>
           <div class="commands">
             <div class="command-line">
               <span class="shortcut">alt + h/j/k/l</span>
               <span class="description">Focus window (←↓↑→)</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">cmd + 1-6</span>
-              <span class="description">Switch spaces</span>
+              <span class="shortcut">alt + n/p</span>
+              <span class="description">Focus next/prev in stack</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">shift + cmd + 1-6</span>
-              <span class="description">Move window to space & follow</span>
+              <span class="shortcut">shift + alt + h/j/k/l</span>
+              <span class="description">Swap windows</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">shift + cmd + h/j/k/l</span>
+              <span class="description">Warp windows (move & follow)</span>
             </div>
           </div>
         </div>
 
         <div class="section">
-          <div class="section-title">🔧 QUICK FIXES</div>
+          <div class="section-title">🏠 SPACE MANAGEMENT</div>
           <div class="commands">
             <div class="command-line">
-              <span class="shortcut">shift + alt + space</span>
-              <span class="description">Float/unfloat window</span>
+              <span class="shortcut">cmd + 1-6</span>
+              <span class="description">Switch to space</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">cmd + alt + q</span>
-              <span class="description">Claude Desktop toggle</span>
+              <span class="shortcut">shift + cmd + 1-6</span>
+              <span class="description">Move window to space & follow</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">alt + r</span>
-              <span class="description">Rotate space 90°</span>
+              <span class="shortcut">shift + alt + 1-6</span>
+              <span class="description"
+                >Move window to space (don't follow)</span
+              >
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + n/x</span>
+              <span class="description">Create/destroy space</span>
             </div>
           </div>
         </div>
@@ -268,55 +286,108 @@
 
       <div class="column">
         <div class="section">
-          <div class="section-title">📸 SCREENSHOT MODE (SMART!)</div>
+          <div class="section-title">📐 WINDOW SIZING</div>
           <div class="commands">
             <div class="command-line">
-              <span class="shortcut">cmd + shift + alt + 1</span>
-              <span class="description">Smart resize: Medium (1667×899)</span>
+              <span class="shortcut">shift + alt + a/d</span>
+              <span class="description">Resize width (shrink/grow)</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">cmd + shift + alt + 2</span>
-              <span class="description">Resize to small (1250×674)</span>
+              <span class="shortcut">shift + alt + w/s</span>
+              <span class="description">Resize height (shrink/grow)</span>
             </div>
             <div class="command-line">
-              <span class="shortcut">cmd + shift + alt + 3</span>
-              <span class="description">Resize to large (1750×944)</span>
-            </div>
-            <div class="command-line">
-              <span class="shortcut">cmd + shift + alt + 0</span>
-              <span class="description">Smart return: Cleanup spaces</span>
+              <span class="shortcut">shift + alt + 0</span>
+              <span class="description">Balance all windows</span>
             </div>
           </div>
         </div>
 
         <div class="section">
-          <div class="section-title">🎯 WORKFLOWS</div>
-
-          <div class="workflow">
-            <div class="workflow-title">Smart Screenshot Workflow:</div>
-            <ol>
-              <li><code>cmd + shift + alt + 1</code> (smart sizing)</li>
-              <li>Adjust size: <code>cmd + shift + alt + 2/3</code></li>
-              <li>Done? <code>cmd + shift + alt + 0</code> (cleanup)</li>
-            </ol>
+          <div class="section-title">📸 SCREENSHOT MODE</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 1</span>
+              <span class="description">Smart float & center (medium)</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 2</span>
+              <span class="description">Resize to small</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 3</span>
+              <span class="description">Resize to large</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + shift + alt + 0</span>
+              <span class="description">Return & cleanup</span>
+            </div>
           </div>
+        </div>
 
-          <div class="workflow">
-            <div class="workflow-title">Podcast Workflow:</div>
-            <ol>
-              <li><code>alt + f</code> (fullscreen current app)</li>
-              <li>If stuck: <code>yabai --restart-service</code></li>
-              <li><code>cmd + 1</code> (back to main space)</li>
-            </ol>
+        <div class="section">
+          <div class="section-title">📚 WINDOW STACKING</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">alt + s</span>
+              <span class="description">Stack with next window</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">alt + shift + s</span>
+              <span class="description">Stack with prev window</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">ctrl + alt + h/j/k/l</span>
+              <span class="description">Stack in direction</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">ctrl + alt + u</span>
+              <span class="description">Unstack window</span>
+            </div>
           </div>
+        </div>
 
-          <div class="workflow">
-            <div class="workflow-title">Emergency Reset:</div>
-            <ol>
-              <li><code>yabai --restart-service</code></li>
-              <li><code>skhd --restart-service</code></li>
-              <li><code>shift + alt + 0</code> (balance windows)</li>
-            </ol>
+        <div class="section">
+          <div class="section-title">🔄 LAYOUT CONTROLS</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">alt + space</span>
+              <span class="description">Toggle BSP ↔ Stack layout</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">alt + r</span>
+              <span class="description">Rotate space 90°</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">alt + x/y</span>
+              <span class="description">Mirror space (x/y axis)</span>
+            </div>
+            <div class="command-line">
+              <span class="shortcut">shift + alt + space</span>
+              <span class="description">Float/unfloat window</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">⚡ COMMAND MODES</div>
+          <div class="commands">
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + d</span>
+              <span class="description"
+                >Development mode (organize dev tools)</span
+              >
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + s</span>
+              <span class="description"
+                >Communication mode (organize chat)</span
+              >
+            </div>
+            <div class="command-line">
+              <span class="shortcut">cmd + alt + m</span>
+              <span class="description">Monitoring mode (stack tools)</span>
+            </div>
           </div>
         </div>
 
@@ -324,12 +395,11 @@
           <div class="section-title">💡 PRO TIPS</div>
           <div class="pro-tips">
             <ul>
-              <li>Space 5 = Everything floats automatically</li>
-              <li>Reminders floats everywhere (no space restriction)</li>
-              <li>
-                Screenshot mode preserves existing spaces, only creates when
-                needed
-              </li>
+              <li>Purple borders show active window</li>
+              <li>Dynamic opacity: focused=opaque, unfocused=75%</li>
+              <li>Cursor gets special opacity (80%/60%)</li>
+              <li>Display 2 (vertical) blocks all windows</li>
+              <li>Mouse: alt+drag=move, alt+right-drag=resize</li>
             </ul>
           </div>
         </div>

@@ -1,12 +1,12 @@
 # Automated Workflow Scheduling
 
 ## 🎯 **Problem Solved**
-Instead of manually triggering workflows, your automation hub now **automatically runs** your morning routine at 7 AM, end-of-day at 5:30 PM, and monitors for urgent items throughout the day.
+Instead of manually triggering workflows, your automation hub now **automatically runs** your morning routine at 8 AM, end-of-day at 5:30 PM, and monitors for urgent items throughout the day.
 
 ## ⏰ **Automatic Schedules**
 
 ### **Daily Workflows:**
-- 🌅 **Morning Routine**: 7:00 AM Monday-Friday
+- 🌅 **Morning Routine**: 8:00 AM Monday-Friday
 - 🌇 **End-of-Day Shutdown**: 5:30 PM Monday-Friday  
 - 🔍 **Urgent Monitoring**: Every 15 minutes during work hours
 
@@ -45,7 +45,7 @@ hub.startScheduler();
 
 ### **2. What Happens Automatically**
 
-**Every Monday-Friday at 7:00 AM:**
+**Every Monday-Friday at 8:00 AM:**
 ```
 🌅 Morning Routine triggers automatically
 ✅ Calendar reviewed

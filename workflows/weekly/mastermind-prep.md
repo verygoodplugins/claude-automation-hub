@@ -93,7 +93,6 @@ ACTION ITEMS FROM LAST MEETING
 ## Related Workflows
 - [Weekly Revenue Report](./revenue-report.md)
 - [Support Analytics](./support-analytics.md)
-- [Partnership Prep](../on-demand/partnership-prep.md)
 
 ## Change Log
 - 2025-08-16: Created comprehensive version

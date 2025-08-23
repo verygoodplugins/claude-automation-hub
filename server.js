@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { ListToolsRequestSchema, CallToolRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
@@ -43,14 +44,14 @@ async function loadTools() {
       }
     }
     
-    console.log(`Loaded ${loadedTools.size} tools:`, Array.from(loadedTools.keys()));
+    console.error(`Loaded ${loadedTools.size} tools:`, Array.from(loadedTools.keys()));
   } catch (error) {
     console.error('Error loading tools:', error.message);
   }
 }
 
 // List tools handler
-server.setRequestHandler(import('@modelcontextprotocol/sdk/types.js').then(types => types.ListToolsRequestSchema), async () => {
+server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: Array.from(loadedTools.values()).map(tool => ({
       name: tool.name,
@@ -61,7 +62,7 @@ server.setRequestHandler(import('@modelcontextprotocol/sdk/types.js').then(types
 });
 
 // Call tool handler
-server.setRequestHandler(import('@modelcontextprotocol/sdk/types.js').then(types => types.CallToolRequestSchema), async (request) => {
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
   
   const tool = loadedTools.get(name);
@@ -86,12 +87,12 @@ server.setRequestHandler(import('@modelcontextprotocol/sdk/types.js').then(types
 
 // Start server
 async function main() {
-  console.log('Starting automation-hub MCP server...');
+  console.error('Starting automation-hub MCP server...');
   await loadTools();
   
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.log('Automation hub MCP server running on stdio');
+  console.error('Automation hub MCP server running on stdio');
 }
 
 main().catch(console.error);
