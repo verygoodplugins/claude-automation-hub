@@ -31,7 +31,7 @@
       ],
       "env": {
         "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
-        "SLACK_USER_TOKEN": "${SLACK_USER_TOKEN}",
+        "SLACK_MCP_XOXP_TOKEN": "${SLACK_MCP_XOXP_TOKEN}",
         "SLACK_MCP_ADD_MESSAGE_TOOL": "true",
         "SLACK_MCP_USERS_CACHE": ".users_cache_automation.json",
         "SLACK_MCP_CHANNELS_CACHE": ".channels_cache_automation.json",
@@ -57,14 +57,13 @@
       },
       "description": "Persistent memory service for automation hub"
     },
-    "filesystem": {
+    "desktop-commander": {
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-filesystem@latest",
-        "/Users/jgarturo/Projects"
+        "@wonderwhy-er/desktop-commander"
       ],
-      "description": "File system operations"
+      "description": "Desktop commander for file system operations"
     },
     "github": {
       "command": "npx",
@@ -76,14 +75,6 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       },
       "description": "GitHub repository management"
-    },
-    "fetch": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-fetch@latest"
-      ],
-      "description": "Web content fetching and analysis"
     },
     "brave-search": {
       "command": "npx",
