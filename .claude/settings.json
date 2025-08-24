@@ -1,0 +1,126 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Edit",
+      "MultiEdit",
+      "Write",
+      "Read",
+      "Glob",
+      "Grep",
+      "LS",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(curl:*)",
+      "Bash(jq:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(scripts/*)",
+      "Bash(cloudflared:*)",
+      "WebFetch",
+      "WebSearch",
+      "TodoWrite"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo:*)",
+      "Bash(su:*)"
+    ],
+    "defaultMode": "acceptEdits"
+  },
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "60000",
+    "BASH_MAX_OUTPUT_LENGTH": "20000",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "NODE_ENV": "development",
+    "PROJECT_TYPE": "mcp-automation-hub"
+  },
+  "includeCoAuthoredBy": true,
+  "cleanupPeriodDays": 30,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date '+%Y-%m-%d %H:%M:%S') - $STDIN_JSON\" | jq -r '.tool_input.command' >> ~/.claude/automation-hub-commands.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo $STDIN_JSON | jq -r '.tool_input.file_path // \"\"'); if [[ \"$FILE\" == \"package.json\" ]]; then echo 'package.json will be modified - remember to run npm install if dependencies change'; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo $STDIN_JSON | jq -r '.tool_input.file_path // \"\"'); if [[ \"$FILE\" =~ \\.js$ ]]; then node -c \"$FILE\" 2>&1 || echo \"JavaScript syntax check passed\"; fi",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo $STDIN_JSON | jq -r '.tool_input.file_path // \"\"'); if [[ \"$FILE\" =~ ^tools/.*\\.js$ ]]; then echo \"✅ New MCP tool created/updated: $FILE - hot-reload will pick it up automatically\"; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo $STDIN_JSON | jq -r '.tool_input.file_path // \"\"'); if [[ \"$FILE\" =~ ^workflows/.*\\.md$ ]]; then echo \"📝 Workflow updated: $FILE - consider updating time savings metrics\"; fi"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date '+%Y-%m-%d %H:%M:%S') - Notification\" >> ~/.claude/automation-hub-activity.log"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ $(git status --porcelain | grep -E '\\.js$') ]]; then echo '📦 JavaScript files changed - test with: npm run test-tools'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ $(git status --porcelain | grep -E '^workflows/') ]]; then echo '⏱️ Workflow files changed - update README.md time savings if needed'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

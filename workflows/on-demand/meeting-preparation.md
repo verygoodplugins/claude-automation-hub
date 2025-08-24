@@ -5,7 +5,7 @@
 Prepare me for my upcoming meeting:
 1. Get meeting details from Google Calendar (attendees, agenda, location/link)
 2. Search Gmail for recent conversations with attendees
-3. Check OpenMemory for previous meeting notes and action items
+3. Check MCP Memory Service for previous meeting notes and action items
 4. Search FreeScout for any support tickets from attendee companies
 5. Look up attendee information via WhatsApp conversations
 6. Use Context7 to get relevant technical documentation if needed
@@ -18,7 +18,7 @@ Prepare me for my upcoming meeting:
 ## Prerequisites
 - Google Calendar MCP (for meeting details)
 - Gmail MCP (for email context)
-- OpenMemory MCP (for historical notes)
+- MCP Memory Service MCP (for historical notes)
 - FreeScout MCP (for support context)
 - WhatsApp MCP (for additional context)
 - Context7 MCP (for technical docs)

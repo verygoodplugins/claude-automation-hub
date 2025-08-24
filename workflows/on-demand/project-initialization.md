@@ -10,7 +10,7 @@ Initialize a new project with complete setup:
 5. Generate README, LICENSE, and .gitignore files
 6. Create initial project documentation structure
 7. Set up project tasks and milestones in Apple Reminders
-8. Store project configuration in OpenMemory
+8. Store project configuration in MCP Memory Service
 9. Create calendar blocks for initial development sprints
 10. Send project kickoff notification via Slack
 11. Open project in Brave with relevant documentation tabs
@@ -21,7 +21,7 @@ Initialize a new project with complete setup:
 - Git Integration MCP (for version control)
 - Context7 MCP (for documentation)
 - Apple Reminders MCP (for task management)
-- OpenMemory MCP (for project config)
+- MCP Memory Service MCP (for project config)
 - Google Calendar MCP (for sprint planning)
 - Slack MCP (for team notification)
 - Brave Browser MCP (for resources)
@@ -164,7 +164,7 @@ Sections included:
 • Week 6: Production ready
 • Week 8: First deployment
 
-💾 PROJECT CONFIG STORED (OpenMemory)
+💾 PROJECT CONFIG STORED (MCP Memory Service)
 • Project type: Web Application
 • Stack: TypeScript, React, Next.js
 • Database: PostgreSQL

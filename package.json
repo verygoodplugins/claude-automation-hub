@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "mcp-server": "npx mcp-reloader",
-    "dev": "npx mcp-reloader",
+    "setup:env": "node scripts/setup-mcp-config.js",
+    "mcp-server": "npm run setup:env && npx mcp-reloader",
+    "dev": "npm run setup:env && npx mcp-reloader",
     "proxy": "node src/proxy/cursor-web-proxy.js",
     "proxy:dev": "node --watch src/proxy/cursor-web-proxy.js",
     "proxy:start": "npm run proxy",

@@ -5,7 +5,7 @@
 Run my comprehensive weekly review and planning session:
 1. Analyze last week's Google Calendar events and calculate time spent per category
 2. Review completed vs pending Apple Reminders from the past week
-3. Search OpenMemory for weekly goals and check completion status
+3. Search MCP Memory Service for weekly goals and check completion status
 4. Analyze Gmail threads to identify communication bottlenecks
 5. Get FreeScout metrics for support performance
 6. Check WhatsApp group activity for team pulse
@@ -18,7 +18,7 @@ Run my comprehensive weekly review and planning session:
 ## Prerequisites
 - Google Calendar MCP (for time analysis)
 - Apple Reminders MCP (for task review)
-- OpenMemory MCP (for goals tracking)
+- MCP Memory Service MCP (for goals tracking)
 - Gmail MCP (for communication analysis)
 - FreeScout MCP (for support metrics)
 - WhatsApp MCP (for team activity)

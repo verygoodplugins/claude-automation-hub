@@ -10,7 +10,7 @@ Activate my deep focus mode for maximum productivity:
 5. Check Google Calendar for next 2 hours and decline non-urgent meetings
 6. Block distracting websites using Brave (social media, news)
 7. Set up filesystem watcher for project files to track changes
-8. Store focus session start time in OpenMemory for productivity tracking
+8. Store focus session start time in MCP Memory Service for productivity tracking
 9. Create a post-focus checklist in Apple Reminders
 ```
 
@@ -21,7 +21,7 @@ Activate my deep focus mode for maximum productivity:
 - WhatsApp MCP (for status updates)
 - Google Calendar MCP (for meeting management)
 - Filesystem MCP (for project monitoring)
-- OpenMemory MCP (for productivity tracking)
+- MCP Memory Service MCP (for productivity tracking)
 
 ## Frequency
 On-demand (2-3 times daily during deep work blocks)

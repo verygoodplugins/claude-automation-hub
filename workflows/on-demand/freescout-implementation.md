@@ -14,14 +14,14 @@ Implement a complete fix for FreeScout ticket:
 9. Draft a customer reply using freescout_create_draft_reply
 10. Add internal notes with freescout_add_note for team visibility
 11. Update ticket status using freescout_update_ticket
-12. Store solution pattern in OpenMemory for future reference
+12. Store solution pattern in MCP Memory Service for future reference
 ```
 
 ## Prerequisites
 - FreeScout MCP (for ticket management)
 - Filesystem MCP (for code operations)
 - Context7 MCP (for documentation)
-- OpenMemory MCP (for knowledge base)
+- MCP Memory Service MCP (for knowledge base)
 
 ## Frequency
 On-demand (triggered by support tickets)
@@ -83,7 +83,7 @@ On-demand (triggered by support tickets)
 
 📚 DOCUMENTATION CONSULTED
 • Webhook API: Latest patterns from Context7
-• Similar fixes: 2 patterns from OpenMemory
+• Similar fixes: 2 patterns from MCP Memory Service
 • Best practices: Retry logic, timeout handling
 
 🔨 IMPLEMENTATION COMPLETE

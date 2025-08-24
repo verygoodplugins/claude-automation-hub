@@ -9,7 +9,7 @@ Create a comprehensive customer communication report:
 4. Analyze sentiment and identify recurring themes
 5. For VIP customers, create personalized follow-up drafts
 6. Schedule follow-up reminders in Apple Reminders
-7. Store communication patterns in OpenMemory for trend analysis
+7. Store communication patterns in MCP Memory Service for trend analysis
 8. Generate a summary report with actionable insights
 ```
 
@@ -18,7 +18,7 @@ Create a comprehensive customer communication report:
 - Gmail MCP (for email search)
 - FreeScout MCP (for support tickets)
 - Apple Reminders MCP (for follow-ups)
-- OpenMemory MCP (for pattern storage)
+- MCP Memory Service MCP (for pattern storage)
 
 ## Frequency
 On-demand (typically weekly or before customer success meetings)

@@ -8,7 +8,7 @@ Perform my morning support triage:
 3. Check my Gmail for any urgent support emails not in FreeScout
 4. Create draft replies using freescout_create_draft_reply for complex issues
 5. Add internal notes using freescout_add_note for team visibility
-6. For recurring issues, check OpenMemory for previous solutions
+6. For recurring issues, check MCP Memory Service for previous solutions
 7. Update Apple Reminders with follow-up tasks for unresolved tickets
 ```
 
@@ -16,7 +16,7 @@ Perform my morning support triage:
 - FreeScout MCP (configured and working)
 - Gmail MCP (for email backup check)
 - Apple Reminders MCP (for task management)
-- OpenMemory MCP (for solution history)
+- MCP Memory Service MCP (for solution history)
 
 ## Frequency
 Daily at 8:30 AM Berlin time (before deep work block)

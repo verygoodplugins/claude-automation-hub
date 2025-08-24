@@ -7,11 +7,11 @@ Conduct comprehensive monthly business review:
 2. Get Gmail statistics for communication volume and response times
 3. Pull FreeScout metrics for support performance and customer satisfaction
 4. Review all completed Apple Reminders and calculate productivity score
-5. Search OpenMemory for monthly goals and check achievement rate
+5. Search MCP Memory Service for monthly goals and check achievement rate
 6. Analyze WhatsApp team communications for collaboration health
 7. Check Filesystem for project deliverables and documentation updates
 8. Generate executive summary with key metrics and insights
-9. Create next month's goals and store in OpenMemory
+9. Create next month's goals and store in MCP Memory Service
 10. Set up monthly milestone reminders in Apple Reminders
 ```
 
@@ -20,7 +20,7 @@ Conduct comprehensive monthly business review:
 - Gmail MCP (for communication metrics)
 - FreeScout MCP (for support analytics)
 - Apple Reminders MCP (for task management)
-- OpenMemory MCP (for goal tracking)
+- MCP Memory Service MCP (for goal tracking)
 - WhatsApp MCP (for team analysis)
 - Filesystem MCP (for deliverables check)
 
@@ -206,5 +206,5 @@ Opportunity: Automation saved 67 hours this month
 ## Troubleshooting
 - Large data sets may require chunked processing
 - Ensure all MCPs have month-long data retention
-- Goal tracking requires consistent formatting in OpenMemory
+- Goal tracking requires consistent formatting in MCP Memory Service
 - Some metrics may need manual verification

@@ -10,7 +10,7 @@ Execute my complete morning routine:
 5. Play my "Morning Focus" playlist on Spotify at 30% volume
 6. Open Brave browser to my dashboard tabs (analytics, support, calendar)
 7. Check filesystem for any new files in ~/Downloads that need processing
-8. Store today's priorities in OpenMemory for evening review
+8. Store today's priorities in MCP Memory Service for evening review
 ```
 
 ## Prerequisites
@@ -21,7 +21,7 @@ Execute my complete morning routine:
 - Spotify MCP (for music)
 - Brave Browser MCP (for web automation)
 - Filesystem MCP (for file management)
-- OpenMemory MCP (for persistent storage)
+- MCP Memory Service MCP (for persistent storage)
 
 ## Frequency
 Daily at 7:00 AM Berlin time

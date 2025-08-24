@@ -66,7 +66,7 @@ Use subagent_orchestrator with action "cancel" and taskId "task_123456_abc"
 The subagent system works seamlessly with:
 - **Task tool**: Uses native subagent capabilities
 - **NTFY notifications**: Progress updates to mobile
-- **OpenMemory**: Stores results for future reference
+- **MCP Memory Service**: Stores results for future reference
 - **Scheduler**: Can trigger parallel workflows on schedule
 
 ## Metrics

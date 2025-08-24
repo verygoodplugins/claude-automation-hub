@@ -1,11 +1,11 @@
 /**
  * Context Bridge for Mobile MCP Handoffs
- * Manages rich context storage in openmemory for cross-device AI workflows
+ * Manages rich context storage in MCP Memory Service for cross-device AI workflows
  */
 
 export class ContextBridge {
   constructor(options = {}) {
-    this.openmemoryClient = options.openmemoryClient;
+    this.memoryClient = options.memoryClient;
     this.notificationManager = options.notificationManager;
     this.version = '1.0.0';
   }
@@ -53,8 +53,8 @@ export class ContextBridge {
         }
       };
 
-      // Store in openmemory for mobile access
-      if (this.openmemoryClient) {
+      // Store in MCP Memory Service for mobile access
+      if (this.memoryClient) {
         await this.storeInMemory(fullContext);
       }
 
@@ -79,11 +79,11 @@ export class ContextBridge {
   }
 
   /**
-   * Store context in openmemory with structured tagging
+   * Store context in MCP Memory Service with structured tagging
    */
   async storeInMemory(context) {
-    if (!this.openmemoryClient) {
-      console.warn('No openmemory client configured');
+    if (!this.memoryClient) {
+      console.warn('No memory client configured');
       return;
     }
 
@@ -105,7 +105,7 @@ export class ContextBridge {
     };
 
     // Store the main context
-    await this.openmemoryClient.store(memoryEntry);
+    await this.memoryClient.store(memoryEntry);
 
     // Store searchable summary for easy mobile queries
     const summaryEntry = {
@@ -121,7 +121,7 @@ export class ContextBridge {
       }
     };
 
-    await this.openmemoryClient.store(summaryEntry);
+    await this.memoryClient.store(summaryEntry);
   }
 
   /**
@@ -297,11 +297,11 @@ export class ContextBridge {
    * Retrieve handoff context (for testing or manual queries)
    */
   async getHandoffContext(handoffId) {
-    if (!this.openmemoryClient) {
-      throw new Error('No openmemory client configured');
+    if (!this.memoryClient) {
+      throw new Error('No memory client configured');
     }
 
-    const results = await this.openmemoryClient.search(`handoff-${handoffId}`);
+    const results = await this.memoryClient.search(`handoff-${handoffId}`);
     return results.find(r => r.metadata?.handoffId === handoffId);
   }
 
@@ -309,16 +309,16 @@ export class ContextBridge {
    * Clean up expired handoffs
    */
   async cleanupExpiredHandoffs() {
-    if (!this.openmemoryClient) return;
+    if (!this.memoryClient) return;
 
     const now = new Date();
-    const allHandoffs = await this.openmemoryClient.search('mobile-handoff');
+    const allHandoffs = await this.memoryClient.search('mobile-handoff');
     
     for (const handoff of allHandoffs) {
       try {
         const context = JSON.parse(handoff.content);
         if (new Date(context.expiresAt) < now) {
-          await this.openmemoryClient.delete(handoff.id);
+          await this.memoryClient.delete(handoff.id);
           console.log(`🧹 Cleaned up expired handoff: ${context.id}`);
         }
       } catch (error) {

@@ -6,7 +6,7 @@ Execute my complete end of day shutdown routine with mobile notification alerts:
 
 1. NOTIFY START: Send notification "🌅 Starting end-of-day shutdown routine..."
 
-2. Save all open work and progress notes to OpenMemory with today's date
+2. Save all open work and progress notes to MCP Memory Service with today's date
 
 3. Check Gmail for any urgent messages that need flagging for tomorrow
 
@@ -31,7 +31,7 @@ Execute my complete end of day shutdown routine with mobile notification alerts:
 
 ## Prerequisites
 - **ntfy-notifications MCP** (for mobile alerts) ⭐ NEW!
-- OpenMemory MCP (for work state storage)
+- MCP Memory Service MCP (for work state storage)
 - Gmail MCP (for email check)
 - Apple Reminders MCP (for task management)
 - Google Calendar MCP (for tomorrow's planning)
@@ -138,7 +138,7 @@ End-of-day shutdown encountered an issue:
 🔄 STARTING: End-of-Day Shutdown
 ┌─ Send start notification to mobile
 │
-├─ 💾 Save work to OpenMemory
+├─ 💾 Save work to MCP Memory Service
 │  └─ Progress: API Refactoring (70% complete)
 │
 ├─ 📧 Check Gmail  

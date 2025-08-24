@@ -8,7 +8,7 @@ Set up my optimal learning environment for deep study:
 3. Generate learning plan with milestones in Apple Reminders
 4. Block calendar for focused learning time (Pomodoro sessions)
 5. Search Gmail for any relevant courses or resources I've saved
-6. Check OpenMemory for previous learning on related topics
+6. Check MCP Memory Service for previous learning on related topics
 7. Set up Spotify with focus/study playlist
 8. Configure Brave with documentation tabs and tutorial videos
 9. Create practice exercise files in project directory
@@ -21,7 +21,7 @@ Set up my optimal learning environment for deep study:
 - Apple Reminders MCP (for learning plan)
 - Google Calendar MCP (for time blocking)
 - Gmail MCP (for resource search)
-- OpenMemory MCP (for knowledge retrieval)
+- MCP Memory Service MCP (for knowledge retrieval)
 - Spotify MCP (for focus music)
 - Brave Browser MCP (for resources)
 - WhatsApp MCP (for accountability)
@@ -146,7 +146,7 @@ This Week:
 • Total time blocked: 4.5 hours
 • Review session: Friday 4 PM
 
-💡 PREVIOUS KNOWLEDGE (OpenMemory)
+💡 PREVIOUS KNOWLEDGE (MCP Memory Service)
 Related Learning Found:
 • "JavaScript ES6+ Features" - Completed 2 months ago
 • "React TypeScript Basics" - Completed 1 month ago

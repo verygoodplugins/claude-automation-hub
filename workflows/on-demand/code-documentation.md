@@ -9,14 +9,14 @@ Help me document and organize my current project:
 4. Check for outdated dependencies and suggest updates
 5. Create a README.md with proper structure if missing
 6. Generate API documentation in markdown format
-7. Store code patterns in OpenMemory for future reference
+7. Store code patterns in MCP Memory Service for future reference
 8. Create Apple Reminders for documentation tasks that need manual review
 ```
 
 ## Prerequisites
 - Filesystem MCP (for code scanning)
 - Context7 MCP (for documentation lookup)
-- OpenMemory MCP (for pattern storage)
+- MCP Memory Service MCP (for pattern storage)
 - Apple Reminders MCP (for task creation)
 
 ## Frequency

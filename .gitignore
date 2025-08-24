@@ -5,8 +5,10 @@
 
 # Cloudflare credentials - keep these private
 *.pem
-*.json
 cloudflare-tunnel/config.yml
+
+# MCP config (generated from template)
+.mcp.json
 
 # Node
 node_modules/
@@ -48,3 +50,4 @@ wiki/
 
 # Accidentally created folders
 Users/
+/backups
