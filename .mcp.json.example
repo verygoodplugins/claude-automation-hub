@@ -1,0 +1,160 @@
+{
+  "mcpServers": {
+    "freescout": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@verygoodplugins/mcp-freescout@latest"
+      ],
+      "env": {
+        "FREESCOUT_URL": "${FREESCOUT_URL}",
+        "FREESCOUT_API_KEY": "${FREESCOUT_API_KEY}",
+        "FREESCOUT_DEFAULT_USER_ID": "${FREESCOUT_DEFAULT_USER_ID}"
+      },
+      "description": "FreeScout support ticket management"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "description": "Browser automation and testing"
+    },
+    "slack-tools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "slack-mcp-server@latest",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_USER_TOKEN": "${SLACK_USER_TOKEN}",
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "true",
+        "SLACK_MCP_USERS_CACHE": ".users_cache_automation.json",
+        "SLACK_MCP_CHANNELS_CACHE": ".channels_cache_automation.json",
+        "SLACK_MCP_HISTORY_FETCH_LIMIT": "50",
+        "SLACK_MCP_ENABLE_DM_FETCH": "true"
+      },
+      "description": "Slack workspace integration"
+    },
+    "memory": {
+      "command": "/opt/homebrew/bin/uv",
+      "args": [
+        "--directory",
+        "/Users/jgarturo/Projects/OpenAI/mcp-servers/mcp-memory-service",
+        "run",
+        "python",
+        "-m",
+        "src.mcp_memory_service.server"
+      ],
+      "env": {
+        "MCP_MEMORY_PROFILE": "automation_hub",
+        "MCP_MEMORY_AUTO_CAPTURE": "true",
+        "MCP_MEMORY_CAPTURE_THRESHOLD": "50"
+      },
+      "description": "Persistent memory service for automation hub"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem@latest",
+        "${HOME}/Projects"
+      ],
+      "description": "File system operations"
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github@latest"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      },
+      "description": "GitHub repository management"
+    },
+    "fetch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-fetch@latest"
+      ],
+      "description": "Web content fetching and analysis"
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search@latest"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      },
+      "description": "Web search capabilities"
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "description": "Library documentation lookup"
+    },
+    "wordpress-wpfusion": {
+      "command": "node",
+      "args": [
+        "/path/to/mcp-servers/mcp-wp/build/server.js"
+      ],
+      "env": {
+        "WORDPRESS_API_URL": "${WP_FUSION_URL}",
+        "WORDPRESS_USERNAME": "${WP_FUSION_USERNAME}",
+        "WORDPRESS_PASSWORD": "${WP_FUSION_PASSWORD}"
+      },
+      "description": "WP Fusion documentation and marketing site"
+    },
+    "wordpress-verygoodplugins": {
+      "command": "node",
+      "args": [
+        "/path/to/mcp-servers/mcp-wp/build/server.js"
+      ],
+      "env": {
+        "WORDPRESS_API_URL": "${VGP_URL}",
+        "WORDPRESS_USERNAME": "${VGP_USERNAME}",
+        "WORDPRESS_PASSWORD": "${VGP_PASSWORD}"
+      },
+      "description": "Very Good Plugins website management"
+    },
+    "automation-hub": {
+      "command": "node",
+      "args": [
+        "./server.js"
+      ],
+      "env": {
+        "NTFY_TOPIC": "${NTFY_TOPIC}",
+        "NODE_ENV": "development"
+      },
+      "description": "Custom automation hub tools"
+    },
+    "evernote": {
+      "command": "node",
+      "args": [
+        "/path/to/mcp-servers/mcp-evernote/dist/index.js"
+      ],
+      "env": {
+        "EVERNOTE_CONSUMER_KEY": "${EVERNOTE_CONSUMER_KEY}",
+        "EVERNOTE_CONSUMER_SECRET": "${EVERNOTE_CONSUMER_SECRET}",
+        "EVERNOTE_ENVIRONMENT": "production"
+      }
+    }
+  },
+  "config": {
+    "maxConcurrentServers": 10,
+    "serverTimeout": 60000,
+    "logLevel": "info",
+    "logPath": "./logs/mcp.log"
+  }
+}
