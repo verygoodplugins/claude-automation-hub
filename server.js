@@ -4,7 +4,11 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { ListToolsRequestSchema, CallToolRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import fs from 'fs/promises';
 import path from 'path';
-import { pathToFileURL } from 'url';
+import { pathToFileURL, fileURLToPath } from 'url';
+
+// Get the directory of this script
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const server = new Server(
   {
@@ -18,8 +22,8 @@ const server = new Server(
   }
 );
 
-// Tool loading with hot-reload support
-const toolsDir = './tools';
+// Tool loading with hot-reload support - use absolute path
+const toolsDir = path.join(__dirname, 'tools');
 const loadedTools = new Map();
 
 async function loadTools() {

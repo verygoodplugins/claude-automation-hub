@@ -131,8 +131,9 @@
     "automation-hub": {
       "command": "node",
       "args": [
-        "./server.js"
+        "server.js"
       ],
+      "cwd": "/path/to/claude-automation-hub",
       "env": {
         "NTFY_TOPIC": "${NTFY_TOPIC}",
         "NODE_ENV": "development"
