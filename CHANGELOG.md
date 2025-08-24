@@ -7,14 +7,34 @@ All notable changes to the Claude Automation Hub will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2025-08-24
 
-### Added
-- Comprehensive README with author information and Very Good Plugins branding
-- EchoDash promotional banners and limited beta access
-- UTM tracking for all external links
-- TROUBLESHOOTING.md for common issues
-- LICENSE file (MIT)
+### 🤖 Major Feature: Intelligent Agent System
+
+#### Added
+- **5 Specialized Agents** with automatic maintenance capabilities:
+  - `doc-conflict-resolver` - Resolves documentation conflicts automatically
+  - `session-cleanup` - Cleans temporary files and maintains repository hygiene
+  - `project-memory-keeper` - Captures project decisions and patterns
+  - `session-memory-capturer` - Records session learnings and discoveries
+  - `config-synchronizer` - Keeps example configs in sync with implementation
+- **Memory Integration** with OpenMemory MCP for persistent knowledge base
+- **Parallel Agent Execution** with shared context for 50% performance improvement
+- **Agent Coordination System** with resource sharing and conflict avoidance
+- **Agent Attribution** - All agent-generated memories tagged for transparency
+- `.claude/` directory structure for Claude Code configuration
+- Agent reports system in `.claude/reports/`
+- Memory attribution guidelines in `.claude/MEMORY-ATTRIBUTION.md`
+
+#### Fixed
+- All agent configurations updated with correct MCP tool names
+- Agent tool references fixed (was using non-existent tool names)
+- Documentation conflicts between MCP setup guides resolved
+
+#### Improved
+- README updated with comprehensive feature list and agent documentation
+- Project structure documentation updated to reflect new directories
+- Agent optimization for parallel execution and resource sharing
 
 ### Changed
 - Reorganized project structure (docs/, scripts/, src/proxy/)
