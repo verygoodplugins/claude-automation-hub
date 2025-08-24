@@ -17,11 +17,11 @@
     "test-scheduler": "node test/test-scheduler.js",
     "test-cursor": "node test/test-cursor-integration.js",
     "test-slack": "node test/test-slack-integration.js",
+    "test-mcp": "node test-mcp-env.js",
     "morning-now": "node test/trigger-morning.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.60.0",
-    "dotenv": "^16.6.1",
     "express": "^4.18.2",
     "mcp-reloader": "github:mizchi/mcp-reloader",
     "node-fetch": "^2.7.0"
@@ -38,5 +38,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yourusername/claude-automation-hub.git"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.1"
   }
 }

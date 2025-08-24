@@ -1,0 +1,2 @@
+# Allow Cursor to read .env file for MCP server configuration
+!.env
