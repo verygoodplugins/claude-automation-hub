@@ -31,7 +31,9 @@ This automation hub is designed with security and privacy in mind. This guide co
 
 ### MCP Configuration Path Security
 
-The automation hub auto-detects your Claude Desktop configuration, but you can override:
+The automation hub automatically loads the MCP configuration from `.mcp.json` in the root of the project.
+
+This can be overridden by setting the `CLAUDE_CONFIG_PATH` environment variable:
 
 ```bash
 # For Cursor users
@@ -47,6 +49,7 @@ CLAUDE_CONFIG_PATH=~/.claude/claude_desktop_config.json
 
 **✅ Safe to commit:**
 - `.env.example` (template with placeholders)
+- `.mcp.json` file (contains your MCP server configuration, with placeholders for secrets)
 - Workflow templates with `<placeholder>` values
 - Documentation with example paths
 

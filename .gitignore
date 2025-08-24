@@ -23,6 +23,7 @@ tunnel-error.log
 # Cache files
 .users_cache*.json
 .channels_cache*.json
+.pytest_cache/*
 
 # OS files
 .DS_Store

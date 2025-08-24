@@ -6,10 +6,10 @@ Before testing workflows, ensure all required MCP tools are configured:
 
 ```bash
 # Check MCP configuration
-cat ~/.cursor/mcp.json
+cat .mcp.json
 
 # Verify automation hub is in the config
-grep "claude-automation-hub" ~/.cursor/mcp.json
+grep "claude-automation-hub" .mcp.json
 ```
 
 ## Testing Hot-Reloadable Tools

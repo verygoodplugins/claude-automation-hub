@@ -61,7 +61,7 @@ This is a **Claude Desktop + MCP automation hub** that orchestrates workflows ac
 
 ## Key MCP Integrations
 
-The hub connects to these MCP servers (configured in `~/.cursor/mcp.json` or `~/.claude/claude_desktop_config.json`):
+The hub connects to these MCP servers (configured in `.mcp.json`
 - **FreeScout**: Support ticket management, customer analytics, ticket-to-PR workflow
 - **Playwright**: Browser automation, testing, screenshots, web interactions
 - **WordPress**: Content management, publishing workflows, plugin/theme management
