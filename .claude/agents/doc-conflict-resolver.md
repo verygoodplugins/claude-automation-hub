@@ -26,6 +26,31 @@ For each topic area (MCP setup, configuration, etc.), identify:
 - Outdated version numbers or package names
 - Conflicting command examples
 - Broken cross-references
+- **Outdated MCP package references**
+
+#### MCP Package Reference Check
+Compare actual `.mcp.json` with documentation:
+```javascript
+// Get current MCP packages from .mcp.json
+const currentMCPs = getMCPPackages('.mcp.json');
+
+// Known package replacements
+const packageReplacements = {
+  'openmemory': 'mcp-memory-service',
+  'OpenMemory': 'MCP Memory Service',
+  '@modelcontextprotocol/server-filesystem': '@wonderwhy-er/desktop-commander',
+  'filesystem': 'desktop-commander'
+};
+
+// Scan all .md files for outdated references
+for (const [oldPkg, newPkg] of Object.entries(packageReplacements)) {
+  const files = grep(oldPkg, '**/*.md');
+  if (files.length > 0) {
+    console.log(`Found outdated package ${oldPkg} in ${files.length} files`);
+    updatePackageReferences(files, oldPkg, newPkg);
+  }
+}
+```
 
 ### Step 3: Resolution Strategy
 Apply this hierarchy:

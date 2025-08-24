@@ -13,7 +13,7 @@ export default {
         type: "array",
         items: { type: "string" },
         description: "List of available MCP tools",
-        default: ["Gmail", "Calendar", "FreeScout", "WhatsApp", "Filesystem", "OpenMemory", "Spotify", "Brave", "Reminders"]
+        default: ["Gmail", "Calendar", "FreeScout", "WhatsApp", "desktop-commander", "memory", "Spotify", "Brave", "Reminders"]
       },
       focus: {
         type: "string",
@@ -43,25 +43,25 @@ export default {
         },
         {
           name: "Task Batching System",
-          tools: ["Reminders", "Calendar", "OpenMemory"],
+          tools: ["Reminders", "Calendar", "memory"],
           description: "Group similar tasks, schedule batch processing times, track patterns",
           timeSaved: 30
         },
         {
           name: "Energy Management",
-          tools: ["Calendar", "Reminders", "OpenMemory", "Spotify"],
+          tools: ["Calendar", "Reminders", "memory", "Spotify"],
           description: "Track energy levels, schedule tasks by energy requirements, optimize daily rhythm",
           timeSaved: 45
         },
         {
           name: "Context Switching Minimizer",
-          tools: ["Brave", "Filesystem", "OpenMemory"],
+          tools: ["Brave", "desktop-commander", "memory"],
           description: "Save and restore work contexts, minimize app switching overhead",
           timeSaved: 25
         },
         {
           name: "Meeting Optimizer",
-          tools: ["Calendar", "Gmail", "OpenMemory"],
+          tools: ["Calendar", "Gmail", "memory"],
           description: "Analyze meeting patterns, suggest consolidation, track effectiveness",
           timeSaved: 60
         }
@@ -75,7 +75,7 @@ export default {
         },
         {
           name: "Response Template System",
-          tools: ["Gmail", "FreeScout", "OpenMemory"],
+          tools: ["Gmail", "FreeScout", "memory"],
           description: "Generate and manage response templates based on common queries",
           timeSaved: 35
         },
@@ -87,13 +87,13 @@ export default {
         },
         {
           name: "Customer Journey Tracker",
-          tools: ["FreeScout", "Gmail", "WhatsApp", "OpenMemory"],
+          tools: ["FreeScout", "Gmail", "WhatsApp", "memory"],
           description: "Track complete customer interaction history across channels",
           timeSaved: 50
         },
         {
           name: "Stakeholder Update Automation",
-          tools: ["Gmail", "Calendar", "OpenMemory"],
+          tools: ["Gmail", "Calendar", "memory"],
           description: "Generate and send periodic stakeholder updates",
           timeSaved: 90
         }
@@ -101,31 +101,31 @@ export default {
       development: [
         {
           name: "Code Review Assistant",
-          tools: ["Filesystem", "Context7", "OpenMemory"],
+          tools: ["desktop-commander", "Context7", "memory"],
           description: "Automated code review checklist and documentation check",
           timeSaved: 45
         },
         {
           name: "Dependency Auditor",
-          tools: ["Filesystem", "Context7"],
+          tools: ["desktop-commander", "Context7"],
           description: "Check for outdated dependencies and security issues",
           timeSaved: 30
         },
         {
           name: "Test Coverage Reporter",
-          tools: ["Filesystem", "OpenMemory"],
+          tools: ["desktop-commander", "memory"],
           description: "Analyze test coverage and suggest missing tests",
           timeSaved: 40
         },
         {
           name: "API Documentation Sync",
-          tools: ["Filesystem", "Context7", "OpenMemory"],
+          tools: ["desktop-commander", "Context7", "memory"],
           description: "Keep API docs in sync with code changes",
           timeSaved: 60
         },
         {
           name: "Performance Baseline Tracker",
-          tools: ["Filesystem", "OpenMemory", "Calendar"],
+          tools: ["desktop-commander", "memory", "Calendar"],
           description: "Track performance metrics over time and alert on regressions",
           timeSaved: 35
         }
@@ -139,19 +139,19 @@ export default {
         },
         {
           name: "Knowledge Base Builder",
-          tools: ["FreeScout", "Filesystem", "OpenMemory"],
+          tools: ["FreeScout", "desktop-commander", "memory"],
           description: "Convert resolved tickets into knowledge base articles",
           timeSaved: 60
         },
         {
           name: "Customer Health Monitor",
-          tools: ["FreeScout", "Gmail", "OpenMemory"],
+          tools: ["FreeScout", "Gmail", "memory"],
           description: "Track customer satisfaction and predict churn risk",
           timeSaved: 40
         },
         {
           name: "Support Metrics Dashboard",
-          tools: ["FreeScout", "OpenMemory", "Calendar"],
+          tools: ["FreeScout", "memory", "Calendar"],
           description: "Generate daily support metrics and trends",
           timeSaved: 30
         },

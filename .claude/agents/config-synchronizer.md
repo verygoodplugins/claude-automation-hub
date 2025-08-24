@@ -38,16 +38,23 @@ tags: ["claude-automation-hub", "agent-generated", "config-synchronizer", "autom
 ## Configuration Pairs to Sync
 
 ### Primary Pairs
-1. **Actual**: `claude_desktop_config.json`
+1. **Actual**: `.mcp.json` (main source of truth)
    **Examples**: 
+   - `.mcp.json.example`
    - `config/claude_desktop_config-example.json` (basic)
    - `config/claude-desktop-config-full-example.json` (advanced)
+   - `.mcp.template.json`
 
 2. **Actual**: `.env`
    **Example**: `.env.example`
 
 3. **Actual**: `package.json` scripts
    **Example**: `docs/SCRIPTS.md` documentation
+
+4. **MCP Package Changes**
+   - Track package name changes (e.g., `openmemory` → `mcp-memory-service`)
+   - Track package path changes (e.g., `@modelcontextprotocol/server-filesystem` → `@wonderwhy-er/desktop-commander`)
+   - Update ALL references in example configs
 
 ## Synchronization Rules
 
@@ -80,6 +87,29 @@ const previousIssues = memory_retrieve_memory("config sync issues claude_desktop
 - Removed MCP servers still in examples
 - Changed configuration structure
 - Updated command paths
+- **Package name changes** (compare args arrays)
+- **Package version changes**
+- **Environment variable changes**
+
+#### Package Change Detection
+```javascript
+// Compare package references
+const actualPackages = extractPackages(actual.mcpServers);
+const examplePackages = extractPackages(basicExample.mcpServers);
+
+// Find replaced packages
+const replacements = {
+  'openmemory': 'mcp-memory-service',
+  '@modelcontextprotocol/server-filesystem': '@wonderwhy-er/desktop-commander'
+};
+
+for (const [old, new] of Object.entries(replacements)) {
+  if (actual.includes(new) && examples.includes(old)) {
+    // Package has been replaced!
+    updateAllReferences(old, new);
+  }
+}
+```
 
 Store findings:
 ```

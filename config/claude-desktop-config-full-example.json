@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "filesystem": {
+    "desktop-commander": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "~/Documents"],
-      "description": "Local file system access"
+      "args": ["-y", "@wonderwhy-er/desktop-commander"],
+      "description": "Desktop commander for file system operations"
     },
     "flyctl": {
       "command": "/opt/homebrew/bin/fly",
@@ -20,14 +20,22 @@
       },
       "description": "Customer support ticket management"
     },
-    "openmemory": {
-      "command": "npx-for-claude",
-      "args": ["-y", "openmemory"],
+    "memory": {
+      "command": "/opt/homebrew/bin/uv",
+      "args": [
+        "--directory",
+        "/path/to/mcp-servers/mcp-memory-service",
+        "run",
+        "python",
+        "-m",
+        "src.mcp_memory_service.server"
+      ],
       "env": {
-        "OPENMEMORY_API_KEY": "om-your-api-key-here",
-        "CLIENT_NAME": "claude"
+        "MCP_MEMORY_PROFILE": "automation_hub",
+        "MCP_MEMORY_AUTO_CAPTURE": "true",
+        "MCP_MEMORY_CAPTURE_THRESHOLD": "50"
       },
-      "description": "Persistent AI memory across sessions"
+      "description": "Persistent memory service for automation hub"
     },
     "context7": {
       "command": "npx-for-claude",
@@ -110,7 +118,7 @@
     "variables_to_replace": [
       "your-support-site.com - Your FreeScout URL",
       "your_freescout_api_key_here - FreeScout API key",
-      "om-your-api-key-here - OpenMemory API key",
+      "MCP_MEMORY_PROFILE - Memory service profile name",
       "xoxc-your-cookie-token-here - Slack cookie token",
       "xoxd-your-d-token-here - Slack D token",
       "your-wordpress-site.com - Your WordPress URL",
@@ -120,7 +128,7 @@
     ],
     "starter_pack": [
       "filesystem - Essential for file operations",
-      "openmemory - Persistent memory across sessions",
+      "memory - MCP Memory Service for persistent storage",
       "automation-hub - Custom workflow tools"
     ],
     "developer_pack": [
